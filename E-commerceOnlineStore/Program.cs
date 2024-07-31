@@ -31,6 +31,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<UserManager<ApplicationUser>>();
+builder.Services.AddScoped<RoleManager<IdentityRole>>();
+
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

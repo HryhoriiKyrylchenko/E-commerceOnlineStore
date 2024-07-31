@@ -1,4 +1,5 @@
 ﻿using E_commerceOnlineStore.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -68,6 +69,35 @@ namespace E_commerceOnlineStore.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Seed roles
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
+                new IdentityRole { Name = "Manager", NormalizedName = "MANAGER" },
+                new IdentityRole { Name = "Customer", NormalizedName = "CUSTOMER" }
+            );
+
+            //// Seed an admin user and assign the Admin role
+            //var adminUser = new ApplicationUser
+            //{
+            //    UserName = "admin@example.com",
+            //    Email = "admin@example.com",
+            //    NormalizedUserName = "ADMIN@EXAMPLE.COM",
+            //    EmailConfirmed = true,
+            //    FirstName = "Admin",
+            //    LastName = "User",
+            //    IsActive = true
+            //};
+
+            //adminUser.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(adminUser, "Admin@123");
+
+            //modelBuilder.Entity<ApplicationUser>().HasData(adminUser);
+
+            //modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+            //{
+            //    RoleId = "AdminRoleId", // ID from the role seed above
+            //    UserId = "AdminUserId"  // ID from the admin user seed above
+            //});
 
             // Configure relationships and cascading delete behavior
             modelBuilder.Entity<Product>()

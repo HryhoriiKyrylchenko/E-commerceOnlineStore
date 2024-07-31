@@ -30,6 +30,23 @@ namespace E_commerceOnlineStore.Models
         public string Description { get; set; } = string.Empty;
 
         /// <summary>
+        /// Gets or sets the ID of the parent category.
+        /// Null if it's a root category.
+        /// </summary>
+        public int? ParentCategoryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent category.
+        /// </summary>
+        [ForeignKey(nameof(ParentCategoryId))]
+        public virtual Category? ParentCategory { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of subcategories associated with this category.
+        /// </summary>
+        public virtual ICollection<Category>? SubCategories { get; set; }
+
+        /// <summary>
         /// Gets or sets the collection of products associated with the category.
         /// </summary>
         public virtual ICollection<Product>? Products { get; set; }

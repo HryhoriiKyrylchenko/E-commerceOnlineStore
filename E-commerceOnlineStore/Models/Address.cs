@@ -15,15 +15,15 @@ namespace E_commerceOnlineStore.Models
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the customer ID associated with the address.
+        /// Gets or sets the user ID associated with the address.
         /// </summary>
-        [Required]
-        public int CustomerId { get; set; }
+        public string? UserId { get; set; }
 
         /// <summary>
-        /// Gets or sets the customer associated with the address.
+        /// Gets or sets the user associated with the address.
         /// </summary>
-        public Customer? Customer { get; set; }
+        [ForeignKey(nameof(UserId))]
+        public ApplicationUser? User { get; set; }
 
         /// <summary>
         /// Gets or sets the street of the address.
@@ -59,5 +59,10 @@ namespace E_commerceOnlineStore.Models
         [Required]
         [MaxLength(50)]
         public string Country { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets whether the address is main.
+        /// </summary>
+        public bool IsMain { get; set; } = true;
     }
 }
