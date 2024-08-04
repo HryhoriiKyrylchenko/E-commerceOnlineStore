@@ -1,4 +1,5 @@
 ﻿using E_commerceOnlineStore.Models;
+using E_commerceOnlineStore.Models.Account;
 using Microsoft.AspNetCore.Identity;
 
 namespace E_commerceOnlineStore.Services
@@ -75,6 +76,11 @@ namespace E_commerceOnlineStore.Services
         /// <returns>The user with the specified ID, or null if not found.</returns>
         public async Task<ApplicationUser?> GetUserByIdAsync(string userId)
         {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
             return await _userManager.FindByIdAsync(userId);
         }
 
@@ -85,6 +91,11 @@ namespace E_commerceOnlineStore.Services
         /// <returns>The user with the specified username, or null if no such user is found.</returns>
         public async Task<ApplicationUser?> GetUserByNameAsync(string userName)
         {
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new ArgumentNullException(nameof(userName));
+            }
+
             return await _userManager.FindByNameAsync(userName);
         }
 
@@ -95,6 +106,11 @@ namespace E_commerceOnlineStore.Services
         /// <returns>The user with the specified email address, or null if no such user is found.</returns>
         public async Task<ApplicationUser?> GetUserByEmailAsync(string email)
         {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new ArgumentNullException(nameof(email));
+            }
+
             return await _userManager.FindByEmailAsync(email);
         }
 
@@ -118,6 +134,113 @@ namespace E_commerceOnlineStore.Services
         public async Task<IList<ApplicationUser>> GetUsersInRoleAsync(string roleName)
         {
             return await _userManager.GetUsersInRoleAsync(roleName);
+        }
+
+        /// <summary>
+        /// Resets the password for the user using the provided token and new password.
+        /// </summary>
+        /// <param name="user">The user whose password is to be reset.</param>
+        /// <param name="token">The password reset token.</param>
+        /// <param name="newPassword">The new password.</param>
+        /// <returns>A result indicating success or failure.</returns>
+        public async Task<IdentityResult> ResetPasswordAsync(ApplicationUser user, string token, string newPassword)
+        {
+            ArgumentNullException.ThrowIfNull(user);
+
+            return await _userManager.ResetPasswordAsync(user, token, newPassword);
+        }
+
+
+        /// <summary>
+        /// Updates the profile information of a user asynchronously based on the provided model.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the user whose profile is to be updated.</param>
+        /// <param name="model">An instance of <see cref="UpdateProfileModel"/> containing the updated profile information.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains an <see cref="IdentityResult"/> indicating the outcome of the update operation.</returns>
+        /// <exception cref="Exception">Thrown when the user with the specified <paramref name="userId"/> is not found.</exception>
+        public async Task<IdentityResult> UpdateUserProfileAsync(string userId, UpdateProfileModel model)
+        {
+            // Retrieve the user based on the provided user ID
+            var user = await GetUserByIdAsync(userId) ?? throw new Exception("User not found");
+
+            // Update user properties with values from the model
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Email = model.Email;
+            user.Gender = model.Gender;
+            user.ProfilePictureUrl = model.ProfilePictureUrl;
+
+            // Save the updated user profile and return the result of the update operation
+            return await _userManager.UpdateAsync(user);
+        }
+
+        /// <summary>
+        /// Assigns a role to a user asynchronously. If the role does not exist, it will be created first.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the user to whom the role is to be assigned.</param>
+        /// <param name="roleName">The name of the role to be assigned to the user.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains an <see cref="IdentityResult"/> indicating the outcome of the role assignment operation.</returns>
+        /// <exception cref="Exception">Thrown when the user with the specified <paramref name="userId"/> is not found.</exception>
+        /// <exception cref="Exception">Thrown when the role with the specified <paramref name="roleName"/> could not be created (in case of any issues with role creation).</exception>
+        public async Task<IdentityResult> AssignRoleAsync(string userId, string roleName)
+        {
+            var user = await GetUserByIdAsync(userId) ?? throw new Exception("User not found");
+
+            if (!await _roleManager.RoleExistsAsync(roleName))
+            {
+                await _roleManager.CreateAsync(new IdentityRole(roleName));
+            }
+
+            return await _userManager.AddToRoleAsync(user, roleName);
+        }
+
+        /// <summary>
+        /// Removes a role from a user asynchronously. Throws an exception if the role does not exist.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the user from whom the role is to be removed.</param>
+        /// <param name="roleName">The name of the role to be removed from the user.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains an <see cref="IdentityResult"/> indicating the outcome of the role removal operation.</returns>
+        /// <exception cref="Exception">Thrown when the user with the specified <paramref name="userId"/> is not found.</exception>
+        /// <exception cref="Exception">Thrown when the role with the specified <paramref name="roleName"/> is not found.</exception>
+        public async Task<IdentityResult> RemoveRoleAsync(string userId, string roleName)
+        {
+            var user = await GetUserByIdAsync(userId) ?? throw new Exception("User not found");
+            if (!await _roleManager.RoleExistsAsync(roleName))
+            {
+                throw new Exception("Role not found");
+            }
+
+            return await _userManager.RemoveFromRoleAsync(user, roleName);
+        }
+
+        /// <summary>
+        /// Enables two-factor authentication (2FA) for a specified user.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the user for whom 2FA is to be enabled.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains an <see cref="IdentityResult"/> indicating the outcome of enabling 2FA.</returns>
+        /// <exception cref="Exception">Thrown when the user with the specified <paramref name="userId"/> is not found.</exception>
+        public async Task<IdentityResult> EnableTwoFactorAuthenticationAsync(string userId)
+        {
+            // Retrieve the user based on the provided user ID
+            var user = await GetUserByIdAsync(userId) ?? throw new Exception("User not found");
+
+            // Enable two-factor authentication for the user
+            return await _userManager.SetTwoFactorEnabledAsync(user, true);
+        }
+
+        /// <summary>
+        /// Disables two-factor authentication (2FA) for a specified user.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the user for whom 2FA is to be disabled.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains an <see cref="IdentityResult"/> indicating the outcome of disabling 2FA.</returns>
+        /// <exception cref="Exception">Thrown when the user with the specified <paramref name="userId"/> is not found.</exception>
+        public async Task<IdentityResult> DisableTwoFactorAuthenticationAsync(string userId)
+        {
+            // Retrieve the user based on the provided user ID
+            var user = await GetUserByIdAsync(userId) ?? throw new Exception("User not found");
+
+            // Disable two-factor authentication for the user
+            return await _userManager.SetTwoFactorEnabledAsync(user, false);
         }
     }
 }

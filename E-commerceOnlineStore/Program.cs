@@ -64,6 +64,20 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
 
+var smtpSection = builder.Configuration.GetSection("Smtp");
+
+var smtpHost = smtpSection["Host"] ?? throw new InvalidOperationException("SMTP host is not configured.");
+var smtpPortStr = smtpSection["Port"] ?? throw new InvalidOperationException("SMTP port is not configured.");
+var smtpUser = smtpSection["User"] ?? throw new InvalidOperationException("SMTP user is not configured.");
+var smtpPass = smtpSection["Pass"] ?? throw new InvalidOperationException("SMTP password is not configured.");
+
+if (!int.TryParse(smtpPortStr, out var smtpPort))
+{
+    throw new InvalidOperationException("SMTP port is not a valid integer.");
+}
+
+builder.Services.AddSingleton<IEmailService>(new EmailService(smtpHost, smtpPort, smtpUser, smtpPass));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

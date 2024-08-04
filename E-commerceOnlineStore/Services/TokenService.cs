@@ -1,4 +1,5 @@
 ﻿using E_commerceOnlineStore.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -9,18 +10,14 @@ namespace E_commerceOnlineStore.Services
     /// <summary>
     /// Provides functionality to generate JSON Web Tokens (JWT) for application users.
     /// </summary>
-    public class TokenService : ITokenService
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="TokenService"/> class.
+    /// </remarks>
+    /// <param name="configuration">The configuration used to access settings for JWT token generation.</param>
+    public class TokenService(IConfiguration configuration, UserManager<ApplicationUser> userManager) : ITokenService
     {
-        private readonly IConfiguration _configuration;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TokenService"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration used to access settings for JWT token generation.</param>
-        public TokenService(IConfiguration configuration)
-        {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-        }
+        private readonly IConfiguration _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        private readonly UserManager<ApplicationUser> _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
 
         /// <summary>
         /// Generates a JWT for the specified user.
@@ -62,6 +59,18 @@ namespace E_commerceOnlineStore.Services
                 // Serialize the token to a string and return it
                 return new JwtSecurityTokenHandler().WriteToken(token);
             });
+        }
+
+        /// <summary>
+        /// Generates a password reset token for the specified user.
+        /// </summary>
+        /// <param name="user">The user for whom to generate the token.</param>
+        /// <returns>The password reset token.</returns>
+        public async Task<string> GeneratePasswordResetTokenAsync(ApplicationUser user)
+        {
+            ArgumentNullException.ThrowIfNull(user);
+
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
     }
 }

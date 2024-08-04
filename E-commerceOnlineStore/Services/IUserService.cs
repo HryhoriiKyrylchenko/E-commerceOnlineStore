@@ -1,4 +1,6 @@
 ﻿using E_commerceOnlineStore.Models;
+using E_commerceOnlineStore.Models.Account;
+using Microsoft.AspNetCore.Identity;
 
 namespace E_commerceOnlineStore.Services
 {
@@ -66,5 +68,59 @@ namespace E_commerceOnlineStore.Services
         /// <param name="roleName">The name of the role to filter users by.</param>
         /// <returns>A task representing the asynchronous operation. The task result contains a list of users that have the specified role.</returns>
         Task<IList<ApplicationUser>> GetUsersInRoleAsync(string roleName);
+
+        /// <summary>
+        /// Resets the password for the user using the provided token and new password.
+        /// </summary>
+        /// <param name="user">The user whose password is to be reset.</param>
+        /// <param name="newPassword">The new password.</param>
+        /// <param name="token">The password reset token.</param>
+        /// <returns>A result indicating success or failure.</returns>
+        Task<IdentityResult> ResetPasswordAsync(ApplicationUser user, string token, string newPassword);
+
+        /// <summary>
+        /// Updates the profile information of a user asynchronously based on the provided model.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the user whose profile is to be updated.</param>
+        /// <param name="model">An instance of <see cref="UpdateProfileModel"/> containing the updated profile information.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains an <see cref="IdentityResult"/> indicating the outcome of the update operation.</returns>
+        /// <exception cref="Exception">Thrown when the user with the specified <paramref name="userId"/> is not found.</exception>
+        Task<IdentityResult> UpdateUserProfileAsync(string userId, UpdateProfileModel model);
+
+        /// <summary>
+        /// Assigns a role to a user asynchronously. If the role does not exist, it will be created first.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the user to whom the role is to be assigned.</param>
+        /// <param name="roleName">The name of the role to be assigned to the user.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains an <see cref="IdentityResult"/> indicating the outcome of the role assignment operation.</returns>
+        /// <exception cref="Exception">Thrown when the user with the specified <paramref name="userId"/> is not found.</exception>
+        /// <exception cref="Exception">Thrown when the role with the specified <paramref name="roleName"/> could not be created (in case of any issues with role creation).</exception>
+        Task<IdentityResult> AssignRoleAsync(string userId, string roleName);
+
+        /// <summary>
+        /// Removes a role from a user asynchronously. Throws an exception if the role does not exist.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the user from whom the role is to be removed.</param>
+        /// <param name="roleName">The name of the role to be removed from the user.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains an <see cref="IdentityResult"/> indicating the outcome of the role removal operation.</returns>
+        /// <exception cref="Exception">Thrown when the user with the specified <paramref name="userId"/> is not found.</exception>
+        /// <exception cref="Exception">Thrown when the role with the specified <paramref name="roleName"/> is not found.</exception>
+        Task<IdentityResult> RemoveRoleAsync(string userId, string roleName);
+
+        /// <summary>
+        /// Enables two-factor authentication (2FA) for a specified user.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the user for whom 2FA is to be enabled.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains an <see cref="IdentityResult"/> indicating the outcome of enabling 2FA.</returns>
+        /// <exception cref="Exception">Thrown when the user with the specified <paramref name="userId"/> is not found.</exception>
+        Task<IdentityResult> EnableTwoFactorAuthenticationAsync(string userId);
+
+        /// <summary>
+        /// Disables two-factor authentication (2FA) for a specified user.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the user for whom 2FA is to be disabled.</param>
+        /// <returns>A task representing the asynchronous operation. The task result contains an <see cref="IdentityResult"/> indicating the outcome of disabling 2FA.</returns>
+        /// <exception cref="Exception">Thrown when the user with the specified <paramref name="userId"/> is not found.</exception>
+        Task<IdentityResult> DisableTwoFactorAuthenticationAsync(string userId);
     }
 }
