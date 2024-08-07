@@ -7,9 +7,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 // Add services to the container.
 
@@ -36,6 +40,8 @@ var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException("JWT Key not found in configuration.");
 var jwtIssuer = builder.Configuration["Jwt:Issuer"]
     ?? throw new InvalidOperationException("JWT Issuer not found in configuration.");
+var jwtAudience = builder.Configuration["Jwt:Audience"]
+    ?? throw new InvalidOperationException("JWT Audience not found in configuration.");
 
 builder.Services.AddAuthentication(options =>
 {
@@ -51,10 +57,47 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtIssuer,
-        ValidAudience = jwtIssuer,
+        ValidAudience = jwtAudience,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnChallenge = context =>
+        {
+            // Log detailed information about the challenge
+            var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
+            logger.LogWarning("JWT Challenge: {Message}", "Invalid token");
+            context.HandleResponse();
+            return Task.CompletedTask;
+        },
+        OnAuthenticationFailed = context =>
+        {
+            // Log detailed information about the failure
+            var logger = context.HttpContext.RequestServices.GetRequiredService<ILogger<JwtBearerEvents>>();
+            logger.LogError(context.Exception, "JWT Authentication failed: {Message}", context.Exception.Message);
+            context.NoResult();
+            return Task.CompletedTask;
+        }
+
+        //OnChallenge = context =>
+        //{
+        //    // Log detailed information about the challenge
+        //    context.HandleResponse();
+        //    context.Response.Headers.Append("Token-Validation-Error", "Invalid token");
+        //    return Task.CompletedTask;
+        //},
+        //OnAuthenticationFailed = context =>
+        //{
+        //    // Log detailed information about the failure
+        //    context.NoResult();
+        //    context.Response.Headers.Append("Token-Validation-Error", context.Exception.Message);
+        //    return Task.CompletedTask;
+        //}
+    };
 });
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -80,13 +123,50 @@ builder.Services.AddSingleton<IEmailService>(new EmailService(smtpHost, smtpPort
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter the token in the format: Bearer {your token}"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 var app = builder.Build();
+
+app.Use(async (context, next) =>
+{
+    var logger = app.Logger;
+    logger.LogInformation("Handling request: {RequestPath}", context.Request.Path);
+    await next.Invoke();
+    logger.LogInformation("Finished handling request.");
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }

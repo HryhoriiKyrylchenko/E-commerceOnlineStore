@@ -25,6 +25,8 @@ namespace E_commerceOnlineStore.Models.Account
         /// <remarks>
         /// This property specifies the email address associated with the new user's account.
         /// </remarks>
+        [Required]
+        [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
         /// <summary>
@@ -33,7 +35,19 @@ namespace E_commerceOnlineStore.Models.Account
         /// <remarks>
         /// This property specifies the password that the new user will use to authenticate.
         /// </remarks>
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the password confirmation that the user wants to set.
+        /// This property is initialized to an empty string.
+        /// </summary>
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the first name of the new user.

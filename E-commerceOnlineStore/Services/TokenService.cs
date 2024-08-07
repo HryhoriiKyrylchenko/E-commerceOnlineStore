@@ -34,15 +34,23 @@ namespace E_commerceOnlineStore.Services
             // Ensure the configuration values are not null
             var key = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not found in configuration.");
             var issuer = _configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("JWT Issuer not found in configuration.");
+            var audience = _configuration["Jwt:Audience"] ?? throw new InvalidOperationException("JWT Audience not found in configuration.");
+
+            // Retrieve roles for the user
+            var roles = await _userManager.GetRolesAsync(user);
+            var roleClaims = roles.Select(role => new Claim(ClaimTypes.Role, role));
 
             return await Task.Run(() =>
             {
                 // Create claims based on user information
                 var claims = new[]
                 {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName ?? throw new InvalidOperationException("Username cannot be null")),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
+                    new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                    new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName ?? throw new InvalidOperationException("Username cannot be null")),
+                    new Claim(JwtRegisteredClaimNames.Email, user.Email ?? throw new InvalidOperationException("Email cannot be null")),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                }
+                .Concat(roleClaims);
 
                 // Create a symmetric security key and signing credentials
                 var symmetricKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
@@ -51,9 +59,9 @@ namespace E_commerceOnlineStore.Services
                 // Create the JWT token with the specified claims, issuer, audience, and expiration
                 var token = new JwtSecurityToken(
                     issuer: issuer,
-                    audience: issuer,
+                    audience: audience,
                     claims: claims,
-                    expires: DateTime.UtcNow.AddHours(1),
+                    expires: DateTime.UtcNow.AddHours(10),
                     signingCredentials: creds);
 
                 // Serialize the token to a string and return it

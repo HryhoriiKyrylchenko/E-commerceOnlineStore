@@ -1,4 +1,5 @@
-﻿using E_commerceOnlineStore.Models;
+﻿using E_commerceOnlineStore.Controllers;
+using E_commerceOnlineStore.Models;
 using E_commerceOnlineStore.Models.Account;
 using Microsoft.AspNetCore.Identity;
 
@@ -10,10 +11,11 @@ namespace E_commerceOnlineStore.Services
     /// <remarks>
     /// Initializes a new instance of the <see cref="UserService"/> class.
     /// </remarks>
-    public class UserService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager) : IUserService
+    public class UserService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<AuthController> logger) : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         private readonly RoleManager<IdentityRole> _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+        private readonly ILogger<AuthController> _logger = logger;
 
         /// <summary>
         /// Creates a new user with specified details and assigns a role.
@@ -147,9 +149,16 @@ namespace E_commerceOnlineStore.Services
         {
             ArgumentNullException.ThrowIfNull(user);
 
-            return await _userManager.ResetPasswordAsync(user, token, newPassword);
-        }
+            _logger.LogInformation("ResetPasswordAsync called with token: {Token}", token);
 
+
+
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            _logger.LogInformation("ResetPasswordAsync result: {Succeeded}, Errors: {Errors}", result.Succeeded, string.Join(", ", result.Errors.Select(e => e.Description)));
+
+            return result;
+        }
 
         /// <summary>
         /// Updates the profile information of a user asynchronously based on the provided model.

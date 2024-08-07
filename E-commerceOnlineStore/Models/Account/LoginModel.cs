@@ -12,12 +12,14 @@ namespace E_commerceOnlineStore.Models.Account
     public class LoginModel
     {
         /// <summary>
-        /// Gets or sets the username of the user attempting to log in.
+        /// Gets or sets the user email of the user attempting to log in.
         /// </summary>
         /// <remarks>
-        /// This property specifies the username that the user will use to authenticate and gain access to their account.
+        /// This property specifies the user email that the user will use to authenticate and gain access to their account.
         /// </remarks>
-        public string UserName { get; set; } = string.Empty;
+        [Required]
+        [EmailAddress]
+        public string UserEmail { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the password of the user attempting to log in.
@@ -25,6 +27,7 @@ namespace E_commerceOnlineStore.Models.Account
         /// <remarks>
         /// This property specifies the password that the user will use to authenticate. It must match the password associated with the provided username.
         /// </remarks>
+        [Required]
         public string Password { get; set; } = string.Empty;
     }
 

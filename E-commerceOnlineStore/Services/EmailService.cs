@@ -22,7 +22,7 @@ namespace E_commerceOnlineStore.Services
             {
                 Host = _smtpHost,
                 Port = _smtpPort,
-                EnableSsl = true, // Set this based on your SMTP provider's requirements
+                EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(_smtpUser, _smtpPass)

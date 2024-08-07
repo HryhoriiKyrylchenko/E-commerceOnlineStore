@@ -1,10 +1,12 @@
 ﻿using E_commerceOnlineStore.Models;
 using E_commerceOnlineStore.Models.Account;
 using E_commerceOnlineStore.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Web;
 
 namespace E_commerceOnlineStore.Controllers
 {
@@ -17,11 +19,12 @@ namespace E_commerceOnlineStore.Controllers
     /// </remarks>
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController(IUserService userService, ITokenService tokenService, IEmailService emailService) : ControllerBase
+    public class AuthController(IUserService userService, ITokenService tokenService, IEmailService emailService, ILogger<AuthController> logger) : ControllerBase
     {
         private readonly IUserService _userService = userService;
         private readonly ITokenService _tokenService = tokenService;
         private readonly IEmailService _emailService = emailService;
+        private readonly ILogger<AuthController> _logger = logger;
 
         /// <summary>
         /// Registers a new user with the provided registration details.
@@ -91,11 +94,11 @@ namespace E_commerceOnlineStore.Controllers
                     return BadRequest(new { message = "Login model cannot be null" });
                 }
 
-                // Retrieve the user based on the provided username
-                var user = await _userService.GetUserByNameAsync(model.UserName);
+                // Retrieve the user based on the provided user email
+                var user = await _userService.GetUserByEmailAsync(model.UserEmail);
                 if (user == null)
                 {
-                    return Unauthorized(new { message = "Invalid username or password" });
+                    return Unauthorized(new { message = "Invalid email or password" });
                 }
 
                 // Verify the user's password
@@ -130,19 +133,23 @@ namespace E_commerceOnlineStore.Controllers
         /// <response code="200">Logout successful.</response>
         /// <response code="500">Internal server error if an unexpected error occurs during the logout process.</response>
         [HttpPost("logout")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Logout()
         {
             try
             {
+                _logger.LogInformation("Logout initiated for user: {UserId}", User.Identity?.Name);
+
                 // Delete the authentication token cookie
                 Response.Cookies.Delete("authToken");
 
                 // Send a successful response indicating the user has been logged out
                 return Ok("Logged out successfully");
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "An error occurred during logout.");
+
                 // Log the error (ex.Message) and return an internal server error response
                 return StatusCode(500, new { message = "An unexpected error occurred during logout" });
             }
@@ -185,7 +192,14 @@ namespace E_commerceOnlineStore.Controllers
                 }
 
                 // Generate a password reset link using the token
-                var resetLink = Url.Action("ResetPassword", "Auth", new { token, email = model.Email }, Request.Scheme);
+                var encodedToken = Uri.EscapeDataString(token);
+
+                var resetLink = Url.Action(
+                    "ResetPassword", 
+                    "Auth", 
+                    new { token = encodedToken, email = model.Email }, 
+                    Request.Scheme);
+
                 if (string.IsNullOrEmpty(resetLink))
                 {
                     // Return a 500 Internal Server Error if the password reset link could not be generated
@@ -203,14 +217,13 @@ namespace E_commerceOnlineStore.Controllers
                 // Return a 400 Bad Request with the detailed message in case of an argument error
                 return BadRequest(new { message = ex.Message });
             }
-            catch
+            catch (Exception ex)
             {
                 // Log the error (ex.Message) and return a 500 Internal Server Error
                 // Error logging should be implemented here
-                return StatusCode(500, new { message = "An unexpected error occurred" });
+                return StatusCode(500, new { message = ex.Message });
             }
         }
-
 
         /// <summary>
         /// Resets the user's password using the provided email, reset token, and new password.
@@ -239,8 +252,10 @@ namespace E_commerceOnlineStore.Controllers
                     return BadRequest(new { message = "User not found" });
                 }
 
+                var decodedToken = Uri.UnescapeDataString(model.Token);
+
                 // Attempt to reset the user's password using the provided token and new password
-                var result = await _userService.ResetPasswordAsync(user, model.Token, model.NewPassword);
+                var result = await _userService.ResetPasswordAsync(user, decodedToken, model.NewPassword);
                 if (result.Succeeded)
                 {
                     // Return a 200 OK response if the password reset is successful
@@ -273,7 +288,7 @@ namespace E_commerceOnlineStore.Controllers
         /// <response code="401">Unauthorized if the user ID cannot be found in the claims.</response>
         /// <response code="500">Internal server error if an unexpected error occurs during the profile update process.</response>
         [HttpPut("update-profile")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileModel model)
         {
             // Check if the update profile model is null
@@ -327,7 +342,7 @@ namespace E_commerceOnlineStore.Controllers
         /// <response code="400">Bad request if the assign role model is null or if required fields (User ID or Role Name) are missing or empty, or if the role assignment fails.</response>
         /// <response code="500">Internal server error if an unexpected error occurs during the role assignment process.</response>
         [HttpPost("assign-role")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> AssignRole([FromBody] AssignRoleModel model)
         {
             // Check if the assign role model is null
