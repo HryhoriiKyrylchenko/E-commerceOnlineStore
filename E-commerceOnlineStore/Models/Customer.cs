@@ -24,7 +24,7 @@ namespace E_commerceOnlineStore.Models
         /// <summary>
         /// Gets or sets the application user associated with the customer.
         /// </summary>
-        public ApplicationUser? User { get; set; }
+        public virtual ApplicationUser? User { get; set; }
 
         /// <summary>
         /// Gets or sets the first name of the customer.

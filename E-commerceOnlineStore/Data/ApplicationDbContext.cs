@@ -61,6 +61,11 @@ namespace E_commerceOnlineStore.Data
         /// </summary>
         public DbSet<Payment> Payments { get; set; }
 
+        /// <summary>
+        /// Gets or sets the refresh token in the database.
+        /// </summary>
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
 
         /// <summary>
         /// Configures the model that was discovered by convention from the entity types exposed in <see cref="DbSet{TEntity}"/> properties on this context.
@@ -100,29 +105,6 @@ namespace E_commerceOnlineStore.Data
             //});
 
             // Configure relationships and cascading delete behavior
-            modelBuilder.Entity<Product>()
-                .HasMany(p => p.ProductImages)
-                .WithOne(pi => pi.Product)
-                .HasForeignKey(pi => pi.ProductId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Order>()
-                .HasMany(o => o.OrderItems)
-                .WithOne(oi => oi.Order)
-                .HasForeignKey(oi => oi.OrderId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Customer>()
-                .HasMany(c => c.Addresses)
-                .WithOne(a => a.Customer)
-                .HasForeignKey(a => a.CustomerId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.Payment)
-                .WithOne(p => p.Order)
-                .HasForeignKey<Payment>(p => p.OrderId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
