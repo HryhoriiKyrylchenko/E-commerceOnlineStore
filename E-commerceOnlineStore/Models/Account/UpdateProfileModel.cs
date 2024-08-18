@@ -29,6 +29,11 @@
         public string? Gender { get; set; }
 
         /// <summary>
+        /// Gets or sets the user's phone number. This property is optional and may be null.
+        /// </summary>
+        public string? PhoneNumber { get; set; }
+
+        /// <summary>
         /// Gets or sets the URL of the user's profile picture. This property is optional and may be null.
         /// </summary>
         public string? ProfilePictureUrl { get; set; }

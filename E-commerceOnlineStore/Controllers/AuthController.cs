@@ -1,6 +1,7 @@
 ﻿using E_commerceOnlineStore.Models;
 using E_commerceOnlineStore.Models.Account;
 using E_commerceOnlineStore.Services;
+using E_commerceOnlineStore.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -47,7 +48,7 @@ namespace E_commerceOnlineStore.Controllers
             try
             {
                 // Attempt to create a new user with the provided registration details
-                await _userService.CreateUserAsync(
+                var user = await _userService.CreateUserAsync(
                     model.UserName,
                     model.Email,
                     model.Password,
@@ -55,23 +56,111 @@ namespace E_commerceOnlineStore.Controllers
                     model.LastName,
                     model.DateOfBirth,
                     model.Gender,
+                    model.PhoneNumber,
                     model.ProfilePictureUrl,
                     model.RoleName
                 );
 
-                // Return a success response if user creation is successful
-                return Ok("User registered successfully");
+                if (user == null)
+                {
+                    return BadRequest("User could not be created.");
+                }
+
+                var result = await GenerateAndSendConfirmationEmail(user);
+                if (!result)
+                {
+                    return BadRequest(new { message = "Failed to send confirmation email." });
+                }
+
+                return Ok("User registered successfully. Email confirmation link was sent.");
             }
             catch (ArgumentNullException ex)
             {
                 // Log the error (ex.Message) and return a bad request with the error message
                 return BadRequest(new { message = ex.Message });
             }
-            catch
+            catch (Exception ex)
             {
                 // Log the error (ex.Message) and return an internal server error
-                return StatusCode(500, new { message = "An unexpected error occurred" });
+                return StatusCode(500, new { message = "An unexpected error occurred: " + ex.Message  });
             }
+        }
+
+        /// <summary>
+        /// Handles the HTTP POST request to resend a confirmation email.
+        /// </summary>
+        /// <param name="model">An instance of <see cref="ResendConfirmationEmailModel"/> containing the user ID.</param>
+        /// <returns>A task representing the asynchronous operation. The result contains an <see cref="IActionResult"/> that indicates the result of the email resend operation.</returns>
+        [HttpPost("resend-confirmation-email")]
+        public async Task<IActionResult> ResendConfirmationEmail([FromBody] ResendConfirmationEmailModel model)
+        {
+            // Check if the model is null or if the UserId is null or empty.
+            if (model == null || string.IsNullOrEmpty(model.UserId))
+            {
+                // Return a BadRequest response with an error message if the input is invalid.
+                return BadRequest(new { message = "User ID cannot be null or empty" });
+            }
+
+            var user = await _userService.GetUserByIdAsync(model.UserId);
+
+            if (user == null)
+            {
+                return BadRequest("User could not be created.");
+            }
+
+            var result = await GenerateAndSendConfirmationEmail(user);
+            if (!result)
+            {
+                return BadRequest(new { message = "Failed to resend confirmation email." });
+            }
+
+            return Ok("Confirmation email resent successfully.");
+        }
+
+        /// <summary>
+        /// Handles the HTTP POST request to confirm a user's email address using the provided confirmation model.
+        /// </summary>
+        /// <param name="model">An instance of <see cref="ConfirmEmailModel"/> containing the user ID and confirmation token.</param>
+        /// <returns>An <see cref="IActionResult"/> representing the result of the email confirmation process.</returns>
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailModel model)
+        {
+            // Check if the model is null and return a BadRequest response if it is.
+            if (model == null)
+            {
+                return BadRequest(new { message = "Invalid client request" });
+            }
+
+            // Validate input parameters to ensure that both userId and token are provided.
+            if (string.IsNullOrEmpty(model.userId) || string.IsNullOrEmpty(model.token))
+            {
+                return BadRequest("User ID and token are required.");
+            }
+
+            // Attempt to find the user by their ID using _userService.
+            var user = await _userService.GetUserByIdAsync(model.userId);
+
+            // Return a NotFound response if the user is not found.
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Decode the provided token using the TokenEncoder class.
+            var decodedToken = TokenEncoder.DecodeToken(model.token);
+
+            // Attempt to confirm the user's email using the decoded token.
+            var result = await _userService.ConfirmEmailAsync(user, decodedToken);
+
+            // Return an Ok response if the email confirmation is successful.
+            if (result.Succeeded)
+            {
+                return Ok("Email confirmed successfully.");
+            }
+
+            // If there are errors during email confirmation, compile the error descriptions and return a BadRequest response.
+            var errors = string.Join("; ", result.Errors.Select(e => e.Description));
+            return BadRequest($"Error confirming email: {errors}");
         }
 
         /// <summary>
@@ -106,7 +195,13 @@ namespace E_commerceOnlineStore.Controllers
                 {
                     // Generate a JWT token if the password is correct
                     var token = await _tokenService.GenerateTokenAsync(user);
-                    return Ok(new { Token = token });
+                    var refreshToken = await _tokenService.GenerateRefreshTokenAsync(user);
+
+                    return Ok(new 
+                    { 
+                        Token = token,
+                        RefreshToken = refreshToken
+                    });
                 }
                 else
                 {
@@ -124,6 +219,84 @@ namespace E_commerceOnlineStore.Controllers
                 // Log the error (ex.Message) and return an internal server error
                 return StatusCode(500, new { message = "An unexpected error occurred" });
             }
+        }
+
+        /// <summary>
+        /// Refreshes the JWT token using a provided refresh token.
+        /// </summary>
+        /// <param name="model">The token request model containing the expired token and refresh token.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result is an <see cref="IActionResult"/> that contains the new token and refresh token if successful; otherwise, an error message.</returns>
+        /// <response code="400">Returned when the provided token or refresh token is invalid or the request is malformed.</response>
+        /// <response code="200">Returned when the refresh token is valid and the new tokens are successfully generated.</response>
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken([FromBody] TokenRequestModel model)
+        {
+            if (model == null)
+            {
+                return BadRequest(new { message = "Invalid client request" });
+            }
+
+            var principal = _tokenService.GetPrincipalFromExpiredToken(model.Token);
+            if (principal == null)
+            {
+                return BadRequest(new { message = "Invalid token" });
+            }
+
+            var userId = principal.Identity?.Name 
+                ?? throw new InvalidOperationException("The user identity name cannot be null. Ensure that the user is authenticated.");
+
+            var user = await _userService.GetUserByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest(new { message = "Invalid refresh token. User was not found" });
+            }
+
+            var oldToken = await _tokenService.GetRefreshTokenAsync(model.RefreshToken);
+
+            if (oldToken == null || !_tokenService.IsRefreshTokenActive(oldToken))
+            {
+                return BadRequest(new { message = "Invalid refresh token" });
+            }
+
+            var newToken = await _tokenService.GenerateTokenAsync(user);
+            var newRefreshToken = await _tokenService.GenerateRefreshTokenAsync(user);
+
+            await _tokenService.RevokeRefreshTokenAsync(oldToken.Token);
+
+            return Ok(new
+            {
+                Token = newToken,
+                RefreshToken = newRefreshToken
+            });
+        }
+
+        /// <summary>
+        /// Revokes a refresh token, rendering it invalid for further use.
+        /// </summary>
+        /// <param name="model">The revoke token request model containing the token to be revoked.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result is an <see cref="IActionResult"/> indicating the success or failure of the revoke operation.</returns>
+        /// <response code="400">Returned when the provided token is invalid or not found.</response>
+        /// <response code="200">Returned when the token is successfully revoked.</response>
+        [HttpPost("revoke-token")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> RevokeToken([FromBody] RevokeTokenRequest model)
+        {
+            var token = model.Token ?? Request.Cookies["refreshToken"];
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return BadRequest(new { message = "Token is required" });
+            }
+
+            var refreshToken = await _tokenService.GetRefreshTokenAsync(token);
+
+            if (refreshToken == null || !_tokenService.IsRefreshTokenActive(refreshToken))
+            {
+                return BadRequest(new { message = "Invalid token" });
+            }
+
+            await _tokenService.RevokeRefreshTokenAsync(token);
+            return Ok(new { message = "Token revoked" });
         }
 
         /// <summary>
@@ -192,7 +365,7 @@ namespace E_commerceOnlineStore.Controllers
                 }
 
                 // Generate a password reset link using the token
-                var encodedToken = Uri.EscapeDataString(token);
+                var encodedToken = TokenEncoder.EncodeToken(token);
 
                 var resetLink = Url.Action(
                     "ResetPassword", 
@@ -252,7 +425,7 @@ namespace E_commerceOnlineStore.Controllers
                     return BadRequest(new { message = "User not found" });
                 }
 
-                var decodedToken = Uri.UnescapeDataString(model.Token);
+                var decodedToken = TokenEncoder.DecodeToken(model.Token);
 
                 // Attempt to reset the user's password using the provided token and new password
                 var result = await _userService.ResetPasswordAsync(user, decodedToken, model.NewPassword);
@@ -399,6 +572,7 @@ namespace E_commerceOnlineStore.Controllers
         /// <response code="404">Not Found if the user or role cannot be found based on the provided information.</response>
         /// <response code="500">Internal server error if an unexpected error occurs during the role removal process.</response>
         [HttpPost("remove-role")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin")]
         public async Task<IActionResult> RemoveRole([FromBody] AssignRoleModel model)
         {
             // Check if the remove role model is null
@@ -460,6 +634,7 @@ namespace E_commerceOnlineStore.Controllers
         /// <response code="400">Unable to enable two-factor authentication due to an error.</response>
         /// <response code="401">User not authenticated or user ID not found.</response>
         [HttpPost("enable-2fa")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> EnableTwoFactorAuthentication()
         {
             try
@@ -497,6 +672,7 @@ namespace E_commerceOnlineStore.Controllers
         /// <response code="400">Unable to disable two-factor authentication due to an error.</response>
         /// <response code="401">User not authenticated or user ID not found.</response>
         [HttpPost("disable-2fa")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DisableTwoFactorAuthentication()
         {
             try
@@ -526,5 +702,48 @@ namespace E_commerceOnlineStore.Controllers
             }
         }
 
+        /// <summary>
+        /// Generates an email confirmation token for the specified user and sends a confirmation email with the token.
+        /// </summary>
+        /// <param name="user">The <see cref="ApplicationUser"/> for whom the confirmation email will be generated and sent.</param>
+        /// <returns>A task representing the asynchronous operation. The result is a <see cref="bool"/> indicating whether the email was successfully generated and sent.</returns>
+        private async Task<bool> GenerateAndSendConfirmationEmail(ApplicationUser user)
+        {
+            // Return false if the provided user is null.
+            if (user == null)
+            {
+                return false;
+            }
+
+            // Generate an email confirmation token for the user.
+            var token = await _tokenService.GenerateEmailConfirmationTokenAsync(user);
+
+            // Return false if the token generation fails or if the token is empty.
+            if (string.IsNullOrEmpty(token))
+            {
+                return false;
+            }
+
+            var encodedToken = TokenEncoder.EncodeToken(token);
+
+            // Create a confirmation link using the token and user ID.
+            var confirmationLink = Url.Action(
+                "ConfirmEmail",
+                "Auth", 
+                new { userId = user.Id, token = encodedToken }, 
+                Request.Scheme);
+
+            // Return false if the user's email or the confirmation link is invalid.
+            if (string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(confirmationLink))
+            {
+                return false;
+            }
+
+            // Send the confirmation email with the generated link.
+            await _emailService.SendEmailConfirmationEmailAsync(user.Email, confirmationLink);
+
+            // Return true indicating that the email was successfully sent.
+            return true;
+        }
     }
 }

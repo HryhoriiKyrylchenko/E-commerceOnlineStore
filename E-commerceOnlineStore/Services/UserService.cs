@@ -1,7 +1,10 @@
-﻿using E_commerceOnlineStore.Controllers;
+﻿using Azure.Core;
+using E_commerceOnlineStore.Controllers;
 using E_commerceOnlineStore.Models;
 using E_commerceOnlineStore.Models.Account;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace E_commerceOnlineStore.Services
 {
@@ -11,25 +14,32 @@ namespace E_commerceOnlineStore.Services
     /// <remarks>
     /// Initializes a new instance of the <see cref="UserService"/> class.
     /// </remarks>
-    public class UserService(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<AuthController> logger) : IUserService
+    public class UserService(
+        UserManager<ApplicationUser> userManager, 
+        RoleManager<IdentityRole> roleManager, 
+        ILogger<AuthController> logger
+        ) : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         private readonly RoleManager<IdentityRole> _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
         private readonly ILogger<AuthController> _logger = logger;
 
         /// <summary>
-        /// Creates a new user with specified details and assigns a role.
+        /// Creates a new user and assigns them a specified role.
         /// </summary>
-        /// <param name="userName">The username of the new user.</param>
-        /// <param name="email">The email of the new user.</param>
+        /// <param name="userName">The username for the new user.</param>
+        /// <param name="email">The email address for the new user.</param>
         /// <param name="password">The password for the new user.</param>
         /// <param name="firstName">The first name of the new user.</param>
         /// <param name="lastName">The last name of the new user.</param>
-        /// <param name="dateOfBirth">The date of birth of the new user.</param>
-        /// <param name="gender">The gender of the new user.</param>
-        /// <param name="profilePictureUrl">The profile picture URL of the new user.</param>
-        /// <param name="roleName">The role to assign to the new user.</param>
-        public async Task CreateUserAsync(
+        /// <param name="dateOfBirth">The optional date of birth of the new user.</param>
+        /// <param name="gender">The optional gender of the new user.</param>
+        /// <param name="phoneNumber">The optional gender of the new user.</param>
+        /// <param name="profilePictureUrl">The optional profile picture URL of the new user.</param>
+        /// <param name="roleName">The name of the role to assign to the new user.</param>
+        /// <returns>The created user.</returns>
+        /// <exception cref="Exception">Thrown when user creation or role assignment fails.</exception>
+        public async Task<ApplicationUser> CreateUserAsync(
             string userName,
             string email,
             string password,
@@ -37,15 +47,22 @@ namespace E_commerceOnlineStore.Services
             string lastName,
             DateTime? dateOfBirth,
             string? gender,
+            string? phoneNumber,
             string? profilePictureUrl,
             string roleName)
         {
+            // Check if the role exists; if not, create it
             if (!await _roleManager.RoleExistsAsync(roleName))
             {
                 var role = new IdentityRole(roleName);
-                await _roleManager.CreateAsync(role);
+                var roleResult = await _roleManager.CreateAsync(role);
+                if (!roleResult.Succeeded)
+                {
+                    throw new Exception("Failed to create role: " + string.Join("; ", roleResult.Errors.Select(e => e.Description)));
+                }
             }
 
+            // Create a new user
             var user = new ApplicationUser
             {
                 UserName = userName,
@@ -54,20 +71,29 @@ namespace E_commerceOnlineStore.Services
                 LastName = lastName,
                 DateOfBirth = dateOfBirth,
                 Gender = gender,
+                PhoneNumber = phoneNumber,
                 ProfilePictureUrl = profilePictureUrl,
                 IsActive = true
-                // Other properties can be set here
+                // Additional properties can be set here
             };
 
+            // Attempt to create the user
             var result = await _userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, roleName);
+                // Assign the user to the specified role
+                var roleResult = await _userManager.AddToRoleAsync(user, roleName);
+                if (!roleResult.Succeeded)
+                {
+                    throw new Exception("Failed to assign role: " + string.Join("; ", roleResult.Errors.Select(e => e.Description)));
+                }
+
+                return user;
             }
             else
             {
-                throw new Exception(string.Join("; ", result.Errors.Select(e => e.Description)));
+                throw new Exception("Failed to create user: " + string.Join("; ", result.Errors.Select(e => e.Description)));
             }
         }
 
@@ -177,6 +203,7 @@ namespace E_commerceOnlineStore.Services
             user.LastName = model.LastName;
             user.Email = model.Email;
             user.Gender = model.Gender;
+            user.PhoneNumber = model.PhoneNumber;
             user.ProfilePictureUrl = model.ProfilePictureUrl;
 
             // Save the updated user profile and return the result of the update operation
@@ -250,6 +277,30 @@ namespace E_commerceOnlineStore.Services
 
             // Disable two-factor authentication for the user
             return await _userManager.SetTwoFactorEnabledAsync(user, false);
+        }
+
+        /// <summary>
+        /// Confirms a user's email address using a confirmation token asynchronously.
+        /// </summary>
+        /// <param name="user">The user whose email is being confirmed.</param>
+        /// <param name="token">The email confirmation token.</param>
+        /// <returns>An IdentityResult indicating the outcome of the email confirmation process.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the user or token is null.</exception>
+        public async Task<IdentityResult> ConfirmEmailAsync(ApplicationUser user, string token)
+        {
+            // Validate input parameters
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "User cannot be null.");
+            }
+
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new ArgumentNullException(nameof(token), "Token cannot be null or empty.");
+            }
+
+            // Confirm the user's email address
+            return await _userManager.ConfirmEmailAsync(user, token);
         }
     }
 }

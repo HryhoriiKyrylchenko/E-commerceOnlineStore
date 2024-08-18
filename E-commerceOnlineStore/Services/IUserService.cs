@@ -10,19 +10,21 @@ namespace E_commerceOnlineStore.Services
     public interface IUserService
     {
         /// <summary>
-        /// Creates a new user with the specified details and assigns a role.
+        /// Creates a new user and assigns them a specified role.
         /// </summary>
-        /// <param name="userName">The username of the new user.</param>
-        /// <param name="email">The email address of the new user.</param>
+        /// <param name="userName">The username for the new user.</param>
+        /// <param name="email">The email address for the new user.</param>
         /// <param name="password">The password for the new user.</param>
         /// <param name="firstName">The first name of the new user.</param>
         /// <param name="lastName">The last name of the new user.</param>
-        /// <param name="dateOfBirth">The date of birth of the new user.</param>
-        /// <param name="gender">The gender of the new user.</param>
-        /// <param name="profilePictureUrl">The URL of the user's profile picture.</param>
-        /// <param name="roleName">The role to assign to the new user.</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        Task CreateUserAsync(
+        /// <param name="dateOfBirth">The optional date of birth of the new user.</param>
+        /// <param name="gender">The optional gender of the new user.</param>
+        /// <param name="phoneNumber">The optional gender of the new user.</param>
+        /// <param name="profilePictureUrl">The optional profile picture URL of the new user.</param>
+        /// <param name="roleName">The name of the role to assign to the new user.</param>
+        /// <returns>The created user.</returns>
+        /// <exception cref="Exception">Thrown when user creation or role assignment fails.</exception>
+        Task<ApplicationUser> CreateUserAsync(
             string userName,
             string email,
             string password,
@@ -30,6 +32,7 @@ namespace E_commerceOnlineStore.Services
             string lastName,
             DateTime? dateOfBirth,
             string? gender,
+            string? phoneNumber,
             string? profilePictureUrl,
             string roleName);
 
@@ -122,5 +125,14 @@ namespace E_commerceOnlineStore.Services
         /// <returns>A task representing the asynchronous operation. The task result contains an <see cref="IdentityResult"/> indicating the outcome of disabling 2FA.</returns>
         /// <exception cref="Exception">Thrown when the user with the specified <paramref name="userId"/> is not found.</exception>
         Task<IdentityResult> DisableTwoFactorAuthenticationAsync(string userId);
+
+        /// <summary>
+        /// Confirms a user's email address using a confirmation token asynchronously.
+        /// </summary>
+        /// <param name="user">The user whose email is being confirmed.</param>
+        /// <param name="token">The email confirmation token.</param>
+        /// <returns>An IdentityResult indicating the outcome of the email confirmation process.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the user or token is null.</exception>
+        Task<IdentityResult> ConfirmEmailAsync(ApplicationUser user, string token);
     }
 }

@@ -61,6 +61,11 @@ namespace E_commerceOnlineStore.Data
         /// </summary>
         public DbSet<Payment> Payments { get; set; }
 
+        /// <summary>
+        /// Gets or sets the refresh token in the database.
+        /// </summary>
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
 
         /// <summary>
         /// Configures the model that was discovered by convention from the entity types exposed in <see cref="DbSet{TEntity}"/> properties on this context.

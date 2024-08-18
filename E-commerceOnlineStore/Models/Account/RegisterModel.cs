@@ -82,6 +82,15 @@ namespace E_commerceOnlineStore.Models.Account
         public string? Gender { get; set; }
 
         /// <summary>
+        /// Gets or sets the phone number of the new user.
+        /// </summary>
+        /// <remarks>
+        /// This property specifies the phone number associated with the new user's account.
+        /// </remarks>
+        [Phone]
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        /// <summary>
         /// Gets or sets the URL of the new user's profile picture.
         /// </summary>
         /// <remarks>
@@ -97,5 +106,4 @@ namespace E_commerceOnlineStore.Models.Account
         /// </remarks>
         public string RoleName { get; set; } = string.Empty;
     }
-
 }

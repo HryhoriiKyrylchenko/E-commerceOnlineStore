@@ -46,5 +46,14 @@ namespace E_commerceOnlineStore.Models
         /// Gets or sets user addresses.
         /// </summary>
         public virtual ICollection<Address>? Addresses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of refresh tokens associated with the user.
+        /// </summary>
+        /// <remarks>
+        /// This collection is typically used to store multiple refresh tokens for the user, 
+        /// allowing for the management of issued tokens for security purposes.
+        /// </remarks>
+        public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = [];
     }
 }
