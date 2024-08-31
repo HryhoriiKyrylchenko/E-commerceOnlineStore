@@ -23,12 +23,20 @@ namespace E_commerceOnlineStore.Models
         /// <summary>
         /// Gets or sets the product associated with the image.
         /// </summary>
-        public Product? Product { get; set; }
+        /// [ForeignKey(nameof(ProductId))]
+        public virtual Product Product { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the URL of the image.
         /// </summary>
         [Required]
         public string ImageUrl { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this item is marked as the main item.
+        /// This property is initialized to <c>false</c> by default.
+        /// </summary>
+        public bool IsMain { get; set; } = false;
+
     }
 }

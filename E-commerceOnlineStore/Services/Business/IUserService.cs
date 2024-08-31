@@ -2,7 +2,7 @@
 using E_commerceOnlineStore.Models.Account;
 using Microsoft.AspNetCore.Identity;
 
-namespace E_commerceOnlineStore.Services
+namespace E_commerceOnlineStore.Services.Business
 {
     /// <summary>
     /// Defines methods for managing application users, including user creation, retrieval, and role management.

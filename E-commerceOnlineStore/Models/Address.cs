@@ -17,13 +17,28 @@ namespace E_commerceOnlineStore.Models
         /// <summary>
         /// Gets or sets the user ID associated with the address.
         /// </summary>
-        public string? UserId { get; set; }
+        [Required]
+        public string UserId { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the user associated with the address.
         /// </summary>
         [ForeignKey(nameof(UserId))]
-        public ApplicationUser? User { get; set; }
+        public ApplicationUser User { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the house or apartment number of the address.
+        /// </summary>
+        [MaxLength(20)]
+        [RegularExpression(@"^[a-zA-Z0-9\s\-]+$", ErrorMessage = "Invalid house number format.")]
+        public string? HouseNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the apartment number of the address (if applicable).
+        /// </summary>
+        [MaxLength(20)]
+        [RegularExpression(@"^[a-zA-Z0-9\s\-]+$", ErrorMessage = "Invalid apartment number format.")]
+        public string? ApartmentNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the street of the address.
@@ -51,6 +66,7 @@ namespace E_commerceOnlineStore.Models
         /// </summary>
         [Required]
         [MaxLength(20)]
+        [RegularExpression(@"^\d{5}(-\d{4})?$", ErrorMessage = "Invalid postal code format.")]
         public string PostalCode { get; set; } = string.Empty;
 
         /// <summary>
@@ -64,5 +80,15 @@ namespace E_commerceOnlineStore.Models
         /// Gets or sets whether the address is main.
         /// </summary>
         public bool IsMain { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets whether the address is used for billing.
+        /// </summary>
+        public bool IsBillingAddress { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the collection of shipments associated with the address.
+        /// </summary>
+        public virtual ICollection<Shipment> Shipments { get; set; } = [];
     }
 }

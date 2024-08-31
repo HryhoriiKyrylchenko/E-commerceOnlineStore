@@ -27,7 +27,7 @@ namespace E_commerceOnlineStore.Models
         /// Gets or sets the description of the category.
         /// </summary>
         [MaxLength(255)]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
 
         /// <summary>
         /// Gets or sets the ID of the parent category.
@@ -42,13 +42,23 @@ namespace E_commerceOnlineStore.Models
         public virtual Category? ParentCategory { get; set; }
 
         /// <summary>
+        /// Gets or sets the display order of the category.
+        /// </summary>
+        public int DisplayOrder { get; set; } = 0;
+
+        /// <summary>
+        /// Gets or sets the level of the category in the hierarchy.
+        /// </summary>
+        public int Level { get; set; } = 0;
+
+        /// <summary>
         /// Gets or sets the collection of subcategories associated with this category.
         /// </summary>
-        public virtual ICollection<Category>? SubCategories { get; set; }
+        public virtual ICollection<Category> SubCategories { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of products associated with the category.
         /// </summary>
-        public virtual ICollection<Product>? Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; } = [];
     }
 }

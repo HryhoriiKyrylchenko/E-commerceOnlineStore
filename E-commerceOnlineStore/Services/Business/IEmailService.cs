@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace E_commerceOnlineStore.Services
+namespace E_commerceOnlineStore.Services.Business
 {
     /// <summary>
     /// Defines methods for sending emails related to user authentication and other services.

@@ -39,7 +39,7 @@ namespace E_commerceOnlineStore.Models
         /// This is a navigation property to the <see cref="ApplicationUser"/> entity, allowing for navigation between
         /// the token and the user.
         /// </remarks>
-        public ApplicationUser? User { get; set; }
+        public ApplicationUser User { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the date and time when the refresh token expires.

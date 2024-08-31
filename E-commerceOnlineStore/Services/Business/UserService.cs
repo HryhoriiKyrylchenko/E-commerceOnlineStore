@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace E_commerceOnlineStore.Services
+namespace E_commerceOnlineStore.Services.Business
 {
     /// <summary>
     /// Provides methods to manage application users.
@@ -15,8 +15,8 @@ namespace E_commerceOnlineStore.Services
     /// Initializes a new instance of the <see cref="UserService"/> class.
     /// </remarks>
     public class UserService(
-        UserManager<ApplicationUser> userManager, 
-        RoleManager<IdentityRole> roleManager, 
+        UserManager<ApplicationUser> userManager,
+        RoleManager<IdentityRole> roleManager,
         ILogger<AuthController> logger
         ) : IUserService
     {

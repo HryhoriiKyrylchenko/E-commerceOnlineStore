@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using E_commerceOnlineStore.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Net;
 
@@ -8,51 +9,66 @@ namespace E_commerceOnlineStore.Models
     /// Represents a customer entity.
     /// </summary>
     [Table("Customers")]
-    public class Customer
+    public class Customer : ApplicationUser
     {
         /// <summary>
-        /// Gets or sets the customer ID.
+        /// Gets or sets the unique identifier provided by Google for the user.
+        /// This property is nullable to accommodate users who may not use Google for authentication.
         /// </summary>
-        public int Id { get; set; }
+        public string? GoogleId { get; set; }
 
         /// <summary>
-        /// Gets or sets the user ID associated with the customer.
+        /// Gets or sets the collection of orders associated with the user.
+        /// This collection is initialized to an empty list to avoid null reference issues.
         /// </summary>
-        [Required]
-        public string UserId { get; set; } = string.Empty;
+        public virtual ICollection<Order> Orders { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the application user associated with the customer.
+        /// Gets or sets the collection of products in the user's wishlist.
+        /// This collection is initialized to an empty list to avoid null reference issues.
         /// </summary>
-        public virtual ApplicationUser? User { get; set; }
+        public virtual ICollection<Product> Wishlist { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the first name of the customer.
+        /// Gets or sets the ID of the last used payment method.
         /// </summary>
-        [Required]
-        [MaxLength(50)]
-        public string FirstName { get; set; } = string.Empty;
+        public int? LastPaymentMethodId { get; set; }
 
         /// <summary>
-        /// Gets or sets the last name of the customer.
+        /// Gets or sets the last used payment method.
         /// </summary>
-        [Required]
-        [MaxLength(50)]
-        public string LastName { get; set; } = string.Empty;
+        [ForeignKey(nameof(LastPaymentMethodId))]
+        public virtual PaymentMethod? LastPaymentMethod { get; set; }
 
         /// <summary>
-        /// Gets or sets the date of birth of the customer.
+        /// Gets or sets the ID of the last used delivery method.
         /// </summary>
-        public DateTime? DateOfBirth { get; set; }
+        public int? LastShippingMethodId { get; set; }
 
         /// <summary>
-        /// Gets or sets the collection of addresses associated with the customer.
+        /// Gets or sets the last used delivery method.
         /// </summary>
-        public virtual ICollection<Address>? Addresses { get; set; }
+        [ForeignKey(nameof(LastShippingMethodId))]
+        public virtual ShippingMethod? LastShippingMethod { get; set; }
 
         /// <summary>
-        /// Gets or sets the collection of orders associated with the customer.
+        /// Gets or sets the collection of customer coupons associated with the coupon.
         /// </summary>
-        public virtual ICollection<Order>? Orders { get; set; }
+        public virtual ICollection<CustomerCoupon> CustomersCoupons { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the collection of product reviews associated with the coupon.
+        /// </summary>
+        public virtual ICollection<ProductReview> ProductReviews { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the collection of shopping carts associated with the coupon.
+        /// </summary>
+        public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the collection of wishlist items associated with the customer.
+        /// </summary>
+        public virtual ICollection<WishlistItem> WishlistItems { get; set; } = [];
     }
 }

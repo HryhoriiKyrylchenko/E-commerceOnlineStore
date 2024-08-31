@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using E_commerceOnlineStore.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace E_commerceOnlineStore.Models
@@ -23,7 +24,7 @@ namespace E_commerceOnlineStore.Models
         /// <summary>
         /// Gets or sets the order associated with the payment.
         /// </summary>
-        public Order? Order { get; set; }
+        public Order Order { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the payment date.
@@ -39,17 +40,20 @@ namespace E_commerceOnlineStore.Models
         public decimal Amount { get; set; }
 
         /// <summary>
-        /// Gets or sets the payment method.
+        /// Gets or sets the ID of the payment method.
         /// </summary>
         [Required]
-        [MaxLength(50)]
-        public string PaymentMethod { get; set; } = string.Empty;
+        public int PaymentMethodId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the payment method.
+        /// </summary>
+        public virtual PaymentMethod PaymentMethod { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the status of the payment.
         /// </summary>
         [Required]
-        [MaxLength(50)]
-        public string Status { get; set; } = string.Empty;
+        public PaymentStatus Status { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace E_commerceOnlineStore.Models
         /// <summary>
         /// Gets or sets the order associated with the order item.
         /// </summary>
-        public Order? Order { get; set; }
+        public Order Order { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the product ID associated with the order item.
@@ -34,7 +34,7 @@ namespace E_commerceOnlineStore.Models
         /// <summary>
         /// Gets or sets the product associated with the order item.
         /// </summary>
-        public Product? Product { get; set; }
+        public Product Product { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the quantity of the product in the order item.
@@ -47,6 +47,6 @@ namespace E_commerceOnlineStore.Models
         /// </summary>
         [Required]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal UnitPrice { get; set; }
+        public decimal TotalUnitPrice { get; set; }
     }
 }

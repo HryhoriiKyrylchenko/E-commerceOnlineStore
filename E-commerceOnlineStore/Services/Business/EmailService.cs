@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using System.Net;
 
-namespace E_commerceOnlineStore.Services
+namespace E_commerceOnlineStore.Services.Business
 {
     public class EmailService(string smtpHost, int smtpPort, string smtpUser, string smtpPass) : IEmailService
     {

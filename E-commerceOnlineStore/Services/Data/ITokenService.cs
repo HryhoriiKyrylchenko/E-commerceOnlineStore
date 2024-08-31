@@ -1,7 +1,7 @@
 ﻿using E_commerceOnlineStore.Models;
 using System.Security.Claims;
 
-namespace E_commerceOnlineStore.Services
+namespace E_commerceOnlineStore.Services.Data
 {
     /// <summary>
     /// Defines methods for generating JSON Web Tokens (JWT) for application users.

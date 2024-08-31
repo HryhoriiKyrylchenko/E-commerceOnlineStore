@@ -22,9 +22,14 @@ namespace E_commerceOnlineStore.Data
         }
 
         /// <summary>
-        /// Gets or sets the customers in the database.
+        /// Gets or sets the addresses in the database.
         /// </summary>
-        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the users in the database.
+        /// </summary>
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         /// <summary>
         /// Gets or sets the categories in the database.
@@ -32,14 +37,49 @@ namespace E_commerceOnlineStore.Data
         public DbSet<Category> Categories { get; set; }
 
         /// <summary>
-        /// Gets or sets the products in the database.
+        /// Gets or sets the categories and discounts in the database.
         /// </summary>
-        public DbSet<Product> Products { get; set; }
+        public DbSet<CategoryDiscount> CategoriesDiscounts { get; set; }
 
         /// <summary>
-        /// Gets or sets the product images in the database.
+        /// Gets or sets the coupons in the database.
         /// </summary>
-        public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customers in the database.
+        /// </summary>
+        public DbSet<Customer> Customers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customers related with coupons in the database.
+        /// </summary>
+        public DbSet<CustomerCoupon> CustomersCoupons { get; set; }
+
+        /// <summary>
+        /// Gets or sets the deliveries in the database.
+        /// </summary>
+        public DbSet<Shipment> Shipments { get; set; }
+
+        /// <summary>
+        /// Gets or sets the methods of the delivery in the database.
+        /// </summary>
+        public DbSet<ShippingMethod> ShippingMethods { get; set; }
+
+        /// <summary>
+        /// Gets or sets the discounts in the database.
+        /// </summary>
+        public DbSet<Discount> Discounts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the employees in the database.
+        /// </summary>
+        public DbSet<Customer> Employees { get; set; }
+
+        /// <summary>
+        /// Gets or sets the notifications in the database.
+        /// </summary>
+        public DbSet<Notification> Notifications { get; set; }
 
         /// <summary>
         /// Gets or sets the orders in the database.
@@ -52,19 +92,74 @@ namespace E_commerceOnlineStore.Data
         public DbSet<OrderItem> OrderItems { get; set; }
 
         /// <summary>
-        /// Gets or sets the addresses in the database.
-        /// </summary>
-        public DbSet<Address> Addresses { get; set; }
-
-        /// <summary>
         /// Gets or sets the payments in the database.
         /// </summary>
         public DbSet<Payment> Payments { get; set; }
 
         /// <summary>
+        /// Gets or sets the payment methods in the database.
+        /// </summary>
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+
+        /// <summary>
+        /// Gets or sets the products in the database.
+        /// </summary>
+        public DbSet<Product> Products { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product discounts in the database.
+        /// </summary>
+        public DbSet<ProductDiscount> ProductDiscounts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product images in the database.
+        /// </summary>
+        public DbSet<ProductImage> ProductImages { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product reviews in the database.
+        /// </summary>
+        public DbSet<ProductReview> ProductReviews { get; set; }
+
+        /// <summary>
+        /// Gets or sets the products and tags in the database.
+        /// </summary>
+        public DbSet<ProductTag> ProductsTags { get; set; }
+
+        /// <summary>
         /// Gets or sets the refresh token in the database.
         /// </summary>
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+
+        /// <summary>
+        /// Gets or sets the return requests in the database.
+        /// </summary>
+        public DbSet<ReturnRequest> ReturnRequests { get; set; }
+
+        /// <summary>
+        /// Gets or sets the return request items in the database.
+        /// </summary>
+        public DbSet<ReturnRequestItem> ReturnRequestItems { get; set; }
+
+        /// <summary>
+        /// Gets or sets the shopping carts in the database.
+        /// </summary>
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the shopping cart items in the database.
+        /// </summary>
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tags in the database.
+        /// </summary>
+        public DbSet<Tag> Tags { get; set; }
+
+        /// <summary>
+        /// Gets or sets the wishlist item in the database.
+        /// </summary>
+        public DbSet<WishlistItem> WishlistItems { get; set; }
 
 
         /// <summary>
@@ -81,30 +176,6 @@ namespace E_commerceOnlineStore.Data
                 new IdentityRole { Name = "Manager", NormalizedName = "MANAGER" },
                 new IdentityRole { Name = "Customer", NormalizedName = "CUSTOMER" }
             );
-
-            //// Seed an admin user and assign the Admin role
-            //var adminUser = new ApplicationUser
-            //{
-            //    UserName = "admin@example.com",
-            //    Email = "admin@example.com",
-            //    NormalizedUserName = "ADMIN@EXAMPLE.COM",
-            //    EmailConfirmed = true,
-            //    FirstName = "Admin",
-            //    LastName = "User",
-            //    IsActive = true
-            //};
-
-            //adminUser.PasswordHash = new PasswordHasher<ApplicationUser>().HashPassword(adminUser, "Admin@123");
-
-            //modelBuilder.Entity<ApplicationUser>().HasData(adminUser);
-
-            //modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
-            //{
-            //    RoleId = "AdminRoleId", // ID from the role seed above
-            //    UserId = "AdminUserId"  // ID from the admin user seed above
-            //});
-
-            // Configure relationships and cascading delete behavior
         }
     }
 }
