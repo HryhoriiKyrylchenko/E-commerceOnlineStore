@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using E_commerceOnlineStore.Models.DataModels.Product;
 
-namespace E_commerceOnlineStore.Models.DataModels.Order
+namespace E_commerceOnlineStore.Models.DataModels.Purchase
 {
     /// <summary>
     /// Represents an item in a return request.

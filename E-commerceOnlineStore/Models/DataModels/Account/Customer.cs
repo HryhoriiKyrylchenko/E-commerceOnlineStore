@@ -1,7 +1,7 @@
 ﻿using E_commerceOnlineStore.Enums;
 using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
-using E_commerceOnlineStore.Models.DataModels.Order;
+using E_commerceOnlineStore.Models.DataModels.Finance;
 using E_commerceOnlineStore.Models.DataModels.Product;
 using E_commerceOnlineStore.Models.DataModels.Shipping;
 using System.ComponentModel.DataAnnotations;

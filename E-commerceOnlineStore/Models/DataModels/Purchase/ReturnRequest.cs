@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace E_commerceOnlineStore.Models.DataModels.Order
+namespace E_commerceOnlineStore.Models.DataModels.Purchase
 {
     /// <summary>
     /// Represents a return request entity.

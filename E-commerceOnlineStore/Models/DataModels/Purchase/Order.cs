@@ -1,10 +1,11 @@
 ﻿using E_commerceOnlineStore.Enums;
 using E_commerceOnlineStore.Models.DataModels.Account;
+using E_commerceOnlineStore.Models.DataModels.Finance;
 using E_commerceOnlineStore.Models.DataModels.Shipping;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace E_commerceOnlineStore.Models.DataModels.Order
+namespace E_commerceOnlineStore.Models.DataModels.Purchase
 {
     /// <summary>
     /// Represents an order entity.

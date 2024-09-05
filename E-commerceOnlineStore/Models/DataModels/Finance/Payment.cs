@@ -1,8 +1,9 @@
 ﻿using E_commerceOnlineStore.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using E_commerceOnlineStore.Models.DataModels.Purchase;
 
-namespace E_commerceOnlineStore.Models.DataModels.Order
+namespace E_commerceOnlineStore.Models.DataModels.Finance
 {
     /// <summary>
     /// Represents a payment entity.

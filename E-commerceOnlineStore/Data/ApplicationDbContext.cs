@@ -2,13 +2,16 @@
 using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
 using E_commerceOnlineStore.Models.DataModels.Common;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
+using E_commerceOnlineStore.Models.DataModels.Finance;
 using E_commerceOnlineStore.Models.DataModels.Notifications;
-using E_commerceOnlineStore.Models.DataModels.Order;
+using E_commerceOnlineStore.Models.DataModels.Purchase;
 using E_commerceOnlineStore.Models.DataModels.Product;
 using E_commerceOnlineStore.Models.DataModels.Shipping;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using E_commerceOnlineStore.Models.DataModels.Configuration;
+using E_commerceOnlineStore.Models.DataModels.LogModels;
 
 namespace E_commerceOnlineStore.Data
 {
@@ -166,6 +169,11 @@ namespace E_commerceOnlineStore.Data
         /// <summary>
         /// Gets or sets the shopping carts in the database.
         /// </summary>
+        public DbSet<Settings> Settings { get; set; }
+
+        /// <summary>
+        /// Gets or sets the shopping carts in the database.
+        /// </summary>
         public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
         /// <summary>
@@ -179,10 +187,29 @@ namespace E_commerceOnlineStore.Data
         public DbSet<Tag> Tags { get; set; }
 
         /// <summary>
+        /// Gets or sets the taxes in the database.
+        /// </summary>
+        public DbSet<Tax> Taxes { get; set; }
+
+        /// <summary>
         /// Gets or sets the wishlist item in the database.
         /// </summary>
         public DbSet<WishlistItem> WishlistItems { get; set; }
 
+        /// <summary>
+        /// Gets or sets the user activity log in the database.
+        /// </summary>
+        public DbSet<UserActivityLog> UserActivityLogs { get; set; }
+
+        /// <summary>
+        /// Gets or sets the audit log in the database.
+        /// </summary>
+        public DbSet<AuditLog> AuditLogs { get; set; }
+
+        /// <summary>
+        /// Gets or sets the event log in the database.
+        /// </summary>
+        public DbSet<EventLog> EventLogs { get; set; }
 
         /// <summary>
         /// Configures the model that was discovered by convention from the entity types exposed in <see cref="DbSet{TEntity}"/> properties on this context.

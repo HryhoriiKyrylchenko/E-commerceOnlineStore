@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using E_commerceOnlineStore.Models.DataModels.Account;
 
-namespace E_commerceOnlineStore.Models.DataModels.Order
+namespace E_commerceOnlineStore.Models.DataModels.Finance
 {
     /// <summary>
     /// Represents a payment method that can be used for transactions.
