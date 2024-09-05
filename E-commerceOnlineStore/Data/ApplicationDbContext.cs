@@ -1,4 +1,11 @@
-﻿using E_commerceOnlineStore.Models;
+﻿using E_commerceOnlineStore.Models.DataModels.Account;
+using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
+using E_commerceOnlineStore.Models.DataModels.Common;
+using E_commerceOnlineStore.Models.DataModels.Discounts;
+using E_commerceOnlineStore.Models.DataModels.Notifications;
+using E_commerceOnlineStore.Models.DataModels.Order;
+using E_commerceOnlineStore.Models.DataModels.Product;
+using E_commerceOnlineStore.Models.DataModels.Shipping;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -109,7 +116,12 @@ namespace E_commerceOnlineStore.Data
         /// <summary>
         /// Gets or sets the product discounts in the database.
         /// </summary>
-        public DbSet<ProductDiscount> ProductDiscounts { get; set; }
+        public DbSet<ProductDiscount> ProductsDiscounts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product variant discounts in the database.
+        /// </summary>
+        public DbSet<ProductVariantDiscount> ProductVariantsDiscounts { get; set; }
 
         /// <summary>
         /// Gets or sets the product images in the database.
@@ -120,6 +132,16 @@ namespace E_commerceOnlineStore.Data
         /// Gets or sets the product reviews in the database.
         /// </summary>
         public DbSet<ProductReview> ProductReviews { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product variants in the database.
+        /// </summary>
+        public DbSet<ProductVariant> ProductVariants { get; set; }
+
+        /// <summary>
+        /// Gets or sets the product variant attributes in the database.
+        /// </summary>
+        public DbSet<ProductVariantAttribute> ProductVariantAttributes { get; set; }
 
         /// <summary>
         /// Gets or sets the products and tags in the database.

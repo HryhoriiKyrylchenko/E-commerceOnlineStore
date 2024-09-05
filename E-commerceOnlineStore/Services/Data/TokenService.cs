@@ -1,5 +1,5 @@
 ﻿using E_commerceOnlineStore.Data;
-using E_commerceOnlineStore.Models;
+using E_commerceOnlineStore.Models.DataModels.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;

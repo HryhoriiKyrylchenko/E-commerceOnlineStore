@@ -1,7 +1,7 @@
 ﻿using Azure.Core;
 using E_commerceOnlineStore.Controllers;
-using E_commerceOnlineStore.Models;
-using E_commerceOnlineStore.Models.Account;
+using E_commerceOnlineStore.Models.DataModels.Account;
+using E_commerceOnlineStore.Models.RequestModels.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;

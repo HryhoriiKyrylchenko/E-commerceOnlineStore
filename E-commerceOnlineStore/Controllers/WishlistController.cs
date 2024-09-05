@@ -1,4 +1,4 @@
-﻿using E_commerceOnlineStore.Models;
+﻿using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
 using E_commerceOnlineStore.Services.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

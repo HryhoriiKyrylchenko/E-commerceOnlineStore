@@ -1,7 +1,7 @@
 using Azure.Storage.Blobs;
 using E_commerceOnlineStore.Azure;
 using E_commerceOnlineStore.Data;
-using E_commerceOnlineStore.Models;
+using E_commerceOnlineStore.Models.DataModels.Account;
 using E_commerceOnlineStore.Services.Business;
 using E_commerceOnlineStore.Services.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

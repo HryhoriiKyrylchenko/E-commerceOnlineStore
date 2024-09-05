@@ -1,5 +1,5 @@
-﻿using E_commerceOnlineStore.Models;
-using E_commerceOnlineStore.Models.Account;
+﻿using E_commerceOnlineStore.Models.DataModels.Account;
+using E_commerceOnlineStore.Models.RequestModels.Account;
 using Microsoft.AspNetCore.Identity;
 
 namespace E_commerceOnlineStore.Services.Business

@@ -1,4 +1,4 @@
-﻿using E_commerceOnlineStore.Models;
+﻿using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
 
 namespace E_commerceOnlineStore.Services.Data
 {

@@ -1,5 +1,5 @@
 ﻿using E_commerceOnlineStore.Data;
-using E_commerceOnlineStore.Models;
+using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
 using Microsoft.EntityFrameworkCore;
 using System;
 

@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <Folder Include="DTOs\" />
+    <Folder Include="Models\DataModels\Inventory\" />
+    <Folder Include="Models\DataModels\Logs\" />
   </ItemGroup>
 
 </Project>
