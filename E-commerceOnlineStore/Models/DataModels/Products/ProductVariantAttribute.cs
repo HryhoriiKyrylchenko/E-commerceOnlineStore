@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace E_commerceOnlineStore.Models.DataModels.Product
+namespace E_commerceOnlineStore.Models.DataModels.Products
 {
     /// <summary>
     /// Represents an attribute of a product variant, such as size, color, or other characteristics.

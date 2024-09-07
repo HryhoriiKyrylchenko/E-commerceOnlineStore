@@ -1,4 +1,4 @@
-﻿namespace E_commerceOnlineStore.Enums
+﻿namespace E_commerceOnlineStore.Enums.Products
 {
     /// <summary>
     /// Represents the different statuses of a review in the system.

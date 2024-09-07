@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using E_commerceOnlineStore.Models.DataModels.Common;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
 
-namespace E_commerceOnlineStore.Models.DataModels.Product
+namespace E_commerceOnlineStore.Models.DataModels.Products
 {
     /// <summary>
     /// Represents a product entity.

@@ -1,4 +1,4 @@
-﻿using E_commerceOnlineStore.Enums;
+﻿using E_commerceOnlineStore.Enums.Account;
 using E_commerceOnlineStore.Models.DataModels.Notifications;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
@@ -86,5 +86,10 @@ namespace E_commerceOnlineStore.Models.DataModels.Account
         /// Gets or sets the collection of notifications associated with the user.
         /// </summary>
         public virtual ICollection<Notification> Notifications { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the collection of newsletter subscriptions associated with the user.
+        /// </summary>
+        public virtual ICollection<NewsletterSubscription> NewsletterSubscriptions { get; set; } = [];
     }
 }

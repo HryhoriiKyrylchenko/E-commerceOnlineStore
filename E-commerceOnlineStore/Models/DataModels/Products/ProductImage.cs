@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace E_commerceOnlineStore.Models.DataModels.Product
+namespace E_commerceOnlineStore.Models.DataModels.Products
 {
     /// <summary>
     /// Represents a product image entity.

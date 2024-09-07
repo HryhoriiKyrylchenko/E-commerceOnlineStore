@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using E_commerceOnlineStore.Enums;
 using E_commerceOnlineStore.Models.DataModels.Account;
+using E_commerceOnlineStore.Enums.Products;
 
-namespace E_commerceOnlineStore.Models.DataModels.Product
+namespace E_commerceOnlineStore.Models.DataModels.Products
 {
     /// <summary>
     /// Represents a product review entity.

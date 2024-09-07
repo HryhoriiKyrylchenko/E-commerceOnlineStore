@@ -1,4 +1,4 @@
-﻿using E_commerceOnlineStore.Enums;
+﻿using E_commerceOnlineStore.Enums.Purchase;
 using E_commerceOnlineStore.Models.DataModels.Account;
 using E_commerceOnlineStore.Models.DataModels.Finance;
 using E_commerceOnlineStore.Models.DataModels.Shipping;
@@ -54,9 +54,9 @@ namespace E_commerceOnlineStore.Models.DataModels.Purchase
         public virtual ICollection<OrderItem> OrderItems { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the payment associated with the order.
+        /// Gets or sets the transaction associated with the order.
         /// </summary>
-        public virtual Payment? Payment { get; set; }
+        public virtual Transaction? Transaction { get; set; }
 
         /// <summary>
         /// Gets or sets the delivery information associated with the order.

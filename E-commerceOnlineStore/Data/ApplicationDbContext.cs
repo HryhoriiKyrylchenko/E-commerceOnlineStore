@@ -5,7 +5,7 @@ using E_commerceOnlineStore.Models.DataModels.Discounts;
 using E_commerceOnlineStore.Models.DataModels.Finance;
 using E_commerceOnlineStore.Models.DataModels.Notifications;
 using E_commerceOnlineStore.Models.DataModels.Purchase;
-using E_commerceOnlineStore.Models.DataModels.Product;
+using E_commerceOnlineStore.Models.DataModels.Products;
 using E_commerceOnlineStore.Models.DataModels.Shipping;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -92,6 +92,11 @@ namespace E_commerceOnlineStore.Data
         public DbSet<Notification> Notifications { get; set; }
 
         /// <summary>
+        /// Gets or sets the newsletter subscriptions in the database.
+        /// </summary>
+        public DbSet<NewsletterSubscription> NewsletterSubscriptions { get; set; }
+
+        /// <summary>
         /// Gets or sets the orders in the database.
         /// </summary>
         public DbSet<Order> Orders { get; set; }
@@ -115,6 +120,16 @@ namespace E_commerceOnlineStore.Data
         /// Gets or sets the products in the database.
         /// </summary>
         public DbSet<Product> Products { get; set; }
+
+        /// <summary>
+        /// Represents the collection of product bundles in the database.
+        /// </summary>
+        public DbSet<ProductBundle> ProductBundles { get; set; }
+
+        /// <summary>
+        /// Represents the collection of items that belong to product bundles in the database.
+        /// </summary>
+        public DbSet<ProductBundleItem> ProductBundleItems { get; set; }
 
         /// <summary>
         /// Gets or sets the product discounts in the database.
@@ -157,6 +172,11 @@ namespace E_commerceOnlineStore.Data
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         /// <summary>
+        /// Gets or sets the refund in the database.
+        /// </summary>
+        public DbSet<Refund> Refunds { get; set; }
+
+        /// <summary>
         /// Gets or sets the return requests in the database.
         /// </summary>
         public DbSet<ReturnRequest> ReturnRequests { get; set; }
@@ -192,9 +212,14 @@ namespace E_commerceOnlineStore.Data
         public DbSet<Tax> Taxes { get; set; }
 
         /// <summary>
-        /// Gets or sets the wishlist item in the database.
+        /// Gets or sets the transaction in the database.
         /// </summary>
-        public DbSet<WishlistItem> WishlistItems { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the wishlist item in the database.
+        /// </summary>`
+        public DbSet<Favorite> Favorites { get; set; }
 
         /// <summary>
         /// Gets or sets the user activity log in the database.

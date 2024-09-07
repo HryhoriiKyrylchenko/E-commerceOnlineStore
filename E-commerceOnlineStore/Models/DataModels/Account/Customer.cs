@@ -2,7 +2,8 @@
 using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
 using E_commerceOnlineStore.Models.DataModels.Finance;
-using E_commerceOnlineStore.Models.DataModels.Product;
+using E_commerceOnlineStore.Models.DataModels.Products;
+using E_commerceOnlineStore.Models.DataModels.Purchase;
 using E_commerceOnlineStore.Models.DataModels.Shipping;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -74,6 +75,6 @@ namespace E_commerceOnlineStore.Models.DataModels.Account
         /// <summary>
         /// Gets or sets the collection of wishlist items associated with the customer.
         /// </summary>
-        public virtual ICollection<WishlistItem> WishlistItems { get; set; } = [];
+        public virtual ICollection<Favorite> Favorites { get; set; } = [];
     }
 }

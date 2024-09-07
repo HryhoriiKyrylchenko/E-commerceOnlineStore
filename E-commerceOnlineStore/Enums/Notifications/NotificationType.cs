@@ -1,4 +1,4 @@
-﻿namespace E_commerceOnlineStore.Enums
+﻿namespace E_commerceOnlineStore.Enums.Notifications
 {
     /// <summary>
     /// Represents the type of a notification in the system.

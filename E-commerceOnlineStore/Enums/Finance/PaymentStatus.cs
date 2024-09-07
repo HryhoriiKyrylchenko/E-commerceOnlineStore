@@ -1,4 +1,4 @@
-﻿namespace E_commerceOnlineStore.Enums
+﻿namespace E_commerceOnlineStore.Enums.Finance
 {
     /// <summary>
     /// Represents the status of a payment in the system.
@@ -19,10 +19,5 @@
         /// The payment attempt failed.
         /// </summary>
         Failed,
-
-        /// <summary>
-        /// The payment was refunded to the customer.
-        /// </summary>
-        Refunded
     }
 }

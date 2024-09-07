@@ -1,4 +1,5 @@
-﻿using E_commerceOnlineStore.Models.DataModels.Product;
+﻿using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
+using E_commerceOnlineStore.Models.DataModels.Products;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -61,5 +62,10 @@ namespace E_commerceOnlineStore.Models.DataModels.Common
         /// Gets or sets the collection of products associated with the category.
         /// </summary>
         public virtual ICollection<Product> Products { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the collection of favorites associated with the category.
+        /// </summary>
+        public virtual ICollection<Favorite> Favorites { get; set; } = [];
     }
 }

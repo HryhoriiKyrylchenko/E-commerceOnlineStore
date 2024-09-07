@@ -1,4 +1,4 @@
-﻿namespace E_commerceOnlineStore.Enums
+﻿namespace E_commerceOnlineStore.Enums.Account
 {
     /// <summary>
     /// Represents the gender type of an individual.

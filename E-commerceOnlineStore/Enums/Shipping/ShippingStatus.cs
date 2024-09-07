@@ -1,4 +1,4 @@
-﻿namespace E_commerceOnlineStore.Enums
+﻿namespace E_commerceOnlineStore.Enums.Shipping
 {
     /// <summary>
     /// Represents the various stages of the shipping process for an order.

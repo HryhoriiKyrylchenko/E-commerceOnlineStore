@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
-using E_commerceOnlineStore.Models.DataModels.Order;
+using E_commerceOnlineStore.Models.DataModels.Purchase;
 
-namespace E_commerceOnlineStore.Models.DataModels.Product
+namespace E_commerceOnlineStore.Models.DataModels.Products
 {
     /// <summary>
     /// Represents a specific variant of a product, such as a unique size, color, or other differentiating attribute.
@@ -68,17 +68,17 @@ namespace E_commerceOnlineStore.Models.DataModels.Product
         public virtual ICollection<ProductVariantAttribute> Attributes { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the collection of product images associated with the product.
+        /// Gets or sets the collection of product images associated with the product variant.
         /// </summary>
         public virtual ICollection<ProductImage> ProductImages { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the collection of order items associated with the product.
+        /// Gets or sets the collection of order items associated with the product variant.
         /// </summary>
         public virtual ICollection<OrderItem> OrderItems { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the collection of products discounts associated with the product.
+        /// Gets or sets the collection of products discounts associated with the product variant.
         /// </summary>
         public virtual ICollection<ProductVariantDiscount> ProductVariantsDiscounts { get; set; } = [];
 
@@ -88,13 +88,13 @@ namespace E_commerceOnlineStore.Models.DataModels.Product
         public virtual ICollection<ReturnRequestItem> ReturnRequestItems { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the collection of shopping cart items associated with the product.
+        /// Gets or sets the collection of shopping cart items associated with the product variant.
         /// </summary>
         public virtual ICollection<ShoppingCartItem> ShoppingCartItems { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the collection of wishlist items associated with the product.
+        /// Gets or sets the collection of favorites associated with the product variant.
         /// </summary>
-        public virtual ICollection<WishlistItem> WishlistItems { get; set; } = [];
+        public virtual ICollection<Favorite> Favorites { get; set; } = [];
     }
 }

@@ -19,7 +19,7 @@ namespace E_commerceOnlineStore.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WishlistItem>>> GetWishlist()
+        public async Task<ActionResult<IEnumerable<Favorite>>> GetWishlist()
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -35,7 +35,7 @@ namespace E_commerceOnlineStore.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<WishlistItem>> AddToWishlist([FromBody] WishlistItem item)
+        public async Task<ActionResult<Favorite>> AddToWishlist([FromBody] Favorite item)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -92,15 +92,15 @@ namespace E_commerceOnlineStore.Controllers
             return Ok();
         }
 
-        private List<WishlistItem> GetWishlistFromCookies()
+        private List<Favorite> GetWishlistFromCookies()
         {
             var cookie = Request.Cookies["wishlist"];
             return cookie != null
-                ? JsonSerializer.Deserialize<List<WishlistItem>>(cookie) ?? new List<WishlistItem>()
-                : new List<WishlistItem>();
+                ? JsonSerializer.Deserialize<List<Favorite>>(cookie) ?? new List<Favorite>()
+                : new List<Favorite>();
         }
 
-        private void SaveWishlistToCookies(List<WishlistItem> wishlist)
+        private void SaveWishlistToCookies(List<Favorite> wishlist)
         {
             var cookieOptions = new CookieOptions
             {

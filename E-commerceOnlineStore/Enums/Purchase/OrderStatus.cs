@@ -1,4 +1,4 @@
-﻿namespace E_commerceOnlineStore.Enums
+﻿namespace E_commerceOnlineStore.Enums.Purchase
 {
     /// <summary>
     /// Represents the various stages of an order in the system.

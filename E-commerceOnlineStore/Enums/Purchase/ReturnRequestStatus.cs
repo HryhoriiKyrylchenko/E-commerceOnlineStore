@@ -1,4 +1,4 @@
-﻿namespace E_commerceOnlineStore.Enums
+﻿namespace E_commerceOnlineStore.Enums.Purchase
 {
     /// <summary>
     /// Represents the status of a return request in the system.

@@ -1,7 +1,7 @@
-﻿using E_commerceOnlineStore.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using E_commerceOnlineStore.Models.DataModels.Purchase;
+using E_commerceOnlineStore.Enums.Finance;
 
 namespace E_commerceOnlineStore.Models.DataModels.Finance
 {
@@ -17,15 +17,16 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the order ID associated with the payment.
+        /// Gets or sets the identifier of the associated transaction.
+        /// This is a foreign key linking to the <see cref="Transaction"/> entity.
         /// </summary>
         [Required]
-        public int OrderId { get; set; }
+        public int TransactionId { get; set; }
 
         /// <summary>
-        /// Gets or sets the order associated with the payment.
+        /// Gets or sets the associated <see cref="Transaction"/> for this payment.
         /// </summary>
-        public Order Order { get; set; } = null!;
+        public virtual Transaction Transaction { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the payment date.

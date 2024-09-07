@@ -1,6 +1,6 @@
-﻿using E_commerceOnlineStore.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using E_commerceOnlineStore.Enums.Purchase;
 
 namespace E_commerceOnlineStore.Models.DataModels.Purchase
 {
