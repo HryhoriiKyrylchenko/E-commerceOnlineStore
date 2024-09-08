@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
+using E_commerceOnlineStore.Models.DataModels.Analytics;
+using E_commerceOnlineStore.Models.DataModels.CartsAndFavourites;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
 using E_commerceOnlineStore.Models.DataModels.Purchase;
 
@@ -96,5 +97,15 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// Gets or sets the collection of favorites associated with the product variant.
         /// </summary>
         public virtual ICollection<Favorite> Favorites { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the collection of price histories associated with the product variant.
+        /// </summary>
+        public virtual ICollection<PriceHistory> PriceHistories { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the collection of sales analitics associated with the product variant.
+        /// </summary>
+        public virtual ICollection<SalesAnalytics> SalesAnalytics { get; set; } = [];
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using E_commerceOnlineStore.Enums.Products;
-using E_commerceOnlineStore.Models.DataModels.Account;
-using E_commerceOnlineStore.Models.DataModels.Common;
+using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using E_commerceOnlineStore.Models.DataModels.Products;
 
-namespace E_commerceOnlineStore.Models.DataModels.CartsAndWishlists
+namespace E_commerceOnlineStore.Models.DataModels.CartsAndFavourites
 {
     /// <summary>
     /// Represents an item in a user's favorite.
@@ -58,7 +57,7 @@ namespace E_commerceOnlineStore.Models.DataModels.CartsAndWishlists
         public virtual ProductVariant ProductVariant { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the unique identifier of the Category that is added to the favorite.
+        /// Gets or sets the unique identifier of the ProductCategory that is added to the favorite.
         /// </summary>
         [Required]
         [ForeignKey("ProductVariant")]
@@ -67,6 +66,6 @@ namespace E_commerceOnlineStore.Models.DataModels.CartsAndWishlists
         /// <summary>
         /// Gets or sets the <see cref="Category"/> that is added to the favorite.
         /// </summary>
-        public virtual Category Category { get; set; } = null!;
+        public virtual ProductCategory Category { get; set; } = null!;
     }
 }

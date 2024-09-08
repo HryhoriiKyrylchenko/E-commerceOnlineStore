@@ -1,4 +1,6 @@
-﻿namespace E_commerceOnlineStore.Models.RequestModels.Account
+﻿using E_commerceOnlineStore.Enums.Account;
+
+namespace E_commerceOnlineStore.Models.RequestModels.Account
 {
     /// <summary>
     /// Represents the data model used for updating a user's profile information.
@@ -26,7 +28,7 @@
         /// <summary>
         /// Gets or sets the user's gender. This property is optional and may be null.
         /// </summary>
-        public string? Gender { get; set; }
+        public GenderType? Gender { get; set; }
 
         /// <summary>
         /// Gets or sets the user's phone number. This property is optional and may be null.

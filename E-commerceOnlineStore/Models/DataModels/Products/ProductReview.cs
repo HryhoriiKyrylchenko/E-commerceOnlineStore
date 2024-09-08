@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using E_commerceOnlineStore.Models.DataModels.Account;
+using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using E_commerceOnlineStore.Enums.Products;
 
 namespace E_commerceOnlineStore.Models.DataModels.Products

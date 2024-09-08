@@ -1,4 +1,4 @@
-﻿using E_commerceOnlineStore.Models.DataModels.Account;
+﻿using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using E_commerceOnlineStore.Enums.LogEnums;

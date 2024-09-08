@@ -1,17 +1,16 @@
-﻿using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
-using E_commerceOnlineStore.Models.DataModels.Products;
+﻿using E_commerceOnlineStore.Models.DataModels.CartsAndFavourites;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace E_commerceOnlineStore.Models.DataModels.Common
+namespace E_commerceOnlineStore.Models.DataModels.Products
 {
     /// <summary>
     /// Represents a category entity.
     /// </summary>
     [Table("Categories")]
     [Index(nameof(Name), IsUnique = true)]
-    public class Category
+    public class ProductCategory
     {
         /// <summary>
         /// Gets or sets the category ID.
@@ -41,7 +40,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Common
         /// Gets or sets the parent category.
         /// </summary>
         [ForeignKey(nameof(ParentCategoryId))]
-        public virtual Category? ParentCategory { get; set; }
+        public virtual ProductCategory? ParentCategory { get; set; }
 
         /// <summary>
         /// Gets or sets the display order of the category.
@@ -56,7 +55,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Common
         /// <summary>
         /// Gets or sets the collection of subcategories associated with this category.
         /// </summary>
-        public virtual ICollection<Category> SubCategories { get; set; } = [];
+        public virtual ICollection<ProductCategory> SubCategories { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of products associated with the category.

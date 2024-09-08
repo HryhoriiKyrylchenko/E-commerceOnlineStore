@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using E_commerceOnlineStore.Models.DataModels.Account;
+using E_commerceOnlineStore.Models.DataModels.UserManagement;
 
 namespace E_commerceOnlineStore.Models.DataModels.Shipping
 {

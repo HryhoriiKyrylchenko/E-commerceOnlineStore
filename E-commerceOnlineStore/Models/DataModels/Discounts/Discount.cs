@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using E_commerceOnlineStore.Models.DataModels.Common;
+using E_commerceOnlineStore.Models.DataModels.Products;
 
 namespace E_commerceOnlineStore.Models.DataModels.Discounts
 {
@@ -69,6 +69,6 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         /// <summary>
         /// Gets or sets the collection of categories associated with the discount.
         /// </summary>
-        public virtual ICollection<Category> Categories { get; set; } = [];
+        public virtual ICollection<ProductCategory> Categories { get; set; } = [];
     }
 }

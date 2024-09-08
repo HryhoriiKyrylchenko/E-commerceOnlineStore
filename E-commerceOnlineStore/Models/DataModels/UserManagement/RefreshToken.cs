@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace E_commerceOnlineStore.Models.DataModels.Account
+namespace E_commerceOnlineStore.Models.DataModels.UserManagement
 {
     /// <summary>
     /// Represents a refresh token used in the authentication process.

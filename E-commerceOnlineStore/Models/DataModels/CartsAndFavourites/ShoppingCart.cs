@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using E_commerceOnlineStore.Models.DataModels.Account;
+using E_commerceOnlineStore.Models.DataModels.UserManagement;
 
-namespace E_commerceOnlineStore.Models.DataModels.CartsAndWishlists
+namespace E_commerceOnlineStore.Models.DataModels.CartsAndFavourites
 {
     /// <summary>
     /// Represents a shopping cart entity.
@@ -28,11 +28,6 @@ namespace E_commerceOnlineStore.Models.DataModels.CartsAndWishlists
         public virtual Customer Customer { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the collection of items in the shopping cart.
-        /// </summary>
-        public virtual ICollection<ShoppingCartItem> Items { get; set; } = [];
-
-        /// <summary>
         /// Gets or sets the date when the cart was created.
         /// </summary>
         [Required]
@@ -42,5 +37,15 @@ namespace E_commerceOnlineStore.Models.DataModels.CartsAndWishlists
         /// Gets or sets the last updated date of the shopping cart.
         /// </summary>
         public DateTime? DateUpdated { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of items in the shopping cart.
+        /// </summary>
+        public virtual ICollection<ShoppingCartItem> Items { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the object of abandoned cart if this shopping cart has been abandoned.
+        /// </summary>
+        public virtual AbandonedCart? AbandonedCart { get; set; }
     }
 }

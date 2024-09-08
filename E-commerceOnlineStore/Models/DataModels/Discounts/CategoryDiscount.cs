@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using E_commerceOnlineStore.Models.DataModels.Common;
+using E_commerceOnlineStore.Models.DataModels.Products;
 
 namespace E_commerceOnlineStore.Models.DataModels.Discounts
 {
@@ -20,9 +20,9 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
 
         /// <summary>
         /// Gets or sets the category associated with the discount.
-        /// This navigation property provides access to the related Category entity.
+        /// This navigation property provides access to the related ProductCategory entity.
         /// </summary>
-        public Category Category { get; set; } = null!;
+        public ProductCategory Category { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the unique identifier for the discount.

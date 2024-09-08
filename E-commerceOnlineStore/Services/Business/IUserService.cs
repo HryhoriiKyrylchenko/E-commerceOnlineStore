@@ -1,4 +1,5 @@
-﻿using E_commerceOnlineStore.Models.DataModels.Account;
+﻿using E_commerceOnlineStore.Enums.Account;
+using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using E_commerceOnlineStore.Models.RequestModels.Account;
 using Microsoft.AspNetCore.Identity;
 
@@ -31,7 +32,7 @@ namespace E_commerceOnlineStore.Services.Business
             string firstName,
             string lastName,
             DateTime? dateOfBirth,
-            string? gender,
+            GenderType? gender,
             string? phoneNumber,
             string? profilePictureUrl,
             string roleName);

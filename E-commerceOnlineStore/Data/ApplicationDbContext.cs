@@ -1,6 +1,5 @@
-﻿using E_commerceOnlineStore.Models.DataModels.Account;
-using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
-using E_commerceOnlineStore.Models.DataModels.Common;
+﻿using E_commerceOnlineStore.Models.DataModels.UserManagement;
+using E_commerceOnlineStore.Models.DataModels.CartsAndFavourites;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
 using E_commerceOnlineStore.Models.DataModels.Finance;
 using E_commerceOnlineStore.Models.DataModels.Notifications;
@@ -12,6 +11,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using E_commerceOnlineStore.Models.DataModels.Configuration;
 using E_commerceOnlineStore.Models.DataModels.LogModels;
+using E_commerceOnlineStore.Models.DataModels.Support;
+using E_commerceOnlineStore.Models.DataModels.Analytics;
 
 namespace E_commerceOnlineStore.Data
 {
@@ -32,6 +33,11 @@ namespace E_commerceOnlineStore.Data
         }
 
         /// <summary>
+        /// Gets or sets the abandoned carts in the database.
+        /// </summary>
+        public DbSet<AbandonedCart> AbandonedCarts { get; set; }
+
+        /// <summary>
         /// Gets or sets the addresses in the database.
         /// </summary>
         public DbSet<Address> Addresses { get; set; }
@@ -44,7 +50,7 @@ namespace E_commerceOnlineStore.Data
         /// <summary>
         /// Gets or sets the categories in the database.
         /// </summary>
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductCategory> Categories { get; set; }
 
         /// <summary>
         /// Gets or sets the categories and discounts in the database.
@@ -65,6 +71,11 @@ namespace E_commerceOnlineStore.Data
         /// Gets or sets the customers related with coupons in the database.
         /// </summary>
         public DbSet<CustomerCoupon> CustomersCoupons { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer segmentations with coupons in the database.
+        /// </summary>
+        public DbSet<CustomerSegmentation> CustomerSegmentations { get; set; }
 
         /// <summary>
         /// Gets or sets the deliveries in the database.
@@ -115,6 +126,11 @@ namespace E_commerceOnlineStore.Data
         /// Gets or sets the payment methods in the database.
         /// </summary>
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
+
+        /// <summary>
+        /// Gets or sets the price histories in the database.
+        /// </summary>
+        public DbSet<PriceHistory> PriceHistories { get; set; }
 
         /// <summary>
         /// Gets or sets the products in the database.
@@ -187,6 +203,11 @@ namespace E_commerceOnlineStore.Data
         public DbSet<ReturnRequestItem> ReturnRequestItems { get; set; }
 
         /// <summary>
+        /// Gets or sets the ales analytics carts in the database.
+        /// </summary>
+        public DbSet<SalesAnalytics> SalesAnalytics { get; set; }
+
+        /// <summary>
         /// Gets or sets the shopping carts in the database.
         /// </summary>
         public DbSet<Settings> Settings { get; set; }
@@ -200,6 +221,16 @@ namespace E_commerceOnlineStore.Data
         /// Gets or sets the shopping cart items in the database.
         /// </summary>
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
+        /// <summary>
+        /// Gets or sets the support ticket in the database.
+        /// </summary>
+        public DbSet<SupportTicket> SupportTickets { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ticket histories in the database.
+        /// </summary>
+        public DbSet<TicketHistory> TicketHistories { get; set; }
 
         /// <summary>
         /// Gets or sets the tags in the database.

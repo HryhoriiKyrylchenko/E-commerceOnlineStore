@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="DTOs\" />
+    <Folder Include="Models\DataModels\Common\" />
     <Folder Include="Models\DataModels\Inventory\" />
   </ItemGroup>
 

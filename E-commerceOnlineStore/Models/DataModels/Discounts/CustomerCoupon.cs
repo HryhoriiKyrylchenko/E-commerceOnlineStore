@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using E_commerceOnlineStore.Models.DataModels.Account;
+using E_commerceOnlineStore.Models.DataModels.UserManagement;
 
 namespace E_commerceOnlineStore.Models.DataModels.Discounts
 {

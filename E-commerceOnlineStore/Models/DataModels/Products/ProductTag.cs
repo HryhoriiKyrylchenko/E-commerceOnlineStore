@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using E_commerceOnlineStore.Models.DataModels.Product;
 
-namespace E_commerceOnlineStore.Models.DataModels.Common
+namespace E_commerceOnlineStore.Models.DataModels.Products
 {
     /// <summary>
     /// Represents the many-to-many relationship between products and tags.

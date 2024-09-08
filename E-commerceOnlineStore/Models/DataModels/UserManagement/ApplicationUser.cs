@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace E_commerceOnlineStore.Models.DataModels.Account
+namespace E_commerceOnlineStore.Models.DataModels.UserManagement
 {
     /// <summary>
     /// Represents an application user.

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using E_commerceOnlineStore.Models.DataModels.Product;
+using E_commerceOnlineStore.Models.DataModels.Products;
 
-namespace E_commerceOnlineStore.Models.DataModels.CartsAndWishlists
+namespace E_commerceOnlineStore.Models.DataModels.CartsAndFavourites
 {
     /// <summary>
     /// Represents an item in the shopping cart.

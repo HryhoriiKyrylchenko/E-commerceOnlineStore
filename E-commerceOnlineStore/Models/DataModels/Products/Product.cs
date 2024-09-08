@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using E_commerceOnlineStore.Models.DataModels.Common;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
 
 namespace E_commerceOnlineStore.Models.DataModels.Products
@@ -50,7 +49,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// <summary>
         /// Gets or sets the category of the product.
         /// </summary>
-        public virtual Category Category { get; set; } = null!;
+        public virtual ProductCategory Category { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the collection of products tags associated with the product.

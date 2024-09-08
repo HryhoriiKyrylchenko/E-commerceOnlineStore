@@ -1,4 +1,4 @@
-﻿using E_commerceOnlineStore.Models.DataModels.Account;
+﻿using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using E_commerceOnlineStore.Models.RequestModels.Account;
 using E_commerceOnlineStore.Services.Business;
 using E_commerceOnlineStore.Services.Data;

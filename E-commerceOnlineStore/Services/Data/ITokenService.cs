@@ -1,4 +1,4 @@
-﻿using E_commerceOnlineStore.Models.DataModels.Account;
+﻿using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using System.Security.Claims;
 
 namespace E_commerceOnlineStore.Services.Data

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using E_commerceOnlineStore.Enums.Account;
+using System.ComponentModel.DataAnnotations;
 
 namespace E_commerceOnlineStore.Models.RequestModels.Account
 {
@@ -79,7 +80,7 @@ namespace E_commerceOnlineStore.Models.RequestModels.Account
         /// <remarks>
         /// This property specifies the gender of the new user, which may be used for personalization purposes.
         /// </remarks>
-        public string? Gender { get; set; }
+        public GenderType? Gender { get; set; }
 
         /// <summary>
         /// Gets or sets the phone number of the new user.

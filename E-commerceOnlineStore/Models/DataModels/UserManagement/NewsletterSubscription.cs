@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using E_commerceOnlineStore.Enums.Account;
 
-namespace E_commerceOnlineStore.Models.DataModels.Account
+namespace E_commerceOnlineStore.Models.DataModels.UserManagement
 {
     /// <summary>
     /// Represents a user's subscription to the newsletter.

@@ -1,5 +1,5 @@
 ﻿using E_commerceOnlineStore.Enums.Purchase;
-using E_commerceOnlineStore.Models.DataModels.Account;
+using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using E_commerceOnlineStore.Models.DataModels.Finance;
 using E_commerceOnlineStore.Models.DataModels.Shipping;
 using System.ComponentModel.DataAnnotations;

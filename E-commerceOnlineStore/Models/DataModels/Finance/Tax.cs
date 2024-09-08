@@ -1,6 +1,6 @@
-﻿using E_commerceOnlineStore.Models.DataModels.Common;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using E_commerceOnlineStore.Models.DataModels.Products;
 
 namespace E_commerceOnlineStore.Models.DataModels.Finance
 {
@@ -43,7 +43,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// Gets or sets the category for which this tax is applicable (if applicable).
         /// </summary>
         [ForeignKey(nameof(CategoryId))]
-        public virtual Category? Category { get; set; }
+        public virtual ProductCategory? Category { get; set; }
 
         /// <summary>
         /// Gets or sets the tax rate as a percentage.

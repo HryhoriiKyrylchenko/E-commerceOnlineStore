@@ -1,5 +1,5 @@
 ﻿using E_commerceOnlineStore.Enums.Shipping;
-using E_commerceOnlineStore.Models.DataModels.Account;
+using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using E_commerceOnlineStore.Models.DataModels.Purchase;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

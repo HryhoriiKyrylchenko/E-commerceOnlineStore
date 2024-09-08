@@ -1,15 +1,17 @@
 ﻿using E_commerceOnlineStore.Enums;
-using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
+using E_commerceOnlineStore.Models.DataModels.Analytics;
+using E_commerceOnlineStore.Models.DataModels.CartsAndFavourites;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
 using E_commerceOnlineStore.Models.DataModels.Finance;
 using E_commerceOnlineStore.Models.DataModels.Products;
 using E_commerceOnlineStore.Models.DataModels.Purchase;
 using E_commerceOnlineStore.Models.DataModels.Shipping;
+using E_commerceOnlineStore.Models.DataModels.Support;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Net;
 
-namespace E_commerceOnlineStore.Models.DataModels.Account
+namespace E_commerceOnlineStore.Models.DataModels.UserManagement
 {
     /// <summary>
     /// Represents a customer entity.
@@ -76,5 +78,15 @@ namespace E_commerceOnlineStore.Models.DataModels.Account
         /// Gets or sets the collection of wishlist items associated with the customer.
         /// </summary>
         public virtual ICollection<Favorite> Favorites { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the collection of support tickets associated with the customer.
+        /// </summary>
+        public virtual ICollection<SupportTicket> SupportTickets { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the customer segmentation associated with the customer.
+        /// </summary>
+        public virtual CustomerSegmentation? CustomerSegmentation { get; set; }
     }
 }

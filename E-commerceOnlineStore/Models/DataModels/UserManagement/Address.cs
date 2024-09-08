@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using E_commerceOnlineStore.Models.DataModels.Shipping;
 
-namespace E_commerceOnlineStore.Models.DataModels.Account
+namespace E_commerceOnlineStore.Models.DataModels.UserManagement
 {
     /// <summary>
     /// Represents an address entity.

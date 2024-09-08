@@ -1,7 +1,7 @@
 using Azure.Storage.Blobs;
 using E_commerceOnlineStore.Azure;
 using E_commerceOnlineStore.Data;
-using E_commerceOnlineStore.Models.DataModels.Account;
+using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using E_commerceOnlineStore.Services.Business;
 using E_commerceOnlineStore.Services.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -92,7 +92,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
-builder.Services.AddScoped<IWishlistService, WishlistService>();
+builder.Services.AddScoped<IFavoritesService, FavoritesService>();
 
 var smtpSection = builder.Configuration.GetSection("Smtp");
 

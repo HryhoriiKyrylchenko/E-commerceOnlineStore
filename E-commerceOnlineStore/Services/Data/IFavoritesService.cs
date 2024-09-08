@@ -1,8 +1,8 @@
-﻿using E_commerceOnlineStore.Models.DataModels.CartsAndWishlists;
+﻿using E_commerceOnlineStore.Models.DataModels.CartsAndFavourites;
 
 namespace E_commerceOnlineStore.Services.Data
 {
-    public interface IWishlistService
+    public interface IFavoritesService
     {
         Task<IEnumerable<Favorite>> GetWishlistAsync(string userId);
         Task<Favorite?> AddToWishlistAsync(Favorite item);
