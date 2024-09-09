@@ -16,6 +16,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// <summary>
         /// Gets or sets the unique identifier for the product variant.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>

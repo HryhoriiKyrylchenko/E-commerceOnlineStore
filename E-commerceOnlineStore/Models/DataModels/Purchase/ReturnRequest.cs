@@ -13,6 +13,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Purchase
         /// <summary>
         /// Gets or sets the return request ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -52,9 +53,9 @@ namespace E_commerceOnlineStore.Models.DataModels.Purchase
         public ReturnRequestStatus Status { get; set; }
 
         /// <summary>
-        /// Gets or sets any additional notes or comments about the return request.
+        /// Gets or sets the collection of notes associated with the return request.
         /// </summary>
-        public List<string>? Notes { get; set; }
+        public virtual ICollection<ReturnNote> ReturnNotes { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of return request items.

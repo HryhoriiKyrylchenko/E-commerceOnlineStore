@@ -12,7 +12,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// <summary>
         /// Gets or sets the product ID.
         /// </summary>
-        [Required]
+        [Required] 
         public int ProductId { get; set; }
 
         /// <summary>

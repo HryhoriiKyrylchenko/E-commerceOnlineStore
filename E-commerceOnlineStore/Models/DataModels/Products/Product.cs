@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_commerceOnlineStore.Models.DataModels.Products
 {
@@ -8,11 +9,13 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
     /// Represents a product entity.
     /// </summary>
     [Table("Products")]
+    [Index(nameof(CategoryId))]
     public class Product
     {
         /// <summary>
         /// Gets or sets the product ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -49,6 +52,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// <summary>
         /// Gets or sets the category of the product.
         /// </summary>
+        [ForeignKey(nameof(CategoryId))]
         public virtual ProductCategory Category { get; set; } = null!;
 
         /// <summary>

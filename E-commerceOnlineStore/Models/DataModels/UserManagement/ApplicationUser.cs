@@ -43,6 +43,7 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         /// Gets or sets the date and time when the entity was created. 
         /// The default value is set to the current UTC date and time.
         /// </summary>
+        [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         /// <summary>
@@ -66,12 +67,13 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         /// <summary>
         /// Gets or sets whether the user is active.
         /// </summary>
+        [Required]
         public bool IsActive { get; set; } = true;
 
         /// <summary>
         /// Gets or sets user addresses.
         /// </summary>
-        public virtual ICollection<Address> Addresses { get; set; } = [];
+        public virtual ICollection<UserAddress> UserAddresses { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of refresh tokens associated with the user.

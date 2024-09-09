@@ -13,6 +13,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// <summary>
         /// Gets or sets the tax ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// Gets or sets the tax rate as a percentage.
         /// </summary>
         [Required]
-        [Range(0, 100)]
+        [Range(0, 100, ErrorMessage = "Tax rate must be between 0 and 100.")]
         public decimal Rate { get; set; }
 
         /// <summary>
@@ -66,6 +67,15 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// <summary>
         /// Gets or sets whether this tax is the default for its location or category.
         /// </summary>
+        [Required]
         public bool IsDefault { get; set; } = false;
+
+        /// <summary>
+        /// Validates if this tax rate is active based on the current date and other properties.
+        /// </summary>
+        [NotMapped]
+        public bool IsActive =>
+            (ExpiryDate == null || ExpiryDate > DateTime.UtcNow) &&
+            (EffectiveDate <= DateTime.UtcNow);
     }
 }

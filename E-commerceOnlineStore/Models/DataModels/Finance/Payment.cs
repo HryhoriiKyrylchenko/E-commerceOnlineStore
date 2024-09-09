@@ -14,6 +14,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// <summary>
         /// Gets or sets the payment ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -26,6 +27,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// <summary>
         /// Gets or sets the associated <see cref="Transaction"/> for this payment.
         /// </summary>
+        [ForeignKey(nameof(TransactionId))]
         public virtual Transaction Transaction { get; set; } = null!;
 
         /// <summary>
@@ -50,6 +52,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// <summary>
         /// Gets or sets the payment method.
         /// </summary>
+        [ForeignKey(nameof(PaymentMethodId))]
         public virtual PaymentMethod PaymentMethod { get; set; } = null!;
 
         /// <summary>

@@ -39,7 +39,8 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         /// This is a navigation property to the <see cref="ApplicationUser"/> entity, allowing for navigation between
         /// the token and the user.
         /// </remarks>
-        public ApplicationUser User { get; set; } = null!;
+        [ForeignKey(nameof(UserId))]
+        public virtual ApplicationUser User { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the date and time when the refresh token expires.

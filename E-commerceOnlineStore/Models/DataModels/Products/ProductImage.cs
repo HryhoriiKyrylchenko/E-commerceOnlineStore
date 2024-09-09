@@ -12,6 +12,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// <summary>
         /// Gets or sets the product image ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// Gets or sets a value indicating whether this item is marked as the main item.
         /// This property is initialized to <c>false</c> by default.
         /// </summary>
+        [Required]
         public bool IsMain { get; set; } = false;
-
     }
 }

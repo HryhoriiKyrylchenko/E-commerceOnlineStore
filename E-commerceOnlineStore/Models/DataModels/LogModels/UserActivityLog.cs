@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using E_commerceOnlineStore.Enums.LogEnums;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_commerceOnlineStore.Models.DataModels.LogModels
 {
@@ -9,11 +10,13 @@ namespace E_commerceOnlineStore.Models.DataModels.LogModels
     /// Represents a log of user activities within the system.
     /// </summary>
     [Table("UserActivityLogs")]
+    [Index(nameof(UserId), nameof(ActivityDate))]
     public class UserActivityLog
     {
         /// <summary>
         /// Gets or sets the log ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using E_commerceOnlineStore.Common.Attributes.Validation;
 
 namespace E_commerceOnlineStore.Models.DataModels.Discounts
 {
@@ -12,6 +13,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         /// <summary>
         /// Gets or sets the coupon ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -48,6 +50,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         /// <summary>
         /// Gets or sets the end date of the coupon.
         /// </summary>
+        [DateGreaterThan(nameof(StartDate), ErrorMessage = "End date must be greater than start date.")]
         public DateTime? EndDate { get; set; }
 
         /// <summary>
@@ -64,6 +67,16 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         /// Gets or sets whether the coupon is active.
         /// </summary>
         public bool IsActive { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets whether the coupon is actually active based on the current date and max uses, in addition to manual status.
+        /// This property is not stored in the database and is calculated on the fly.
+        /// </summary>
+        [NotMapped]
+        public bool IsCurrentlyActive => IsActive &&
+                                        (StartDate <= DateTime.UtcNow) &&
+                                        (EndDate == null || EndDate > DateTime.UtcNow) &&
+                                        (MaxUses == null || TimesUsed < MaxUses);
 
         /// <summary>
         /// Gets or sets the collection of customer coupons associated with the coupon.

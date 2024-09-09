@@ -43,6 +43,7 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         /// Gets or sets the identifier of the user who owns this subscription.
         /// This is a foreign key linking to the <see cref="ApplicationUser"/> entity.
         /// </summary>
+        [Required]
         public string UserId { get; set; } = string.Empty;
 
         /// <summary>
@@ -57,5 +58,4 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         [NotMapped]
         public ICollection<NewsletterType> SubscriptionTypes { get; set; } = [];
     }
-
 }

@@ -13,6 +13,7 @@ namespace E_commerceOnlineStore.Models.DataModels.CartsAndFavourites
         /// <summary>
         /// Gets or sets the shopping cart item ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -57,6 +58,7 @@ namespace E_commerceOnlineStore.Models.DataModels.CartsAndFavourites
         /// </summary>
         [Required]
         [Column(TypeName = "decimal(18,2)")]
+        [Range(0, double.MaxValue, ErrorMessage = "Price must be a positive value.")]
         public decimal Price { get; set; }
     }
 }

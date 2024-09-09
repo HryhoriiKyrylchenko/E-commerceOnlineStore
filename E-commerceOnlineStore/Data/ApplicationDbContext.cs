@@ -55,7 +55,7 @@ namespace E_commerceOnlineStore.Data
         /// <summary>
         /// Gets or sets the categories and discounts in the database.
         /// </summary>
-        public DbSet<CategoryDiscount> CategoriesDiscounts { get; set; }
+        public DbSet<CategoryDiscount> CategoryDiscounts { get; set; }
 
         /// <summary>
         /// Gets or sets the coupons in the database.
@@ -188,6 +188,11 @@ namespace E_commerceOnlineStore.Data
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         /// <summary>
+        /// Gets or sets the return notes in the database.
+        /// </summary>
+        public DbSet<ReturnNote> ReturnNotes { get; set; }
+
+        /// <summary>
         /// Gets or sets the refund in the database.
         /// </summary>
         public DbSet<Refund> Refunds { get; set; }
@@ -266,6 +271,21 @@ namespace E_commerceOnlineStore.Data
         /// Gets or sets the event log in the database.
         /// </summary>
         public DbSet<EventLog> EventLogs { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer payment methods in the database.
+        /// </summary>
+        public DbSet<CustomerPaymentMethod> CustomerPaymentMethods { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer shipping methods in the database.
+        /// </summary>
+        public DbSet<CustomerShippingMethod> CustomerShippingMethods { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user addresses in the database.
+        /// </summary>
+        public DbSet<UserAddress> UserAddresses { get; set; }
 
         /// <summary>
         /// Configures the model that was discovered by convention from the entity types exposed in <see cref="DbSet{TEntity}"/> properties on this context.

@@ -30,7 +30,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
 
         /// <summary>
         /// Gets or sets the coupon associated with the customer.
-        /// </summary>
+        /// </summary> 
         [ForeignKey(nameof(CouponId))]
         public virtual Coupon Coupon { get; set; } = null!;
     }

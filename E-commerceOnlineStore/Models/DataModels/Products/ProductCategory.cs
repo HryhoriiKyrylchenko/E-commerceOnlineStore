@@ -15,6 +15,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// <summary>
         /// Gets or sets the category ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>

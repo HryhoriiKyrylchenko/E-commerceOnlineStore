@@ -18,6 +18,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         /// Gets or sets the product associated with the discount.
         /// This navigation property provides access to the related ProductVariant entity.
         /// </summary>
+        [ForeignKey(nameof(ProductVariantId))]
         public virtual ProductVariant ProductVariant { get; set; } = null!;
 
         /// <summary>
@@ -31,6 +32,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         /// Gets or sets the discount associated with the product.
         /// This navigation property provides access to the related Discount entity.
         /// </summary>
+        [ForeignKey(nameof(DiscountId))]
         public virtual Discount Discount { get; set; } = null!;
     }
 }

@@ -38,26 +38,14 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         public virtual ICollection<Product> Wishlist { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the ID of the last used payment method.
+        /// Gets or sets the collection of customer payment methods associated with the coupon.
         /// </summary>
-        public int? LastPaymentMethodId { get; set; }
+        public virtual ICollection<CustomerPaymentMethod> CustomerPaymentMethods { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the last used payment method.
+        /// Gets or sets the collection of customer shipping methods associated with the coupon.
         /// </summary>
-        [ForeignKey(nameof(LastPaymentMethodId))]
-        public virtual PaymentMethod? LastPaymentMethod { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ID of the last used delivery method.
-        /// </summary>
-        public int? LastShippingMethodId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the last used delivery method.
-        /// </summary>
-        [ForeignKey(nameof(LastShippingMethodId))]
-        public virtual ShippingMethod? LastShippingMethod { get; set; }
+        public virtual ICollection<CustomerShippingMethod> CustomerShippingMethods { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of customer coupons associated with the coupon.

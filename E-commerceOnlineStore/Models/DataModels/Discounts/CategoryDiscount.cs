@@ -8,7 +8,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
     /// Represents a many-to-many relationship between categories and discounts.
     /// This class maps to the "CategoryDiscounts" table in the database.
     /// </summary>
-    [Table("CategoriesDiscounts")]
+    [Table("CategoryDiscounts")]
     public class CategoryDiscount
     {
         /// <summary>
@@ -22,6 +22,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         /// Gets or sets the category associated with the discount.
         /// This navigation property provides access to the related ProductCategory entity.
         /// </summary>
+        [ForeignKey(nameof(CategoryId))]
         public ProductCategory Category { get; set; } = null!;
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         /// Gets or sets the discount associated with the category.
         /// This navigation property provides access to the related Discount entity.
         /// </summary>
+        [ForeignKey(nameof(DiscountId))]
         public Discount Discount { get; set; } = null!;
     }
-
 }

@@ -13,12 +13,14 @@ namespace E_commerceOnlineStore.Models.DataModels.CartsAndFavourites
         /// <summary>
         /// Gets or sets the shopping cart ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the user ID associated with the shopping cart.
         /// </summary>
         [Required]
+        [StringLength(100)]
         public string CustomerId { get; set; } = null!;
 
         /// <summary>
@@ -31,6 +33,7 @@ namespace E_commerceOnlineStore.Models.DataModels.CartsAndFavourites
         /// Gets or sets the date when the cart was created.
         /// </summary>
         [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
         /// <summary>

@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using E_commerceOnlineStore.Enums.Settings;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace E_commerceOnlineStore.Models.DataModels.Configuration
 {
     /// <summary>
     /// Represents the settings entity for storing application-wide configurations.
     /// </summary>
+    [Table("Settings")]
     public class Settings
     {
         /// <summary>
@@ -21,8 +24,10 @@ namespace E_commerceOnlineStore.Models.DataModels.Configuration
 
         /// <summary>
         /// Gets or sets the value of the setting.
+        /// This field is stored as JSON to accommodate various types (string, int, bool, etc.).
         /// </summary>
         [Required]
+        [Column(TypeName = "jsonb")]
         public string Value { get; set; } = string.Empty;
 
         /// <summary>
@@ -35,8 +40,8 @@ namespace E_commerceOnlineStore.Models.DataModels.Configuration
         /// Gets or sets the setting type (string, int, bool, etc.).
         /// </summary>
         [Required]
-        [MaxLength(50)]
-        public string SettingType { get; set; } = "string";
+        [EnumDataType(typeof(SettingType))]
+        public SettingType SettingType { get; set; }
 
         /// <summary>
         /// Gets or sets the date when the setting was last updated.

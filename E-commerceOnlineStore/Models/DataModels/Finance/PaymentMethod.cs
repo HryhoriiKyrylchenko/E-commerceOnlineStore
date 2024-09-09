@@ -13,6 +13,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// <summary>
         /// Gets or sets the unique identifier for the payment method.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -20,12 +21,14 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// This property is initialized to an empty string to avoid null values.
         /// </summary>
         [Required]
+        [MaxLength(100)]
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the description of the payment method.
         /// This property is nullable to accommodate cases where no description is provided.
         /// </summary>
+        [MaxLength(255)]
         public string? Description { get; set; }
 
         /// <summary>
@@ -34,9 +37,8 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         public virtual ICollection<Payment> Payments { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the collection of customers associated with this payment method.
+        /// Gets or sets the collection of customer payment methods associated with this payment method.
         /// </summary>
-        public virtual ICollection<Customer> Customers { get; set; } = [];
+        public virtual ICollection<CustomerPaymentMethod> CustomerPaymentMethods { get; set; } = [];
     }
-
 }

@@ -13,33 +13,22 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         /// <summary>
         /// Gets or sets the address ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the user ID associated with the address.
-        /// </summary>
-        [Required]
-        public string UserId { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Gets or sets the user associated with the address.
-        /// </summary>
-        [ForeignKey(nameof(UserId))]
-        public ApplicationUser User { get; set; } = null!;
-
-        /// <summary>
-        /// Gets or sets the house or apartment number of the address.
+        /// Gets or sets the house or building number of the address.
         /// </summary>
         [MaxLength(20)]
         [RegularExpression(@"^[a-zA-Z0-9\s\-]+$", ErrorMessage = "Invalid house number format.")]
-        public string? HouseNumber { get; set; }
+        public string? BuildingNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the apartment number of the address (if applicable).
+        /// Gets or sets the unit number of the address (if applicable).
         /// </summary>
         [MaxLength(20)]
         [RegularExpression(@"^[a-zA-Z0-9\s\-]+$", ErrorMessage = "Invalid apartment number format.")]
-        public string? ApartmentNumber { get; set; }
+        public string? UnitNumber { get; set; }
 
         /// <summary>
         /// Gets or sets the street of the address.
@@ -78,18 +67,13 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         public string Country { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets or sets whether the address is main.
-        /// </summary>
-        public bool IsMain { get; set; } = true;
-
-        /// <summary>
-        /// Gets or sets whether the address is used for billing.
-        /// </summary>
-        public bool IsBillingAddress { get; set; } = true;
-
-        /// <summary>
         /// Gets or sets the collection of shipments associated with the address.
         /// </summary>
         public virtual ICollection<Shipment> Shipments { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the collection of user addresses associated with the address.
+        /// </summary>
+        public virtual ICollection<UserAddress> UserAddresses { get; set; } = [];
     }
 }

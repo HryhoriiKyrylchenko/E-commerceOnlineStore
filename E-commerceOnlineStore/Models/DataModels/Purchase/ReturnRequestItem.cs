@@ -13,6 +13,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Purchase
         /// <summary>
         /// Gets or sets the return request item ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -43,6 +44,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Purchase
         /// Gets or sets the quantity of the product being returned.
         /// </summary>
         [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Quantity must be a positive integer.")]
         public int Quantity { get; set; }
     }
 }

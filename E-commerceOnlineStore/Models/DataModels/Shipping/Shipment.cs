@@ -15,6 +15,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Shipping
         /// <summary>
         /// Gets or sets the delivery ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -26,6 +27,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Shipping
         /// <summary>
         /// Gets or sets the order associated with the delivery.
         /// </summary>
+        [ForeignKey(nameof(OrderId))]
         public Order Order { get; set; } = null!;
 
         /// <summary>
@@ -37,6 +39,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Shipping
         /// <summary>
         /// Gets or sets the delivery method associated with the delivery.
         /// </summary>
+        [ForeignKey(nameof(ShippingMethodId))]
         public virtual ShippingMethod ShippingMethod { get; set; } = null!;
 
         /// <summary>
@@ -47,6 +50,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Shipping
         /// <summary>
         /// Gets or sets the address associated with the delivery.
         /// </summary>
+        [ForeignKey(nameof(ShippingAddressId))]
         public virtual Address? ShippingAddress { get; set; }
 
         /// <summary>
@@ -64,6 +68,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Shipping
         /// <summary>
         /// Gets or sets the status of the delivery.
         /// </summary>
+        [Required]
         [MaxLength(50)]
         public ShippingStatus Status { get; set; }
     }

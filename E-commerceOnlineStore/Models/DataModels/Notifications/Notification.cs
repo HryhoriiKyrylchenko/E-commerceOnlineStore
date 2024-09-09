@@ -2,15 +2,21 @@
 using System.ComponentModel.DataAnnotations;
 using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using E_commerceOnlineStore.Enums.Notifications;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_commerceOnlineStore.Models.DataModels.Notifications
 {
+    /// <summary>
+    /// Represents a notification for users.
+    /// </summary>
     [Table("Notifications")]
+    [Index(nameof(UserId), nameof(CreatedAt))]
     public class Notification
     {
         /// <summary>
         /// Gets or sets the notification ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>

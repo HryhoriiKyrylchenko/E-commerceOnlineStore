@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using E_commerceOnlineStore.Models.DataModels.UserManagement;
+using E_commerceOnlineStore.Models.DataModels.Finance;
 
 namespace E_commerceOnlineStore.Models.DataModels.Shipping
 {
@@ -13,18 +14,22 @@ namespace E_commerceOnlineStore.Models.DataModels.Shipping
         /// <summary>
         /// Gets or sets the unique identifier for the delivery method.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the delivery method.
         /// This property is initialized to an empty string to avoid null values.
         /// </summary>
+        [Required]
+        [MaxLength(100)]
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the description of the delivery method.
         /// This property is nullable to accommodate cases where no description is provided.
         /// </summary>
+        [MaxLength(500)]
         public string? Description { get; set; }
 
         /// <summary>
@@ -32,6 +37,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Shipping
         /// </summary>
         [Required]
         [Column(TypeName = "decimal(18,2)")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Cost must be greater than zero.")]
         public decimal Cost { get; set; }
 
         /// <summary>
@@ -53,8 +59,8 @@ namespace E_commerceOnlineStore.Models.DataModels.Shipping
         public virtual ICollection<Shipment> Shipments { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the collection of customers associated with this shipping method.
+        /// Gets or sets the collection of customer shipping methods associated with this payment method.
         /// </summary>
-        public virtual ICollection<Customer> Customers { get; set; } = [];
+        public virtual ICollection<CustomerShippingMethod> CustomerShippingMethods { get; set; } = [];
     }
 }

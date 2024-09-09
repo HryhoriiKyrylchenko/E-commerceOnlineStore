@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using E_commerceOnlineStore.Enums.LogEnums;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_commerceOnlineStore.Models.DataModels.LogModels
 {
@@ -9,11 +10,13 @@ namespace E_commerceOnlineStore.Models.DataModels.LogModels
     /// Represents an event log for tracking system events.
     /// </summary>
     [Table("EventLogs")]
+    [Index(nameof(EventType), nameof(EventDate))]
     public class EventLog
     {
         /// <summary>
         /// Gets or sets the event log ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>

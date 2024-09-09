@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using E_commerceOnlineStore.Enums.LogEnums;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace E_commerceOnlineStore.Models.DataModels.LogModels
 {
@@ -9,11 +11,13 @@ namespace E_commerceOnlineStore.Models.DataModels.LogModels
     /// Represents an audit log of data changes within the system.
     /// </summary>
     [Table("AuditLogs")]
+    [Index(nameof(EntityName), nameof(EntityId), nameof(ActionDate))]
     public class AuditLog
     {
         /// <summary>
         /// Gets or sets the audit log ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>

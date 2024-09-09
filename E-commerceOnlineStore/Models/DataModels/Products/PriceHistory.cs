@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_commerceOnlineStore.Models.DataModels.Products
 {
@@ -7,6 +8,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
     /// Represents the price history of a product variant.
     /// </summary>
     [Table("PriceHistories")]
+    [Index(nameof(ProductVariantId), nameof(ChangeDate))]
     public class PriceHistory
     {
         /// <summary>

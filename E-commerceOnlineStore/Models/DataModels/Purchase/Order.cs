@@ -16,6 +16,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Purchase
         /// <summary>
         /// Gets or sets the order ID.
         /// </summary>
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -27,6 +28,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Purchase
         /// <summary>
         /// Gets or sets the customer associated with the order.
         /// </summary>
+        [ForeignKey(nameof(CustomerId))]
         public Customer Customer { get; set; } = null!;
 
         /// <summary>

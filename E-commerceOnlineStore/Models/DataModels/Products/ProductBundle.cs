@@ -27,6 +27,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// Gets or sets the total price for the bundle.
         /// </summary>
         [Required]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
         /// <summary>
@@ -40,5 +41,4 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// </summary>
         public virtual ICollection<ProductBundleItem> ProductBundleItems { get; set; } = [];
     }
-
 }

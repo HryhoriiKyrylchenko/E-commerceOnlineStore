@@ -50,7 +50,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Support
         /// Gets or sets a description of the action performed.
         /// </summary>
         [Required]
+        [MaxLength(1000)]
         public string ActionDescription { get; set; } = string.Empty;
     }
-
 }

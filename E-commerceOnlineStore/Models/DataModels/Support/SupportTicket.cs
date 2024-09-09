@@ -14,7 +14,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Support
         /// <summary>
         /// Gets or sets the unique identifier for the support ticket.
         /// </summary>
-        [Key]
+        [Key] 
         public int Id { get; set; }
 
         /// <summary>
