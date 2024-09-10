@@ -3,6 +3,7 @@ using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using E_commerceOnlineStore.Models.DataModels.Purchase;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using E_commerceOnlineStore.Models.DataModels.Common;
 
 namespace E_commerceOnlineStore.Models.DataModels.Shipping
 {

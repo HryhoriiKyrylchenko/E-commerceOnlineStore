@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using E_commerceOnlineStore.Models.DataModels.Inventory;
 using E_commerceOnlineStore.Models.DataModels.Shipping;
+using E_commerceOnlineStore.Models.DataModels.UserManagement;
 
-namespace E_commerceOnlineStore.Models.DataModels.UserManagement
+namespace E_commerceOnlineStore.Models.DataModels.Common
 {
     /// <summary>
     /// Represents an address entity.
@@ -75,5 +77,10 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         /// Gets or sets the collection of user addresses associated with the address.
         /// </summary>
         public virtual ICollection<UserAddress> UserAddresses { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the warehouse associated with the address.
+        /// </summary>
+        public virtual Warehouse? Warehouse { get; set; }
     }
 }

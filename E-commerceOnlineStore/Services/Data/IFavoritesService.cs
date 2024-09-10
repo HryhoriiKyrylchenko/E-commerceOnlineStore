@@ -4,9 +4,9 @@ namespace E_commerceOnlineStore.Services.Data
 {
     public interface IFavoritesService
     {
-        Task<IEnumerable<Favorite>> GetWishlistAsync(string userId);
-        Task<Favorite?> AddToWishlistAsync(Favorite item);
+        Task<IEnumerable<ProductFavorite>> GetWishlistAsync(string userId);
+        Task<ProductFavorite?> AddToWishlistAsync(ProductFavorite item);
         Task<bool> RemoveFromWishlistAsync(string userId, int productId);
-        Task MigrateWishlistAsync(string userId, List<Favorite> wishlistFromCookies);
+        Task MigrateWishlistAsync(string userId, List<ProductFavorite> wishlistFromCookies);
     }
 }

@@ -13,6 +13,8 @@ using E_commerceOnlineStore.Models.DataModels.Configuration;
 using E_commerceOnlineStore.Models.DataModels.LogModels;
 using E_commerceOnlineStore.Models.DataModels.Support;
 using E_commerceOnlineStore.Models.DataModels.Analytics;
+using E_commerceOnlineStore.Models.DataModels.Common;
+using E_commerceOnlineStore.Models.DataModels.Inventory;
 
 namespace E_commerceOnlineStore.Data
 {
@@ -253,9 +255,14 @@ namespace E_commerceOnlineStore.Data
         public DbSet<Transaction> Transactions { get; set; }
 
         /// <summary>
-        /// Gets or sets the wishlist item in the database.
+        /// Gets or sets the favorite products in the database.
+        /// </summary>
+        public DbSet<ProductFavorite> ProductFavorites { get; set; }
+
+        /// <summary>
+        /// Gets or sets the favorite categories in the database.
         /// </summary>`
-        public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<CategoryFavorite> CategoryFavorites { get; set; }
 
         /// <summary>
         /// Gets or sets the user activity log in the database.
@@ -286,6 +293,56 @@ namespace E_commerceOnlineStore.Data
         /// Gets or sets the user addresses in the database.
         /// </summary>
         public DbSet<UserAddress> UserAddresses { get; set; }
+
+        /// <summary>
+        /// Represents the collection of warehouses in the system.
+        /// </summary>
+        public DbSet<Warehouse> Warehouses { get; set; }
+
+        /// <summary>
+        /// Represents the collection of zones within a warehouse for better item organization.
+        /// </summary>
+        public DbSet<WarehouseZone> WarehouseZones { get; set; }
+
+        /// <summary>
+        /// Represents the collection of specific positions or locations within warehouse zones.
+        /// </summary>
+        public DbSet<ZonePosition> ZonePositions { get; set; }
+
+        /// <summary>
+        /// Represents the collection of inventory items stored in the system.
+        /// </summary>
+        public DbSet<InventoryItem> InventoryItems { get; set; }
+
+        /// <summary>
+        /// Represents the collection of inventory item stored in the zones.
+        /// </summary>
+        public DbSet<InventoryItemZone> InventoryItemZones { get; set; }
+
+        /// <summary>
+        /// Represents the collection of inventory transactions, tracking movements and adjustments of items.
+        /// </summary>
+        public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
+
+        /// <summary>
+        /// Represents the collection of inventory receipt containing inventory transactions.
+        /// </summary>
+        public DbSet<InventoryReceipt> InventoryReceipts { get; set; }
+
+        /// <summary>
+        /// Represents the collection of inventory receipt containing inventory transactions.
+        /// </summary>
+        public DbSet<InventoryMovement> InventoryMovements { get; set; }
+
+        /// <summary>
+        /// Represents the collection of suppliers who provides products to the warehouse.
+        /// </summary>
+        public DbSet<Supplier> Suppliers { get; set; }
+
+        /// <summary>
+        /// Represents the collection of labels for the products.
+        /// </summary>
+        public DbSet<Label> Labels { get; set; }
 
         /// <summary>
         /// Configures the model that was discovered by convention from the entity types exposed in <see cref="DbSet{TEntity}"/> properties on this context.

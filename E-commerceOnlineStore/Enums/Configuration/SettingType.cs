@@ -1,4 +1,4 @@
-﻿namespace E_commerceOnlineStore.Enums.Settings
+﻿namespace E_commerceOnlineStore.Enums.Configuration
 {
     /// <summary>
     /// Represents the types of settings that can be stored in the system.

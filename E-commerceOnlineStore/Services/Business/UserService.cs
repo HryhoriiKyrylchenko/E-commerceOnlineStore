@@ -1,6 +1,6 @@
 ﻿using Azure.Core;
 using E_commerceOnlineStore.Controllers;
-using E_commerceOnlineStore.Enums.Account;
+using E_commerceOnlineStore.Enums.UserManagement;
 using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using E_commerceOnlineStore.Models.RequestModels.Account;
 using Microsoft.AspNetCore.Identity;

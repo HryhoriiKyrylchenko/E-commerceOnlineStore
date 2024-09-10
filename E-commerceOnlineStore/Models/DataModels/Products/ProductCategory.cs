@@ -64,8 +64,8 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         public virtual ICollection<Product> Products { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the collection of favorites associated with the category.
+        /// Gets or sets the collection of favorite categories associated with the category.
         /// </summary>
-        public virtual ICollection<Favorite> Favorites { get; set; } = [];
+        public virtual ICollection<CategoryFavorite> CategoryFavorite { get; set; } = [];
     }
 }

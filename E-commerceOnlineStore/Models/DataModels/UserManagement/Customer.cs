@@ -63,9 +63,14 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the collection of wishlist items associated with the customer.
+        /// Gets or sets the collection of favorite products associated with the customer.
         /// </summary>
-        public virtual ICollection<Favorite> Favorites { get; set; } = [];
+        public virtual ICollection<ProductFavorite> ProductFavorites { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the collection of favorite categories associated with the customer.
+        /// </summary>
+        public virtual ICollection<CategoryFavorite> CategoryFavorites { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of support tickets associated with the customer.

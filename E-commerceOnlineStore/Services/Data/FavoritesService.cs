@@ -9,12 +9,12 @@ namespace E_commerceOnlineStore.Services.Data
     {
         private readonly ApplicationDbContext _context = context;
 
-        public async Task<IEnumerable<Favorite>> GetWishlistAsync(string userId)
+        public async Task<IEnumerable<ProductFavorite>> GetWishlistAsync(string userId)
         {
             return await _context.Favorites.Where(f => f.CustomerId == userId).ToListAsync();
         }
 
-        public async Task<Favorite?> AddToWishlistAsync(Favorite item)
+        public async Task<ProductFavorite?> AddToWishlistAsync(ProductFavorite item)
         {
             _context.Favorites.Add(item);
             await _context.SaveChangesAsync();
@@ -34,7 +34,7 @@ namespace E_commerceOnlineStore.Services.Data
             return true;
         }
 
-        public async Task MigrateWishlistAsync(string userId, List<Favorite> wishlistFromCookies)
+        public async Task MigrateWishlistAsync(string userId, List<ProductFavorite> wishlistFromCookies)
         {
             //foreach (var item in wishlistFromCookies)
             //{

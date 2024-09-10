@@ -19,7 +19,7 @@ namespace E_commerceOnlineStore.Controllers
         //}
 
         //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Favorite>>> GetWishlist()
+        //public async Task<ActionResult<IEnumerable<ProductFavorite>>> GetWishlist()
         //{
         //    if (User.Identity.IsAuthenticated)
         //    {
@@ -35,7 +35,7 @@ namespace E_commerceOnlineStore.Controllers
         //}
 
         //[HttpPost]
-        //public async Task<ActionResult<Favorite>> AddToWishlist([FromBody] Favorite item)
+        //public async Task<ActionResult<ProductFavorite>> AddToWishlist([FromBody] ProductFavorite item)
         //{
         //    if (User.Identity.IsAuthenticated)
         //    {
@@ -92,15 +92,15 @@ namespace E_commerceOnlineStore.Controllers
         //    return Ok();
         //}
 
-        //private List<Favorite> GetWishlistFromCookies()
+        //private List<ProductFavorite> GetWishlistFromCookies()
         //{
         //    var cookie = Request.Cookies["wishlist"];
         //    return cookie != null
-        //        ? JsonSerializer.Deserialize<List<Favorite>>(cookie) ?? new List<Favorite>()
-        //        : new List<Favorite>();
+        //        ? JsonSerializer.Deserialize<List<ProductFavorite>>(cookie) ?? new List<ProductFavorite>()
+        //        : new List<ProductFavorite>();
         //}
 
-        //private void SaveWishlistToCookies(List<Favorite> wishlist)
+        //private void SaveWishlistToCookies(List<ProductFavorite> wishlist)
         //{
         //    var cookieOptions = new CookieOptions
         //    {

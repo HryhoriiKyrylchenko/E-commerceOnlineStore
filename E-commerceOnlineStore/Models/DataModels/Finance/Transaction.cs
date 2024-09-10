@@ -62,5 +62,4 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// </summary>
         public virtual Refund? Refund { get; set; }
     }
-
 }

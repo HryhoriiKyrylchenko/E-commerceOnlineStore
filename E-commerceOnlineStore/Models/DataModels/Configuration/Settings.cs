@@ -1,4 +1,4 @@
-﻿using E_commerceOnlineStore.Enums.Settings;
+﻿using E_commerceOnlineStore.Enums.Configuration;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,7 +7,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Configuration
     /// <summary>
     /// Represents the settings entity for storing application-wide configurations.
     /// </summary>
-    [Table("Settings")]
+    [Table("Configuration")]
     public class Settings
     {
         /// <summary>

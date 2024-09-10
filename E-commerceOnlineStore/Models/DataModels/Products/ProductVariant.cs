@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using E_commerceOnlineStore.Models.DataModels.Analytics;
 using E_commerceOnlineStore.Models.DataModels.CartsAndFavourites;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
+using E_commerceOnlineStore.Models.DataModels.Inventory;
 using E_commerceOnlineStore.Models.DataModels.Purchase;
 
 namespace E_commerceOnlineStore.Models.DataModels.Products
@@ -56,12 +57,10 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         public decimal Price { get; set; }
 
         /// <summary>
-        /// Gets or sets the stock quantity for the product variant.
-        /// The stock is required and cannot be a negative value.
+        /// Gets or sets the collection of inventory items associated with this product variant.
+        /// Inventory item represents a display of a product variant in stock.
         /// </summary>
-        [Required]
-        [Range(0, int.MaxValue, ErrorMessage = "Stock cannot be negative.")]
-        public int Stock { get; set; }
+        public virtual ICollection<InventoryItem> InventoryItems { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of attributes associated with this product variant.
@@ -95,9 +94,9 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         public virtual ICollection<ShoppingCartItem> ShoppingCartItems { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the collection of favorites associated with the product variant.
+        /// Gets or sets the collection of favorite products associated with the product variant.
         /// </summary>
-        public virtual ICollection<Favorite> Favorites { get; set; } = [];
+        public virtual ICollection<ProductFavorite> ProductFavorites { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of price histories associated with the product variant.
@@ -108,5 +107,10 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// Gets or sets the collection of sales analitics associated with the product variant.
         /// </summary>
         public virtual ICollection<SalesAnalytics> SalesAnalytics { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the collection of labels associated with the product variant.
+        /// </summary>
+        public virtual ICollection<Label> Labels { get; set; } = [];
     }
 }

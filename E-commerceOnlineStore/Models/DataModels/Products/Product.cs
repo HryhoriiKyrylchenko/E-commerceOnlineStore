@@ -44,6 +44,21 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         public decimal BasePrice { get; set; }
 
         /// <summary>
+        /// Gets or sets the percentage of profit margin applied to the base price of the product.
+        /// This value will be used to calculate the final price by adding the margin on top of the base cost.
+        /// </summary>
+        [Range(0, 100, ErrorMessage = "Profit margin percentage must be between 0 and 100.")]
+        public decimal ProfitMarginPercentage { get; set; }
+
+        /// <summary>
+        /// Gets or sets the percentage of additional costs (e.g., shipping, handling, overhead) applied to the base price of the product.
+        /// These costs are factored into the final product price.
+        /// </summary>
+        [Range(0, 100, ErrorMessage = "Additional costs percentage must be between 0 and 100.")]
+        public decimal AdditionalCostsPercentage { get; set; }
+
+
+        /// <summary>
         /// Gets or sets the category ID of the product.
         /// </summary>
         [Required]

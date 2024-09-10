@@ -1,4 +1,4 @@
-﻿using E_commerceOnlineStore.Enums.Account;
+﻿using E_commerceOnlineStore.Enums.UserManagement;
 using E_commerceOnlineStore.Models.DataModels.Notifications;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;

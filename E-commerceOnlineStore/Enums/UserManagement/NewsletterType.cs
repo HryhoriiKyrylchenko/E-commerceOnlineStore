@@ -1,4 +1,4 @@
-﻿namespace E_commerceOnlineStore.Enums.Account
+﻿namespace E_commerceOnlineStore.Enums.UserManagement
 {
     /// <summary>
     /// Represents the different types of newsletters that users can subscribe to.

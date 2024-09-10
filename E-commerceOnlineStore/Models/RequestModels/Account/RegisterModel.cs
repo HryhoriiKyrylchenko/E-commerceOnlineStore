@@ -1,4 +1,4 @@
-﻿using E_commerceOnlineStore.Enums.Account;
+﻿using E_commerceOnlineStore.Enums.UserManagement;
 using System.ComponentModel.DataAnnotations;
 
 namespace E_commerceOnlineStore.Models.RequestModels.Account
