@@ -5,6 +5,7 @@ using E_commerceOnlineStore.Models.DataModels.CartsAndFavourites;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
 using E_commerceOnlineStore.Models.DataModels.Inventory;
 using E_commerceOnlineStore.Models.DataModels.Purchase;
+using E_commerceOnlineStore.Models.DataModels.UserManagement;
 
 namespace E_commerceOnlineStore.Models.DataModels.Products
 {
@@ -55,6 +56,34 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         [Column(TypeName = "decimal(18,2)")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than zero.")]
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the product is visible to customers.
+        /// </summary>
+        [Required]
+        public bool IsVisible { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the user ID of the person who last edited the product.
+        /// </summary>
+        public string? LastEditedByUserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user who last edited the product.
+        /// </summary>
+        [ForeignKey(nameof(LastEditedByUserId))]
+        public virtual Employee? LastEditedByUser { get; set; }
+
+        /// <summary>
+        /// Gets or sets the date when the product was last edited.
+        /// </summary>
+        public DateTime? LastEditedDate { get; set; }
+
+        /// <summary>
+        /// Version of the entity for optimistic concurrency control.
+        /// </summary>
+        [Timestamp]
+        public byte[] RowVersion { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the collection of inventory items associated with this product variant.

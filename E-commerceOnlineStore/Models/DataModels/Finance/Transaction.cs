@@ -61,5 +61,11 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// This property is nullable as it may not apply to payment transactions.
         /// </summary>
         public virtual Refund? Refund { get; set; }
+
+        /// <summary>
+        /// Version of the entity for optimistic concurrency control.
+        /// </summary>
+        [Timestamp]
+        public byte[] RowVersion { get; set; } = null!;
     }
 }

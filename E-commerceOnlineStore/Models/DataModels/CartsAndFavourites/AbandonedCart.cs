@@ -30,10 +30,15 @@ namespace E_commerceOnlineStore.Models.DataModels.CartsAndFavourites
         public virtual ShoppingCart ShoppingCart { get; set; } = null!;
 
         /// <summary>
-        /// Gets or sets the date and time when the cart was abandoned.
+        /// Gets or sets if the shoping cart is abandoned or not.
         /// </summary>
         [Required]
-        public DateTime AbandonedAt { get; set; }
+        public bool IsAbandoned { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the date and time when the cart was abandoned.
+        /// </summary>
+        public DateTime? AbandonedAt { get; set; }
 
         /// <summary>
         /// Gets or sets the date and time when a reminder was sent to the user about the abandoned cart.

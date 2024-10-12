@@ -34,6 +34,12 @@ namespace E_commerceOnlineStore.Models.DataModels.Inventory
         public virtual Warehouse Warehouse { get; set; } = null!;
 
         /// <summary>
+        /// Gets or sets the zone description.
+        /// </summary>
+        [MaxLength(255)]
+        public string? Description { get; set; }
+
+        /// <summary>
         /// Gets or sets the collection of zone positions in this zone.
         /// </summary>
         public virtual ICollection<ZonePosition> ZonePositions { get; set; } = [];

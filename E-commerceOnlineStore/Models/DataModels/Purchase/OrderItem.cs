@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using E_commerceOnlineStore.Enums.Purchase;
 using E_commerceOnlineStore.Models.DataModels.Products;
 
 namespace E_commerceOnlineStore.Models.DataModels.Purchase
@@ -53,5 +54,22 @@ namespace E_commerceOnlineStore.Models.DataModels.Purchase
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalUnitPrice { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status of the order item.
+        /// </summary>
+        [Required]
+        public OrderItemStatus Status { get; set; } = OrderItemStatus.Pending;
+
+        /// <summary>
+        /// Gets or sets the quantity of the order item that was canceled.
+        /// </summary>
+        public int CanceledQuantity { get; set; } = 0;
+
+        /// <summary>
+        /// Version of the entity for optimistic concurrency control.
+        /// </summary>
+        [Timestamp]
+        public byte[] RowVersion { get; set; } = null!;
     }
 }

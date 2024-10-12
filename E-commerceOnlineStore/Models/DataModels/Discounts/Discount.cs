@@ -79,8 +79,8 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         public virtual ICollection<ProductVariantDiscount> ProductsVariantDiscounts { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the collection of categories associated with the discount.
+        /// Gets or sets the collection of category discounts associated with the discount.
         /// </summary>
-        public virtual ICollection<ProductCategory> Categories { get; set; } = [];
+        public virtual ICollection<CategoryDiscount> CategoryDiscounts { get; set; } = [];
     }
 }

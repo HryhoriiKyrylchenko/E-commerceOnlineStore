@@ -32,12 +32,6 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         public virtual ICollection<Order> Orders { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the collection of products in the user's wishlist.
-        /// This collection is initialized to an empty list to avoid null reference issues.
-        /// </summary>
-        public virtual ICollection<Product> Wishlist { get; set; } = [];
-
-        /// <summary>
         /// Gets or sets the collection of customer payment methods associated with the coupon.
         /// </summary>
         public virtual ICollection<CustomerPaymentMethod> CustomerPaymentMethods { get; set; } = [];

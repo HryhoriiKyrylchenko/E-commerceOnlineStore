@@ -84,6 +84,12 @@ namespace E_commerceOnlineStore.Models.DataModels.Support
         public string Response { get; set; } = string.Empty;
 
         /// <summary>
+        /// Version of the entity for optimistic concurrency control.
+        /// </summary>
+        [Timestamp]
+        public byte[] RowVersion { get; set; } = null!;
+
+        /// <summary>
         /// Gets or sets the collection of history records associated with this support ticket.
         /// </summary>
         public virtual ICollection<TicketHistory> TicketHistories { get; set; } = [];

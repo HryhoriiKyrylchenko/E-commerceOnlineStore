@@ -60,5 +60,11 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// </summary>
         [Required]
         public PaymentStatus Status { get; set; }
+
+        /// <summary>
+        /// Version of the entity for optimistic concurrency control.
+        /// </summary>
+        [Timestamp]
+        public byte[] RowVersion { get; set; } = null!;
     }
 }

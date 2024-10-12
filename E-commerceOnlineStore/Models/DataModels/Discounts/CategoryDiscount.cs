@@ -23,7 +23,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         /// This navigation property provides access to the related ProductCategory entity.
         /// </summary>
         [ForeignKey(nameof(CategoryId))]
-        public ProductCategory Category { get; set; } = null!;
+        public virtual ProductCategory Category { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the unique identifier for the discount.
@@ -37,6 +37,6 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         /// This navigation property provides access to the related Discount entity.
         /// </summary>
         [ForeignKey(nameof(DiscountId))]
-        public Discount Discount { get; set; } = null!;
+        public virtual Discount Discount { get; set; } = null!;
     }
 }

@@ -32,7 +32,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Inventory
         /// <summary>
         /// Gets or sets the collection of inventory receipts from this supplier.
         /// </summary>
-        public virtual ICollection<InventoryReceipt> InventoryReceipt { get; set; } = [];
+        public virtual ICollection<InventoryReceipt> InventoryReceipts { get; set; } = [];
     }
 
 }

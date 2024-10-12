@@ -49,6 +49,12 @@ namespace E_commerceOnlineStore.Models.DataModels.Inventory
         public int ReorderLevel { get; set; } = 0;
 
         /// <summary>
+        /// Version of the entity for optimistic concurrency control.
+        /// </summary>
+        [Timestamp]
+        public byte[] RowVersion { get; set; } = null!;
+
+        /// <summary>
         /// Gets or sets the collection of inventory item zones.
         /// </summary>
         public virtual ICollection<InventoryItemZone> InventoryItemZones { get; set; } = [];

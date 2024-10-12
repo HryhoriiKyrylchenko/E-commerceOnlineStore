@@ -79,8 +79,8 @@ namespace E_commerceOnlineStore.Models.DataModels.Common
         public virtual ICollection<UserAddress> UserAddresses { get; set; } = [];
 
         /// <summary>
-        /// Gets or sets the warehouse associated with the address.
+        /// Gets or sets the collection of warehouses associated with the address.
         /// </summary>
-        public virtual Warehouse? Warehouse { get; set; }
+        public virtual ICollection<Warehouse> Warehouses { get; set; } = [];
     }
 }

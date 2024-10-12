@@ -29,7 +29,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Purchase
             /// Gets or sets the customer associated with the order.
             /// </summary>
             [ForeignKey(nameof(CustomerId))]
-            public Customer Customer { get; set; } = null!;
+            public virtual Customer Customer { get; set; } = null!;
 
             /// <summary>
             /// Gets or sets the date of the order.
@@ -49,6 +49,12 @@ namespace E_commerceOnlineStore.Models.DataModels.Purchase
             /// </summary>
             [Required]
             public OrderStatus Status { get; set; }
+
+            /// <summary>
+            /// Version of the entity for optimistic concurrency control.
+            /// </summary>
+            [Timestamp]
+            public byte[] RowVersion { get; set; } = null!;
 
             /// <summary>
             /// Gets or sets the collection of order items associated with the order.

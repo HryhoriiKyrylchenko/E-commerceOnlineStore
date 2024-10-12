@@ -1,4 +1,5 @@
 ﻿using E_commerceOnlineStore.Models.DataModels.CartsAndFavourites;
+using E_commerceOnlineStore.Models.DataModels.Discounts;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -66,6 +67,11 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// <summary>
         /// Gets or sets the collection of favorite categories associated with the category.
         /// </summary>
-        public virtual ICollection<CategoryFavorite> CategoryFavorite { get; set; } = [];
+        public virtual ICollection<CategoryFavorite> CategoryFavorites { get; set; } = [];
+
+        /// <summary>
+        /// Gets or sets the collection of favorite categories associated with the category.
+        /// </summary>
+        public virtual ICollection<CategoryDiscount> CategoryDiscounts { get; set; } = [];
     }
 }

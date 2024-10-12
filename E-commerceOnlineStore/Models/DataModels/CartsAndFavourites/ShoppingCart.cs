@@ -42,13 +42,13 @@ namespace E_commerceOnlineStore.Models.DataModels.CartsAndFavourites
         public DateTime? DateUpdated { get; set; }
 
         /// <summary>
-        /// Gets or sets the collection of items in the shopping cart.
-        /// </summary>
-        public virtual ICollection<ShoppingCartItem> Items { get; set; } = [];
-
-        /// <summary>
         /// Gets or sets the object of abandoned cart if this shopping cart has been abandoned.
         /// </summary>
         public virtual AbandonedCart? AbandonedCart { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of items in the shopping cart.
+        /// </summary>
+        public virtual ICollection<ShoppingCartItem> Items { get; set; } = [];
     }
 }
