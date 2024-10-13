@@ -20,7 +20,6 @@ namespace E_commerceOnlineStore.Models.DataModels.CartsAndFavourites
         /// Gets or sets the user ID associated with the shopping cart.
         /// </summary>
         [Required]
-        [StringLength(100)]
         public string CustomerId { get; set; } = null!;
 
         /// <summary>

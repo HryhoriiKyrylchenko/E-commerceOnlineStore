@@ -49,6 +49,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// This value will be used to calculate the final price by adding the margin on top of the base cost.
         /// </summary>
         [Range(0, 100, ErrorMessage = "Profit margin percentage must be between 0 and 100.")]
+        [Column(TypeName = "decimal(5,2)")]
         public decimal? ProfitMarginPercentage { get; set; }
 
         /// <summary>
@@ -56,6 +57,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Products
         /// These costs are factored into the final product price.
         /// </summary>
         [Range(0, 100, ErrorMessage = "Additional costs percentage must be between 0 and 100.")]
+        [Column(TypeName = "decimal(5,2)")]
         public decimal? AdditionalCostsPercentage { get; set; }
 
 

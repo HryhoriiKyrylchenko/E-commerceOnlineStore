@@ -7,7 +7,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Configuration
     /// <summary>
     /// Represents the settings entity for storing application-wide configurations.
     /// </summary>
-    [Table("Configuration")]
+    [Table("Settings")]
     public class Settings
     {
         /// <summary>
@@ -27,7 +27,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Configuration
         /// This field is stored as JSON to accommodate various types (string, int, bool, etc.).
         /// </summary>
         [Required]
-        [Column(TypeName = "jsonb")]
+        [Column(TypeName = "nvarchar(max)")]
         public string Value { get; set; } = string.Empty;
 
         /// <summary>

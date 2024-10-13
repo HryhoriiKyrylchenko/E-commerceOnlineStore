@@ -11,12 +11,12 @@ namespace E_commerceOnlineStore.Services.Data
 
         public async Task<IEnumerable<ProductFavorite>> GetWishlistAsync(string userId)
         {
-            return await _context.Favorites.Where(f => f.CustomerId == userId).ToListAsync();
+            return await _context.ProductFavorites.Where(f => f.CustomerId == userId).ToListAsync();
         }
 
         public async Task<ProductFavorite?> AddToWishlistAsync(ProductFavorite item)
         {
-            _context.Favorites.Add(item);
+            _context.ProductFavorites.Add(item);
             await _context.SaveChangesAsync();
             return item;
         }

@@ -74,7 +74,6 @@ namespace E_commerceOnlineStore.Services.Business
                 Gender = gender,
                 PhoneNumber = phoneNumber,
                 ProfilePictureUrl = profilePictureUrl,
-                IsActive = true
                 // Additional properties can be set here
             };
 

@@ -15,24 +15,19 @@ using E_commerceOnlineStore.Models.DataModels.Support;
 using E_commerceOnlineStore.Models.DataModels.Analytics;
 using E_commerceOnlineStore.Models.DataModels.Common;
 using E_commerceOnlineStore.Models.DataModels.Inventory;
+using E_commerceOnlineStore.Models.DataModels.Newsletter;
 
 namespace E_commerceOnlineStore.Data
 {
     /// <summary>
     /// Represents the application's database context.
     /// </summary>
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
+    /// </remarks>
+    /// <param name="options">The options to be used by a <see cref="DbContext"/>.</param>
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
-        /// </summary>
-        /// <param name="options">The options to be used by a <see cref="DbContext"/>.</param>
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-            // Ensures that the database for the context exists.
-            Database.EnsureCreated();
-        }
 
         /// <summary>
         /// Gets or sets the abandoned carts in the database.
@@ -345,11 +340,40 @@ namespace E_commerceOnlineStore.Data
         public DbSet<Label> Labels { get; set; }
 
         /// <summary>
+        /// Represents the collection of labels for the products.
+        /// </summary>
+        public DbSet<EmailCampaign> EmailCampaigns { get; set; }
+
+        /// <summary>
         /// Configures the model that was discovered by convention from the entity types exposed in <see cref="DbSet{TEntity}"/> properties on this context.
         /// </summary>
         /// <param name="modelBuilder">The builder being used to construct the model for this context.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<CategoryDiscount>()
+            .HasKey(cd => new { cd.CategoryId, cd.DiscountId });
+
+            modelBuilder.Entity<CustomerCoupon>()
+            .HasKey(cc => new { cc.CustomerId, cc.CouponId });
+
+            modelBuilder.Entity<ProductDiscount>()
+            .HasKey(pd => new { pd.ProductId, pd.DiscountId });
+
+            modelBuilder.Entity<ProductVariantDiscount>()
+            .HasKey(pvd => new { pvd.ProductVariantId, pvd.DiscountId });
+
+            modelBuilder.Entity<CustomerPaymentMethod>()
+            .HasKey(cpm => new { cpm.CustomerId, cpm.PaymentMethodId });
+
+            modelBuilder.Entity<ProductTag>()
+            .HasKey(pt => new { pt.ProductId, pt.TagId });
+
+            modelBuilder.Entity<CustomerShippingMethod>()
+            .HasKey(csm => new { csm.CustomerId, csm.ShippingMethodId });
+
+            modelBuilder.Entity<UserAddress>()
+            .HasKey(ua => new { ua.UserId, ua.AddressId });
+
             base.OnModelCreating(modelBuilder);
 
             // Seed roles

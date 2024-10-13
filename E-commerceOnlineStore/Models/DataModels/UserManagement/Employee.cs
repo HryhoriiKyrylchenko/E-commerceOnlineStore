@@ -1,4 +1,5 @@
 ﻿using E_commerceOnlineStore.Models.DataModels.Support;
+using System.ComponentModel.DataAnnotations;
 
 namespace E_commerceOnlineStore.Models.DataModels.UserManagement
 {
@@ -11,6 +12,12 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         /// Gets or sets the position or job title of the employee.
         /// </summary>
         public string? Position { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the user is active.
+        /// </summary>
+        [Required]
+        public bool IsActive { get; set; } = true;
 
         /// <summary>
         /// Gets or sets the collection of ticket histories associated with the employee.

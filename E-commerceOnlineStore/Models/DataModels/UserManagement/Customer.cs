@@ -3,6 +3,7 @@ using E_commerceOnlineStore.Models.DataModels.Analytics;
 using E_commerceOnlineStore.Models.DataModels.CartsAndFavourites;
 using E_commerceOnlineStore.Models.DataModels.Discounts;
 using E_commerceOnlineStore.Models.DataModels.Finance;
+using E_commerceOnlineStore.Models.DataModels.Newsletter;
 using E_commerceOnlineStore.Models.DataModels.Products;
 using E_commerceOnlineStore.Models.DataModels.Purchase;
 using E_commerceOnlineStore.Models.DataModels.Shipping;
@@ -24,6 +25,21 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         /// This property is nullable to accommodate users who may not use Google for authentication.
         /// </summary>
         public string? GoogleId { get; set; }
+
+        /// <summary>
+        /// Indicates whether the customer is blocked from accessing their account.
+        /// </summary>
+        public bool IsBlocked { get; set; }
+
+        /// <summary>
+        /// The date when the customer was blocked, if applicable.
+        /// </summary>
+        public DateTime? BlockedDate { get; set; }
+
+        /// <summary>
+        /// The reason for blocking the customer, if applicable.
+        /// </summary>
+        public string? BlockedReason { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of orders associated with the user.
@@ -75,5 +91,10 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         /// Gets or sets the customer segmentation associated with the customer.
         /// </summary>
         public virtual CustomerSegmentation? CustomerSegmentation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of newsletter subscriptions associated with the user.
+        /// </summary>
+        public virtual ICollection<NewsletterSubscription> NewsletterSubscriptions { get; set; } = [];
     }
 }

@@ -23,7 +23,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Purchase
             /// Gets or sets the customer ID associated with the order.
             /// </summary>
             [Required]
-            public int CustomerId { get; set; }
+            public string CustomerId { get; set; } = null!;
 
             /// <summary>
             /// Gets or sets the customer associated with the order.

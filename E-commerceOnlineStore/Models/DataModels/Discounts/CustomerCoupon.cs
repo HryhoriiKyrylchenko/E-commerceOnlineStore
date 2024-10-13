@@ -14,7 +14,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         /// Gets or sets the customer ID.
         /// </summary>
         [Required]
-        public int CustomerId { get; set; }
+        public string CustomerId { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the customer associated with the coupon.

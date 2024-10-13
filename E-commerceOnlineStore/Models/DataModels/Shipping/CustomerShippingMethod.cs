@@ -14,7 +14,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Shipping
         /// Gets or sets the customer ID associated with the shipping method.
         /// </summary>
         [Required]
-        public int CustomerId { get; set; }
+        public string CustomerId { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the customer associated with the payment method.

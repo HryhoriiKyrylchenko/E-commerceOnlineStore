@@ -24,7 +24,6 @@ namespace E_commerceOnlineStore.Models.DataModels.Inventory
         /// <summary>
         /// Gets or sets the zone position ID.
         /// </summary>
-        [Key]
         public int ZonePositionId { get; set; }
 
         /// <summary>

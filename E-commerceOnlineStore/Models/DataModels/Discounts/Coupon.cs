@@ -26,6 +26,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Discounts
         /// <summary>
         /// Gets or sets the discount percentage (0-100).
         /// </summary>
+        [Column(TypeName = "decimal(5,2)")]
         [Range(0, 100, ErrorMessage = "Discount percentage must be between 0 and 100.")]
         public decimal? Percentage { get; set; }
 

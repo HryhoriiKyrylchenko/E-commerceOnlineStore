@@ -28,10 +28,10 @@ namespace E_commerceOnlineStore.Models.DataModels.LogModels
         /// <summary>
         /// Gets or sets the user associated with this activity.
         /// </summary>
-        [ForeignKey(nameof(UserId))]
+        [ForeignKey(nameof(UserId))] 
         public virtual ApplicationUser User { get; set; } = null!;
-
-        /// <summary>
+        
+        /// <summary>ы
         /// Gets or sets the type of the activity (e.g., login, order creation).
         /// </summary>
         [Required]
@@ -54,5 +54,17 @@ namespace E_commerceOnlineStore.Models.DataModels.LogModels
         /// </summary>
         [Required]
         public DateTime ActivityDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the old data (for editing and blocking).
+        /// </summary>
+        [MaxLength(1000)]
+        public string? OldData { get; set; }
+
+        /// <summary>
+        /// Gets or sets the new data (for editing and blocking).
+        /// </summary>
+        [MaxLength(1000)]
+        public string? NewData { get; set; }
     }
 }

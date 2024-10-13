@@ -21,7 +21,6 @@ namespace E_commerceOnlineStore.Models.DataModels.Analytics
         /// Gets or sets the identifier of the customer associated with this segmentation.
         /// </summary>
         [Required]
-        [MaxLength(36)]
         public string CustomerId { get; set; } = null!;
 
         /// <summary>

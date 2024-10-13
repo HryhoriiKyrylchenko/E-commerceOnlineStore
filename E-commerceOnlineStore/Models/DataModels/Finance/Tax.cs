@@ -51,6 +51,7 @@ namespace E_commerceOnlineStore.Models.DataModels.Finance
         /// </summary>
         [Required]
         [Range(0, 100, ErrorMessage = "Tax rate must be between 0 and 100.")]
+        [Column(TypeName = "decimal(5,2)")]
         public decimal Rate { get; set; }
 
         /// <summary>

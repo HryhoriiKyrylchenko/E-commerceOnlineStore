@@ -65,12 +65,6 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         public string? TimeZone { get; set; }
 
         /// <summary>
-        /// Gets or sets whether the user is active.
-        /// </summary>
-        [Required]
-        public bool IsActive { get; set; } = true;
-
-        /// <summary>
         /// Gets or sets user addresses.
         /// </summary>
         public virtual ICollection<UserAddress> UserAddresses { get; set; } = [];
@@ -88,10 +82,5 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         /// Gets or sets the collection of notifications associated with the user.
         /// </summary>
         public virtual ICollection<Notification> Notifications { get; set; } = [];
-
-        /// <summary>
-        /// Gets or sets the collection of newsletter subscriptions associated with the user.
-        /// </summary>
-        public virtual ICollection<NewsletterSubscription> NewsletterSubscriptions { get; set; } = [];
     }
 }

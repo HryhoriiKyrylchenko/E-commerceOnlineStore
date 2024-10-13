@@ -36,6 +36,31 @@
         Return,
 
         /// <summary>
+        /// Indicates that a user has updates his profile.
+        /// </summary>
+        ProfileUpdate,
+
+        /// <summary>
+        /// Indicates that a user was blocked.
+        /// </summary>
+        UserBlocked,
+
+        /// <summary>
+        /// Indicates that a user was unblocked.
+        /// </summary>
+        UserUnblocked,
+
+        /// <summary>
+        /// Indicates that a user has changed his password.
+        /// </summary>
+        PasswordChange,
+
+        /// <summary>
+        /// Indicates that a user has changed his subscription.
+        /// </summary>
+        SubscriptionChange,
+
+        /// <summary>
         /// Indicates that a user complited other action.
         /// </summary>
         Other,
