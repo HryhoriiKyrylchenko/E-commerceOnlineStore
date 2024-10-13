@@ -1,6 +1,7 @@
-﻿using E_commerceOnlineStore.Models;
-using E_commerceOnlineStore.Models.Account;
-using E_commerceOnlineStore.Services;
+﻿using E_commerceOnlineStore.Models.DataModels.UserManagement;
+using E_commerceOnlineStore.Models.RequestModels.Account;
+using E_commerceOnlineStore.Services.Business;
+using E_commerceOnlineStore.Services.Data;
 using E_commerceOnlineStore.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -132,13 +133,13 @@ namespace E_commerceOnlineStore.Controllers
             }
 
             // Validate input parameters to ensure that both userId and token are provided.
-            if (string.IsNullOrEmpty(model.userId) || string.IsNullOrEmpty(model.token))
+            if (string.IsNullOrEmpty(model.UserId) || string.IsNullOrEmpty(model.Token))
             {
                 return BadRequest("User ID and token are required.");
             }
 
             // Attempt to find the user by their ID using _userService.
-            var user = await _userService.GetUserByIdAsync(model.userId);
+            var user = await _userService.GetUserByIdAsync(model.UserId);
 
             // Return a NotFound response if the user is not found.
             if (user == null)
@@ -147,7 +148,7 @@ namespace E_commerceOnlineStore.Controllers
             }
 
             // Decode the provided token using the TokenEncoder class.
-            var decodedToken = TokenEncoder.DecodeToken(model.token);
+            var decodedToken = TokenEncoder.DecodeToken(model.Token);
 
             // Attempt to confirm the user's email using the decoded token.
             var result = await _userService.ConfirmEmailAsync(user, decodedToken);

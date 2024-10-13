@@ -1,8 +1,9 @@
 using Azure.Storage.Blobs;
 using E_commerceOnlineStore.Azure;
 using E_commerceOnlineStore.Data;
-using E_commerceOnlineStore.Models;
-using E_commerceOnlineStore.Services;
+using E_commerceOnlineStore.Models.DataModels.UserManagement;
+using E_commerceOnlineStore.Services.Business;
+using E_commerceOnlineStore.Services.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -79,21 +80,6 @@ builder.Services.AddAuthentication(options =>
             context.NoResult();
             return Task.CompletedTask;
         }
-
-        //OnChallenge = context =>
-        //{
-        //    // Log detailed information about the challenge
-        //    context.HandleResponse();
-        //    context.Response.Headers.Append("Token-Validation-Error", "Invalid token");
-        //    return Task.CompletedTask;
-        //},
-        //OnAuthenticationFailed = context =>
-        //{
-        //    // Log detailed information about the failure
-        //    context.NoResult();
-        //    context.Response.Headers.Append("Token-Validation-Error", context.Exception.Message);
-        //    return Task.CompletedTask;
-        //}
     };
 });
 
@@ -106,6 +92,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
+builder.Services.AddScoped<IFavoritesService, FavoritesService>();
 
 var smtpSection = builder.Configuration.GetSection("Smtp");
 
