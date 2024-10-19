@@ -3,7 +3,11 @@ using E_commerceOnlineStore.Azure;
 using E_commerceOnlineStore.Data;
 using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using E_commerceOnlineStore.Services.Business;
+using E_commerceOnlineStore.Services.Business.Account;
+using E_commerceOnlineStore.Services.Business.Notifications;
+using E_commerceOnlineStore.Services.Business.Security;
 using E_commerceOnlineStore.Services.Data;
+using E_commerceOnlineStore.Services.Data.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -89,10 +93,17 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
-builder.Services.AddScoped<IFavoritesService, FavoritesService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailConfirmationService, EmailConfirmationService>();
+builder.Services.AddScoped<IPasswordResetService, PasswordResetService>();
+builder.Services.AddScoped<IRegistrationService, RegistrationService>();
+builder.Services.AddScoped<IRolesService, RolesService>();
+builder.Services.AddScoped<IUserDataService, UserDataService>();
+builder.Services.AddScoped<ICustomerDataService, CustomerDataService>();
+builder.Services.AddScoped<IEmployeeDataService, EmployeeDataService>();
 
 var smtpSection = builder.Configuration.GetSection("Smtp");
 

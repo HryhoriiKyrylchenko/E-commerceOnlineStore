@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace E_commerceOnlineStore.Services.Data
+namespace E_commerceOnlineStore.Services.Business.Security
 {
     /// <summary>
     /// Provides functionality to generate JSON Web Tokens (JWT) for application users.
@@ -32,21 +32,17 @@ namespace E_commerceOnlineStore.Services.Data
         /// <exception cref="InvalidOperationException">Thrown if the JWT key or issuer is not found in the configuration, or if the user's username is null.</exception>
         public async Task<string> GenerateTokenAsync(ApplicationUser user)
         {
-            // Ensure the user object is not null
             ArgumentNullException.ThrowIfNull(user);
 
-            // Ensure the configuration values are not null
             var key = _configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key not found in configuration.");
             var issuer = _configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("JWT Issuer not found in configuration.");
             var audience = _configuration["Jwt:Audience"] ?? throw new InvalidOperationException("JWT Audience not found in configuration.");
 
-            // Retrieve roles for the user
             var roles = await _userManager.GetRolesAsync(user);
             var roleClaims = roles.Select(role => new Claim(ClaimTypes.Role, role));
 
             return await Task.Run(() =>
             {
-                // Create claims based on user information
                 var claims = new[]
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.UserName ?? throw new InvalidOperationException("Username cannot be null")),
@@ -56,11 +52,9 @@ namespace E_commerceOnlineStore.Services.Data
                 }
                 .Concat(roleClaims);
 
-                // Create a symmetric security key and signing credentials
                 var symmetricKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
                 var creds = new SigningCredentials(symmetricKey, SecurityAlgorithms.HmacSha256);
 
-                // Create the JWT token with the specified claims, issuer, audience, and expiration
                 var token = new JwtSecurityToken(
                     issuer: issuer,
                     audience: audience,
@@ -145,9 +139,16 @@ namespace E_commerceOnlineStore.Services.Data
             var refreshToken = await GetRefreshTokenAsync(token);
             if (refreshToken != null)
             {
-                refreshToken.IsRevoked = true;
-                _context.RefreshTokens.Update(refreshToken);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    refreshToken.IsRevoked = true;
+                    _context.RefreshTokens.Update(refreshToken);
+                    await _context.SaveChangesAsync();
+                }
+                catch
+                {
+                    throw;
+                }
             }
         }
 
