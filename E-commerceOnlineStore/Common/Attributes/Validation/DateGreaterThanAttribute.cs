@@ -26,7 +26,6 @@ namespace E_commerceOnlineStore.Common.Attributes.Validation
         /// <returns>A <see cref="ValidationResult"/> indicating whether the validation succeeded.</returns>
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            // Get the value of the comparison property
             var comparisonPropertyInfo = validationContext.ObjectType.GetProperty(_comparisonProperty);
 
             if (comparisonPropertyInfo == null)
@@ -36,7 +35,6 @@ namespace E_commerceOnlineStore.Common.Attributes.Validation
 
             var comparisonValue = comparisonPropertyInfo.GetValue(validationContext.ObjectInstance);
 
-            // Ensure the comparison value and the current value are both valid DateTime objects
             if (value is DateTime currentDate && comparisonValue is DateTime comparisonDate)
             {
                 if (currentDate <= comparisonDate)

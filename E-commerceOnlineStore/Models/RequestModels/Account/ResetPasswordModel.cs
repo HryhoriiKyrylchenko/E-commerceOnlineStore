@@ -19,7 +19,6 @@ namespace E_commerceOnlineStore.Models.RequestModels.Account
         /// Gets or sets the token used to validate the password reset request.
         /// This property is initialized to an empty string.
         /// </summary>
-
         public string Token { get; set; } = string.Empty;
 
         /// <summary>
@@ -37,8 +36,7 @@ namespace E_commerceOnlineStore.Models.RequestModels.Account
         /// </summary>
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Compare("NewPassword", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = string.Empty;
     }
-
 }

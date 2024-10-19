@@ -16,6 +16,7 @@ using E_commerceOnlineStore.Models.DataModels.Analytics;
 using E_commerceOnlineStore.Models.DataModels.Common;
 using E_commerceOnlineStore.Models.DataModels.Inventory;
 using E_commerceOnlineStore.Models.DataModels.Newsletter;
+using E_commerceOnlineStore.Enums.UserManagement;
 
 namespace E_commerceOnlineStore.Data
 {
@@ -92,7 +93,7 @@ namespace E_commerceOnlineStore.Data
         /// <summary>
         /// Gets or sets the employees in the database.
         /// </summary>
-        public DbSet<Customer> Employees { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         /// <summary>
         /// Gets or sets the notifications in the database.
@@ -375,13 +376,6 @@ namespace E_commerceOnlineStore.Data
             .HasKey(ua => new { ua.UserId, ua.AddressId });
 
             base.OnModelCreating(modelBuilder);
-
-            // Seed roles
-            modelBuilder.Entity<IdentityRole>().HasData(
-                new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" },
-                new IdentityRole { Name = "Manager", NormalizedName = "MANAGER" },
-                new IdentityRole { Name = "Customer", NormalizedName = "CUSTOMER" }
-            );
         }
     }
 }

@@ -20,10 +20,10 @@ namespace E_commerceOnlineStore.Models.RequestModels.Account
         public string LastName { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets or sets the user's email address.
-        /// This property is initialized to an empty string.
+        /// Gets or sets the date of birth of the customer. 
+        /// This field is optional.
         /// </summary>
-        public string Email { get; set; } = string.Empty;
+        public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// Gets or sets the user's gender. This property is optional and may be null.
@@ -31,14 +31,8 @@ namespace E_commerceOnlineStore.Models.RequestModels.Account
         public GenderType? Gender { get; set; }
 
         /// <summary>
-        /// Gets or sets the user's phone number. This property is optional and may be null.
-        /// </summary>
-        public string? PhoneNumber { get; set; }
-
-        /// <summary>
         /// Gets or sets the URL of the user's profile picture. This property is optional and may be null.
         /// </summary>
         public string? ProfilePictureUrl { get; set; }
     }
-
 }
