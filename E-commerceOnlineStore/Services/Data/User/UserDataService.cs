@@ -1,8 +1,11 @@
 ﻿using E_commerceOnlineStore.Data;
+using E_commerceOnlineStore.Enums.UserManagement;
 using E_commerceOnlineStore.Models.DataModels.UserManagement;
 using E_commerceOnlineStore.Models.RequestModels.Account;
+using E_commerceOnlineStore.Services.Business.Account;
 using E_commerceOnlineStore.Utilities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System.ClientModel.Primitives;
 
 namespace E_commerceOnlineStore.Services.Data.User
@@ -16,10 +19,96 @@ namespace E_commerceOnlineStore.Services.Data.User
     /// </remarks>
     /// <param name="context">The database context used for accessing user data.</param>
     /// <param name="userManager">The user manager used for managing user identities.</param>
-    public class UserDataService(ApplicationDbContext context, UserManager<ApplicationUser> userManager) : IUserDataService
+    public class UserDataService(ApplicationDbContext context, 
+                                 UserManager<ApplicationUser> userManager,
+                                 ILogger<RegistrationService> logger,
+                                 IRolesService rolesService) : IUserDataService
     {
         private readonly ApplicationDbContext _context = context;
         private readonly UserManager<ApplicationUser> _userManager = userManager;
+        private readonly ILogger<RegistrationService> _logger = logger;
+        private readonly IRolesService _roleService = rolesService;
+
+        /// <summary>
+        /// Adds a new application user asynchronously using the provided registration model.
+        /// </summary>
+        /// <param name="model">An instance of <see cref="CustomerRegistrationModel"/> containing the user's registration information.</param>
+        /// <returns>An <see cref="OperationResult{ApplicationUser}"/> object containing the result of the operation.</returns>
+        public async Task<OperationResult<ApplicationUser>> CreateUserAsync(UserRegistrationModel model)
+        {
+            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password))
+            {
+                return OperationResult<ApplicationUser>.FailureResult(["Email and password are required."]);
+            }
+
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        DateOfBirth = model.DateOfBirth,
+                        Gender = model.Gender,
+                        PhoneNumber = model.PhoneNumber,
+                        ProfilePictureUrl = model.ProfilePictureUrl,
+                        CreatedAt = DateTime.UtcNow,
+                        PreferredLanguage = model.PreferredLanguage,
+                        TimeZone = model.TimeZone,
+                    };
+
+                    var result = await _userManager.CreateAsync(user, model.Password);
+
+                    if (!result.Succeeded)
+                    {
+                        return OperationResult<ApplicationUser>.FailureResult(result.Errors.Select(e => e.Description).ToList());
+                    }
+
+                    string userRole = UserRole.Customer.ToString();
+
+                    var roleResult = await _roleService.AssignRoleAsync(user.Id, userRole);
+
+                    if (!roleResult.Succeeded)
+                    {
+                        return OperationResult<ApplicationUser>.FailureResult(roleResult.Errors.Select(e => e.Description).ToList());
+                    }
+
+                    await transaction.CommitAsync();
+
+                    return OperationResult<ApplicationUser>.SuccessResult(user);
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    _logger.LogError(ex, "Failed to add customer");
+                    return OperationResult<ApplicationUser>.FailureResult(["Failed to add customer due to an unexpected error."]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deletes a customer asynchronously using their unique identifier.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the customer to delete.</param>
+        /// <returns>An <see cref="OperationResult{User}"/> object containing the result of the operation.</returns>
+        public async Task<OperationResult<ApplicationUser>> DeleteUserAsync(string userId)
+        {
+            var userResult = await GetUserByIdAsync(userId);
+
+            if (!userResult.Succeeded || userResult.Data == null)
+            {
+                return OperationResult<ApplicationUser>.FailureResult(["User not found."]);
+            }
+
+            _context.ApplicationUsers.Remove(userResult.Data);
+            var result = await _context.SaveChangesAsync() > 0;
+
+            return result ? OperationResult<ApplicationUser>.SuccessResult(userResult.Data) :
+                            OperationResult<ApplicationUser>.FailureResult(["Failed to delete user."]);
+        }
 
         /// <summary>
         /// Confirms the user's email using the specified token.

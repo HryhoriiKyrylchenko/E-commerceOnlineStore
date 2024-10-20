@@ -31,7 +31,11 @@ namespace E_commerceOnlineStore.Controllers.Account
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _passwordResetService.ForgotPasswordAsync(model);
+            var scheme = Request.Scheme; 
+
+            var baseUrl = Request.Host.Value;
+
+            var result = await _passwordResetService.ForgotPasswordAsync(model, baseUrl, scheme);
             if (result.Succeeded)
                 return Ok(new { Message = "Password reset token sent" });
 

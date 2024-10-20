@@ -1942,8 +1942,51 @@ namespace E_commerceOnlineStore.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
 
-                    b.UseTptMappingStrategy();
+            modelBuilder.Entity("E_commerceOnlineStore.Models.DataModels.UserManagement.Customer", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime?>("BlockedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("BlockedReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GoogleId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsBlocked")
+                        .HasColumnType("bit");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("E_commerceOnlineStore.Models.DataModels.UserManagement.Employee", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("E_commerceOnlineStore.Models.DataModels.UserManagement.RefreshToken", b =>
@@ -2014,26 +2057,6 @@ namespace E_commerceOnlineStore.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "6631fcea-6699-4c52-9dde-13020c0bb888",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "e0705f3d-09fc-4d43-a515-6becc81e9dcb",
-                            Name = "Manager",
-                            NormalizedName = "MANAGER"
-                        },
-                        new
-                        {
-                            Id = "59f27ff4-95e9-4a0c-a42c-eda7e5ef768b",
-                            Name = "Customer",
-                            NormalizedName = "CUSTOMER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -2140,38 +2163,6 @@ namespace E_commerceOnlineStore.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("E_commerceOnlineStore.Models.DataModels.UserManagement.Customer", b =>
-                {
-                    b.HasBaseType("E_commerceOnlineStore.Models.DataModels.UserManagement.ApplicationUser");
-
-                    b.Property<DateTime?>("BlockedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("BlockedReason")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GoogleId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsBlocked")
-                        .HasColumnType("bit");
-
-                    b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("E_commerceOnlineStore.Models.DataModels.UserManagement.Employee", b =>
-                {
-                    b.HasBaseType("E_commerceOnlineStore.Models.DataModels.UserManagement.ApplicationUser");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Position")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.ToTable("Employee");
                 });
 
             modelBuilder.Entity("E_commerceOnlineStore.Models.DataModels.Analytics.CustomerSegmentation", b =>
@@ -2774,7 +2765,7 @@ namespace E_commerceOnlineStore.Migrations
                     b.HasOne("E_commerceOnlineStore.Models.DataModels.Purchase.ReturnRequest", "ReturnRequest")
                         .WithMany("ReturnNotes")
                         .HasForeignKey("ReturnRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("CreatedBy");
@@ -2872,18 +2863,40 @@ namespace E_commerceOnlineStore.Migrations
                     b.HasOne("E_commerceOnlineStore.Models.DataModels.UserManagement.Employee", "Employee")
                         .WithMany("TicketHistories")
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("E_commerceOnlineStore.Models.DataModels.Support.SupportTicket", "Ticket")
                         .WithMany("TicketHistories")
                         .HasForeignKey("TicketId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Employee");
 
                     b.Navigation("Ticket");
+                });
+
+            modelBuilder.Entity("E_commerceOnlineStore.Models.DataModels.UserManagement.Customer", b =>
+                {
+                    b.HasOne("E_commerceOnlineStore.Models.DataModels.UserManagement.ApplicationUser", "User")
+                        .WithOne("Customer")
+                        .HasForeignKey("E_commerceOnlineStore.Models.DataModels.UserManagement.Customer", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("E_commerceOnlineStore.Models.DataModels.UserManagement.Employee", b =>
+                {
+                    b.HasOne("E_commerceOnlineStore.Models.DataModels.UserManagement.ApplicationUser", "User")
+                        .WithOne("Employee")
+                        .HasForeignKey("E_commerceOnlineStore.Models.DataModels.UserManagement.Employee", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("E_commerceOnlineStore.Models.DataModels.UserManagement.RefreshToken", b =>
@@ -2963,24 +2976,6 @@ namespace E_commerceOnlineStore.Migrations
                     b.HasOne("E_commerceOnlineStore.Models.DataModels.UserManagement.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("E_commerceOnlineStore.Models.DataModels.UserManagement.Customer", b =>
-                {
-                    b.HasOne("E_commerceOnlineStore.Models.DataModels.UserManagement.ApplicationUser", null)
-                        .WithOne()
-                        .HasForeignKey("E_commerceOnlineStore.Models.DataModels.UserManagement.Customer", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("E_commerceOnlineStore.Models.DataModels.UserManagement.Employee", b =>
-                {
-                    b.HasOne("E_commerceOnlineStore.Models.DataModels.UserManagement.ApplicationUser", null)
-                        .WithOne()
-                        .HasForeignKey("E_commerceOnlineStore.Models.DataModels.UserManagement.Employee", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -3156,6 +3151,10 @@ namespace E_commerceOnlineStore.Migrations
 
             modelBuilder.Entity("E_commerceOnlineStore.Models.DataModels.UserManagement.ApplicationUser", b =>
                 {
+                    b.Navigation("Customer");
+
+                    b.Navigation("Employee");
+
                     b.Navigation("Notifications");
 
                     b.Navigation("RefreshTokens");

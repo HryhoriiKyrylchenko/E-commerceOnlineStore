@@ -16,11 +16,9 @@ namespace E_commerceOnlineStore.Services.Business.Account
     /// <param name="userDataService">The user data service for retrieving user information.</param>
     /// <param name="userManager">The user manager for managing user-related operations.</param>
     /// <param name="roleManager">The role manager for managing role-related operations.</param>
-    public class RolesService(IUserDataService userDataService,
-                        UserManager<ApplicationUser> userManager,
-                        RoleManager<IdentityRole> roleManager) : IRolesService
+    public class RolesService(UserManager<ApplicationUser> userManager,
+                                RoleManager<IdentityRole> roleManager) : IRolesService
     {
-        private readonly IUserDataService _userDataService = userDataService;
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly RoleManager<IdentityRole> _roleManager = roleManager;
 
@@ -36,12 +34,11 @@ namespace E_commerceOnlineStore.Services.Business.Account
 
         public async Task<IdentityResult> AssignRoleAsync(string userId, string roleName)
         {
-            var userResult = await _userDataService.GetUserByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
-            if(!userResult.Succeeded || userResult.Data == null)
+            if (user == null)
             {
-                var identityErrors = userResult.Errors.Select(e => new IdentityError { Description = e }).ToArray();
-                return IdentityResult.Failed(identityErrors);
+                return IdentityResult.Failed(new IdentityError { Description = "User not found" });
             }
 
             if (!await _roleManager.RoleExistsAsync(roleName))
@@ -54,7 +51,7 @@ namespace E_commerceOnlineStore.Services.Business.Account
                 }
             }
 
-            return await _userManager.AddToRoleAsync(userResult.Data, roleName);
+            return await _userManager.AddToRoleAsync(user, roleName);
         }
 
         /// <summary>
@@ -65,12 +62,11 @@ namespace E_commerceOnlineStore.Services.Business.Account
         /// <returns>A task that represents the asynchronous operation, containing the result of the role assignments.</returns>
         public async Task<IdentityResult> AssignRolesListAsync(string userId, List<string> userRoles)
         {
-            var userResult = await _userDataService.GetUserByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
-            if (!userResult.Succeeded || userResult.Data == null)
+            if (user == null)
             {
-                var identityErrors = userResult.Errors.Select(e => new IdentityError { Description = e }).ToArray();
-                return IdentityResult.Failed(identityErrors);
+                return IdentityResult.Failed(new IdentityError { Description = "User not found" });
             }
 
             foreach (var role in userRoles)
@@ -86,7 +82,7 @@ namespace E_commerceOnlineStore.Services.Business.Account
                 }
             }
 
-            return await _userManager.AddToRolesAsync(userResult.Data, userRoles);
+            return await _userManager.AddToRolesAsync(user, userRoles);
         }
 
         /// <summary>
@@ -97,12 +93,11 @@ namespace E_commerceOnlineStore.Services.Business.Account
         /// <returns>A task that represents the asynchronous operation, containing the result of the role removal.</returns>
         public async Task<IdentityResult> RemoveRoleAsync(string userId, string roleName)
         {
-            var userResult = await _userDataService.GetUserByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId);
 
-            if (!userResult.Succeeded || userResult.Data == null)
+            if (user == null)
             {
-                var identityErrors = userResult.Errors.Select(e => new IdentityError { Description = e }).ToArray();
-                return IdentityResult.Failed(identityErrors);
+                return IdentityResult.Failed(new IdentityError { Description = "User not found" });
             }
 
             if (!await _roleManager.RoleExistsAsync(roleName))
@@ -110,7 +105,7 @@ namespace E_commerceOnlineStore.Services.Business.Account
                 return IdentityResult.Failed(new IdentityError { Description = "Role not fount" });
             }
 
-            return await _userManager.RemoveFromRoleAsync(userResult.Data, roleName);
+            return await _userManager.RemoveFromRoleAsync(user, roleName);
         }
     }
 }

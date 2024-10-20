@@ -30,7 +30,6 @@ namespace E_commerceOnlineStore.Services.Business.Account
                                  UserManager<ApplicationUser> userManager,
                                  ILogger<PasswordResetService> logger,
                                  IUrlHelperFactory urlHelperFactory,
-                                 ActionContext actionContext,
                                  ITokenService tokenService) : IPasswordResetService
     {
         private readonly IUserDataService _userDataService = userDataService;
@@ -38,15 +37,16 @@ namespace E_commerceOnlineStore.Services.Business.Account
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly ILogger<PasswordResetService> _logger = logger;
         private readonly IUrlHelperFactory _urlHelperFactory = urlHelperFactory;
-        private readonly ActionContext _actionContext = actionContext;
         private readonly ITokenService _tokenService = tokenService;
 
         /// <summary>
-        /// Initiates the password reset process by sending a password reset email to the user.
+        /// Initiates the password reset process for a user who has forgotten their password.
         /// </summary>
-        /// <param name="model">The model containing the user's email address.</param>
-        /// <returns>An <see cref="IdentityResult"/> indicating the success or failure of the operation.</returns>
-        public async Task<IdentityResult> ForgotPasswordAsync(ForgotPasswordModel model)
+        /// <param name="model">The model containing the user's email address for which the password reset is requested.</param>
+        /// <param name="baseUrl">The base URL used to generate the password reset link (e.g., for email notification).</param>
+        /// <param name="scheme">The URL scheme (e.g., HTTP or HTTPS) used when creating the password reset link.</param>
+        /// <returns>An IdentityResult indicating whether the operation succeeded, along with potential errors.</returns>
+        public async Task<IdentityResult> ForgotPasswordAsync(ForgotPasswordModel model, string baseUrl, string scheme)
         {
             var userResult = await _userDataService.GetUserByEmailAsync(model.Email);
             if (!userResult.Succeeded || userResult.Data == null)
@@ -56,7 +56,7 @@ namespace E_commerceOnlineStore.Services.Business.Account
 
             var token = await _tokenService.GeneratePasswordResetTokenAsync(userResult.Data);
 
-            var resetLinkResult = GeneratePasswordResetLink(userResult.Data.Id, token);
+            var resetLinkResult = GeneratePasswordResetLink(userResult.Data.Id, token, baseUrl, scheme);
 
             if (!resetLinkResult.Succeeded || resetLinkResult.Data == null)
             {
@@ -113,31 +113,25 @@ namespace E_commerceOnlineStore.Services.Business.Account
         }
 
         /// <summary>
-        /// Generates a password reset link using the user's ID and a token.
+        /// Generates a password reset link for a specified user, including a token for security.
         /// </summary>
-        /// <param name="userId">The ID of the user for whom the reset link is generated.</param>
-        /// <param name="token">The token used for password reset verification.</param>
-        /// <returns>
-        /// An <see cref="OperationResult{string}"/> containing the generated reset link or an error message.
-        /// </returns>
-        public OperationResult<string> GeneratePasswordResetLink(string userId, string token)
+        /// <param name="userId">The unique identifier of the user requesting the password reset.</param>
+        /// <param name="token">The password reset token generated for the user, ensuring the reset process is secure.</param>
+        /// <param name="baseUrl">The base URL of the application, used to form the password reset link.</param>
+        /// <param name="scheme">The URL scheme (e.g., HTTP or HTTPS) for constructing the complete reset link.</param>
+        /// <returns>An OperationResult containing either the generated password reset link or details about the failure.</returns>
+        public OperationResult<string> GeneratePasswordResetLink(string userId, string token, string baseUrl, string scheme)
         {
-            var urlHelper = _urlHelperFactory.GetUrlHelper(_actionContext);
-
             var encodedToken = TokenEncoder.EncodeToken(token);
 
-            var passwordResetLink = urlHelper.Action(
-                "ResetPassword",
-                "PasswordReset",
-                new { userId, token = encodedToken },
-                _actionContext.HttpContext.Request.Scheme);
+            var resetLink = $"{scheme}://{baseUrl}/Account/ResetPassword?userId={userId}&token={encodedToken}";
 
-            if (string.IsNullOrEmpty(passwordResetLink))
+            if (string.IsNullOrEmpty(resetLink))
             {
                 return OperationResult<string>.FailureResult(["Failed create password reset link"]);
             }
 
-            return OperationResult<string>.SuccessResult(passwordResetLink);
+            return OperationResult<string>.SuccessResult(resetLink);
         }
     }
 }

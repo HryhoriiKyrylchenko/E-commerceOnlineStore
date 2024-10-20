@@ -352,28 +352,65 @@ namespace E_commerceOnlineStore.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CategoryDiscount>()
-            .HasKey(cd => new { cd.CategoryId, cd.DiscountId });
+                .HasKey(cd => new { cd.CategoryId, cd.DiscountId });
 
             modelBuilder.Entity<CustomerCoupon>()
-            .HasKey(cc => new { cc.CustomerId, cc.CouponId });
+                .HasKey(cc => new { cc.CustomerId, cc.CouponId });
 
             modelBuilder.Entity<ProductDiscount>()
-            .HasKey(pd => new { pd.ProductId, pd.DiscountId });
+                .HasKey(pd => new { pd.ProductId, pd.DiscountId });
 
             modelBuilder.Entity<ProductVariantDiscount>()
-            .HasKey(pvd => new { pvd.ProductVariantId, pvd.DiscountId });
+                .HasKey(pvd => new { pvd.ProductVariantId, pvd.DiscountId });
 
             modelBuilder.Entity<CustomerPaymentMethod>()
-            .HasKey(cpm => new { cpm.CustomerId, cpm.PaymentMethodId });
+                .HasKey(cpm => new { cpm.CustomerId, cpm.PaymentMethodId });
 
             modelBuilder.Entity<ProductTag>()
-            .HasKey(pt => new { pt.ProductId, pt.TagId });
+                .HasKey(pt => new { pt.ProductId, pt.TagId });
 
             modelBuilder.Entity<CustomerShippingMethod>()
-            .HasKey(csm => new { csm.CustomerId, csm.ShippingMethodId });
+                .HasKey(csm => new { csm.CustomerId, csm.ShippingMethodId });
 
             modelBuilder.Entity<UserAddress>()
-            .HasKey(ua => new { ua.UserId, ua.AddressId });
+                .HasKey(ua => new { ua.UserId, ua.AddressId });
+
+
+            modelBuilder.Entity<Customer>()
+                .HasIndex(c => c.UserId)
+                .IsUnique();
+
+            modelBuilder.Entity<Employee>()
+                .HasIndex(e => e.UserId)
+                .IsUnique();
+
+            modelBuilder.Entity<Customer>()
+                .HasOne(c => c.User)
+                .WithOne(u => u.Customer)
+                .HasForeignKey<Customer>(c => c.UserId);
+
+            modelBuilder.Entity<Employee>()
+                .HasOne(e => e.User)
+                .WithOne(u => u.Employee)
+                .HasForeignKey<Employee>(e => e.UserId);
+
+            modelBuilder.Entity<TicketHistory>()
+                .HasOne(th => th.Ticket)
+                .WithMany(st => st.TicketHistories)
+                .HasForeignKey(th => th.TicketId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<TicketHistory>()
+                .HasOne(th => th.Employee)
+                .WithMany(e => e.TicketHistories)
+                .HasForeignKey(th => th.EmployeeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ReturnNote>()
+                .HasOne(rn => rn.ReturnRequest)
+                .WithMany(rr => rr.ReturnNotes)
+                .HasForeignKey(rn => rn.ReturnRequestId)
+                .OnDelete(DeleteBehavior.NoAction); 
 
             base.OnModelCreating(modelBuilder);
         }

@@ -64,7 +64,11 @@ namespace E_commerceOnlineStore.Controllers.Account
                 return BadRequest("Failed create email confirmation token");
             }
 
-            var confirmationLinkCreationResult = _emailConfirmationService.GenerateConfirmationLink(userResult.Data.Id, token);
+            var scheme = Request.Scheme;
+
+            var baseUrl = Request.Host.Value;
+
+            var confirmationLinkCreationResult = _emailConfirmationService.GenerateConfirmationLink(userResult.Data.Id, token, baseUrl, scheme);
 
             if (!confirmationLinkCreationResult.Succeeded || confirmationLinkCreationResult.Data == null)
             {

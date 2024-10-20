@@ -8,8 +8,20 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
     /// Represents an employee who can handle support tickets and perform actions within the application.
     /// </summary>
     [Table("Employees")]
-    public class Employee : ApplicationUser
+    public class Employee
     {
+        /// <summary>
+        /// Gets or sets the unique identifier of the user.
+        /// </summary>
+        [Key]
+        public string UserId { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the user associated with this entity.
+        /// </summary>
+        [ForeignKey(nameof(UserId))]
+        public virtual ApplicationUser User { get; set; } = null!;
+
         /// <summary>
         /// Gets or sets the position or job title of the employee.
         /// </summary>
@@ -27,5 +39,4 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         /// </summary>
         public virtual ICollection<TicketHistory> TicketHistories { get; set; } = [];
     }
-
 }

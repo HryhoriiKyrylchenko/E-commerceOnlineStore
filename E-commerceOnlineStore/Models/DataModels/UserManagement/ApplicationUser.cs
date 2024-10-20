@@ -65,6 +65,16 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
         public string? TimeZone { get; set; }
 
         /// <summary>
+        /// Gets or sets the customer associated with this entity.
+        /// </summary>
+        public virtual Customer? Customer { get; set; }
+
+        /// <summary>
+        /// Gets or sets the employee associated with this entity.
+        /// </summary>
+        public virtual Employee? Employee { get; set; }
+
+        /// <summary>
         /// Gets or sets user addresses.
         /// </summary>
         public virtual ICollection<UserAddress> UserAddresses { get; set; } = [];

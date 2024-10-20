@@ -14,34 +14,34 @@ namespace E_commerceOnlineStore.Services.Data.User
         /// </summary>
         /// <param name="model">The model containing the employee registration information.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the operation result with the added employee or an error message.</returns>
-        Task<OperationResult<Employee>> AddEmployeeAsync(EmployeeRegistrationModel model);
+        Task<OperationResult<ApplicationUser>> AddEmployeeAsync(EmployeeRegistrationModel model);
 
         /// <summary>
         /// Deletes an employee identified by their unique identifier.
         /// </summary>
         /// <param name="employeeId">The unique identifier of the employee to be deleted.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the operation result with the deleted employee or an error message.</returns>
-        Task<OperationResult<Employee>> DeleteEmployeeAsync(string employeeId);
+        Task<OperationResult<ApplicationUser>> DeleteEmployeeAsync(string employeeId);
 
         /// <summary>
         /// Retrieves an employee by their unique identifier.
         /// </summary>
         /// <param name="employeeId">The unique identifier of the employee.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the operation result with the employee or an error message.</returns>
-        Task<OperationResult<Employee>> GetEmployeeByIdAsync(string employeeId);
+        Task<OperationResult<ApplicationUser>> GetEmployeeByIdAsync(string employeeId);
 
         /// <summary>
         /// Retrieves an employee by their email address.
         /// </summary>
         /// <param name="email">The email address of the employee.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the operation result with the employee or an error message.</returns>
-        Task<OperationResult<Employee>> GetEmployeeByEmailAsync(string email);
+        Task<OperationResult<ApplicationUser>> GetEmployeeByEmailAsync(string email);
 
         /// <summary>
         /// Retrieves a list of all employees.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation. The task result contains the operation result with the list of employees or an error message.</returns>
-        Task<OperationResult<List<Employee>>> GetAllEmployeesAsync();
+        Task<OperationResult<List<ApplicationUser>>> GetAllEmployeesAsync();
 
         /// <summary>
         /// Checks if an email address already exists in the system.
@@ -56,7 +56,7 @@ namespace E_commerceOnlineStore.Services.Data.User
         /// <param name="userId">The unique identifier of the employee.</param>
         /// <param name="model">The model containing the updated profile information.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the operation result with the updated employee or an error message.</returns>
-        Task<OperationResult<Employee>> UpdateProfileAsync(string userId, UpdateProfileModel model);
+        Task<OperationResult<ApplicationUser>> UpdateProfileAsync(string userId, UpdateProfileModel model);
 
         /// <summary>
         /// Changes the password of an employee identified by their unique identifier.
@@ -64,7 +64,7 @@ namespace E_commerceOnlineStore.Services.Data.User
         /// <param name="userId">The unique identifier of the employee.</param>
         /// <param name="model">The model containing the current and new password information.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the operation result with the updated employee or an error message.</returns>
-        Task<OperationResult<Employee>> ChangePasswordAsync(string userId, ChangePasswordModel model);
+        Task<OperationResult<ApplicationUser>> ChangePasswordAsync(string userId, ChangePasswordModel model);
 
         /// <summary>
         /// Changes the phone number of an employee identified by their unique identifier.
@@ -72,7 +72,7 @@ namespace E_commerceOnlineStore.Services.Data.User
         /// <param name="userId">The unique identifier of the employee.</param>
         /// <param name="model">The model containing the new phone number information.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the operation result with the updated employee or an error message.</returns>
-        Task<OperationResult<Employee>> ChangePhoneAsync(string userId, ChangePhoneModel model);
+        Task<OperationResult<ApplicationUser>> ChangePhoneAsync(string userId, ChangePhoneModel model);
 
         /// <summary>
         /// Updates user settings such as preferred language and time zone for an employee identified by their unique identifier.
@@ -80,7 +80,7 @@ namespace E_commerceOnlineStore.Services.Data.User
         /// <param name="userId">The unique identifier of the employee.</param>
         /// <param name="model">The model containing the updated settings information.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the operation result with the updated employee or an error message.</returns>
-        Task<OperationResult<Employee>> UpdateUserSettingsAsync(string userId, UpdateSettingsModel model);
+        Task<OperationResult<ApplicationUser>> UpdateUserSettingsAsync(string userId, UpdateSettingsModel model);
 
         /// <summary>
         /// Changes the email address of an employee identified by their unique identifier.
@@ -88,6 +88,6 @@ namespace E_commerceOnlineStore.Services.Data.User
         /// <param name="userId">The unique identifier of the employee.</param>
         /// <param name="model">The model containing the current email, new email, and password for verification.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the operation result with the updated employee or an error message.</returns>
-        Task<OperationResult<Employee>> ChangeEmailAsync(string userId, ChangeEmailModel model);
+        Task<OperationResult<ApplicationUser>> ChangeEmailAsync(string userId, ChangeEmailModel model);
     }
 }

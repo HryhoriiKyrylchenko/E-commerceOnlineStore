@@ -2,6 +2,7 @@
 using E_commerceOnlineStore.Models.RequestModels.Account;
 using E_commerceOnlineStore.Utilities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace E_commerceOnlineStore.Services.Business.Account
 {
@@ -11,11 +12,13 @@ namespace E_commerceOnlineStore.Services.Business.Account
     public interface IPasswordResetService
     {
         /// <summary>
-        /// Initiates the password reset process by generating a password reset token and sending a reset email.
+        /// Initiates the password reset process for a user who has forgotten their password.
         /// </summary>
-        /// <param name="model">The model containing the user's email for password reset.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains an <see cref="IdentityResult"/> indicating the success or failure of the password reset initiation.</returns>
-        Task<IdentityResult> ForgotPasswordAsync(ForgotPasswordModel model);
+        /// <param name="model">The model containing the user's email address for which the password reset is requested.</param>
+        /// <param name="baseUrl">The base URL used to generate the password reset link (e.g., for email notification).</param>
+        /// <param name="scheme">The URL scheme (e.g., HTTP or HTTPS) used when creating the password reset link.</param>
+        /// <returns>An IdentityResult indicating whether the operation succeeded, along with potential errors.</returns>
+        Task<IdentityResult> ForgotPasswordAsync(ForgotPasswordModel model, string baseUrl, string scheme);
 
         /// <summary>
         /// Sends a password reset email to the specified user.
@@ -41,11 +44,13 @@ namespace E_commerceOnlineStore.Services.Business.Account
         Task<IdentityResult> ResetPasswordAsync(ResetPasswordModel model);
 
         /// <summary>
-        /// Generates a password reset link for the specified user based on the provided token.
+        /// Generates a password reset link for a specified user, including a token for security.
         /// </summary>
-        /// <param name="userId">The unique identifier of the user for whom the password reset link is generated.</param>
-        /// <param name="token">The reset token used to generate the password reset link.</param>
-        /// <returns>An <see cref="OperationResult{string}"/> containing the password reset link or failure information.</returns>
-        OperationResult<string> GeneratePasswordResetLink(string userId, string token);
+        /// <param name="userId">The unique identifier of the user requesting the password reset.</param>
+        /// <param name="token">The password reset token generated for the user, ensuring the reset process is secure.</param>
+        /// <param name="baseUrl">The base URL of the application, used to form the password reset link.</param>
+        /// <param name="scheme">The URL scheme (e.g., HTTP or HTTPS) for constructing the complete reset link.</param>
+        /// <returns>An OperationResult containing either the generated password reset link or details about the failure.</returns>
+        OperationResult<string> GeneratePasswordResetLink(string userId, string token, string baseUrl, string scheme);
     }
 }

@@ -18,8 +18,20 @@ namespace E_commerceOnlineStore.Models.DataModels.UserManagement
     /// Represents a customer entity.
     /// </summary>
     [Table("Customers")]
-    public class Customer : ApplicationUser
+    public class Customer
     {
+        /// <summary>
+        /// Gets or sets the unique identifier of the user.
+        /// </summary>
+        [Key]
+        public string UserId { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the user associated with this entity.
+        /// </summary>
+        [ForeignKey(nameof(UserId))]
+        public virtual ApplicationUser User { get; set; } = null!;
+
         /// <summary>
         /// Gets or sets the unique identifier provided by Google for the user.
         /// This property is nullable to accommodate users who may not use Google for authentication.

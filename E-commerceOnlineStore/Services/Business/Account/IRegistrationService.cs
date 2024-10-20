@@ -12,19 +12,23 @@ namespace E_commerceOnlineStore.Services.Business.Account
     public interface IRegistrationService
     {
         /// <summary>
-        /// Registers a new customer using the provided registration model and validation state.
+        /// Registers a new customer in the system.
         /// </summary>
-        /// <param name="model">The model containing customer registration data.</param>
-        /// <param name="modelState">The model state dictionary to validate the model.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains an <see cref="OperationResult{Customer}"/> indicating the success or failure of the registration process.</returns>
-        Task<OperationResult<Customer>> RegisterCustomerAsync(CustomerRegistrationModel model, ModelStateDictionary modelState);
+        /// <param name="model">The customer registration model containing the user's information.</param>
+        /// <param name="modelState">The model state used for validating the input data.</param>
+        /// <param name="baseUrl">The base URL for creating callback links (e.g., for email confirmation).</param>
+        /// <param name="scheme">The URL scheme (e.g., HTTP or HTTPS) used in creating links.</param>
+        /// <returns>An OperationResult containing either the newly registered customer or validation errors.</returns>
+        Task<OperationResult<ApplicationUser>> RegisterCustomerAsync(CustomerRegistrationModel model, ModelStateDictionary modelState, string baseUrl, string scheme);
 
         /// <summary>
-        /// Registers a new employee using the provided registration model and validation state.
+        /// Registers a new employee in the system.
         /// </summary>
-        /// <param name="model">The model containing employee registration data.</param>
-        /// <param name="modelState">The model state dictionary to validate the model.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains an <see cref="OperationResult{Employee}"/> indicating the success or failure of the registration process.</returns>
-        Task<OperationResult<Employee>> RegisterEmployeeAsync(EmployeeRegistrationModel model, ModelStateDictionary modelState);
+        /// <param name="model">The employee registration model containing the employee's information.</param>
+        /// <param name="modelState">The model state used for validating the input data.</param>
+        /// <param name="baseUrl">The base URL for creating callback links (e.g., for email confirmation).</param>
+        /// <param name="scheme">The URL scheme (e.g., HTTP or HTTPS) used in creating links.</param>
+        /// <returns>An OperationResult containing either the newly registered employee or validation errors.</returns>
+        Task<OperationResult<ApplicationUser>> RegisterEmployeeAsync(EmployeeRegistrationModel model, ModelStateDictionary modelState, string baseUrl, string scheme);
     }
 }

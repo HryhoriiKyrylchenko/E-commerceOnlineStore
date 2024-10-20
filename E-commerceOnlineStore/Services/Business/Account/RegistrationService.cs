@@ -20,10 +20,10 @@ namespace E_commerceOnlineStore.Services.Business.Account
     /// <param name="tokenService">Service for generating tokens.</param>
     /// <param name="logger">Logger for logging events and errors.</param>
     public class RegistrationService(ICustomerDataService customerDataService,
-                                IEmployeeDataService employeeDataService,
-                                IEmailConfirmationService emailConfirmationService,
-                                ITokenService tokenService,
-                                ILogger<RegistrationService> logger) : IRegistrationService
+                                    IEmployeeDataService employeeDataService,
+                                    IEmailConfirmationService emailConfirmationService,
+                                    ITokenService tokenService,
+                                    ILogger<RegistrationService> logger) : IRegistrationService
     {
         private readonly ICustomerDataService _customerDataService = customerDataService;
         private readonly IEmployeeDataService _employeeDataService = employeeDataService;
@@ -32,15 +32,17 @@ namespace E_commerceOnlineStore.Services.Business.Account
         private readonly ILogger<RegistrationService> _logger = logger;
 
         /// <summary>
-        /// Registers a new customer asynchronously.
+        /// Registers a new customer in the system.
         /// </summary>
-        /// <param name="model">The model containing customer registration data.</param>
-        /// <param name="modelState">The state of the model validation.</param>
-        /// <returns>
-        /// An <see cref="OperationResult{Customer}"/> indicating the success or failure of the registration process.
-        /// </returns>
-        public async Task<OperationResult<Customer>> RegisterCustomerAsync(CustomerRegistrationModel model, 
-                                                                            ModelStateDictionary modelState)
+        /// <param name="model">The customer registration model containing the user's information.</param>
+        /// <param name="modelState">The model state used for validating the input data.</param>
+        /// <param name="baseUrl">The base URL for creating callback links (e.g., for email confirmation).</param>
+        /// <param name="scheme">The URL scheme (e.g., HTTP or HTTPS) used in creating links.</param>
+        /// <returns>An OperationResult containing either the newly registered customer or validation errors.</returns>
+        public async Task<OperationResult<ApplicationUser>> RegisterCustomerAsync(CustomerRegistrationModel model, 
+                                                                            ModelStateDictionary modelState, 
+                                                                            string baseUrl, 
+                                                                            string scheme)
         {
             if (!modelState.IsValid)
             {
@@ -52,12 +54,12 @@ namespace E_commerceOnlineStore.Services.Business.Account
                         errors.Add(error.ErrorMessage);
                     }
                 }
-                return OperationResult<Customer>.FailureResult(errors);
+                return OperationResult<ApplicationUser>.FailureResult(errors);
             }
 
             if (await _customerDataService.EmailExistsAsync(model.Email))
             {
-                return OperationResult<Customer>.FailureResult(["Email already exists."]);
+                return OperationResult<ApplicationUser>.FailureResult(["Email already exists."]);
             }
 
             var result = await _customerDataService.AddCustomerAsync(model);
@@ -69,21 +71,21 @@ namespace E_commerceOnlineStore.Services.Business.Account
 
             if(result.Data == null || string.IsNullOrEmpty(result.Data.Email))
             {
-                return OperationResult<Customer>.FailureResult(["Failed customer creation and data transfer"]);
+                return OperationResult<ApplicationUser>.FailureResult(["Failed customer creation and data transfer"]);
             }
 
             var token = await _tokenService.GenerateEmailConfirmationTokenAsync(result.Data);
 
             if (string.IsNullOrEmpty(token))
             {
-                return OperationResult<Customer>.FailureResult(["Failed create email confirmation token"]);
+                return OperationResult<ApplicationUser>.FailureResult(["Failed create email confirmation token"]);
             }
 
-            var confirmationLinkCreationResult = _emailConfirmationService.GenerateConfirmationLink(result.Data.Id, token);
+            var confirmationLinkCreationResult = _emailConfirmationService.GenerateConfirmationLink(result.Data.Id, token, baseUrl, scheme);
 
             if (!confirmationLinkCreationResult.Succeeded || confirmationLinkCreationResult.Data == null)
             {
-                return OperationResult<Customer>.FailureResult(confirmationLinkCreationResult.Errors);
+                return OperationResult<ApplicationUser>.FailureResult(confirmationLinkCreationResult.Errors);
             }
 
             try
@@ -99,15 +101,17 @@ namespace E_commerceOnlineStore.Services.Business.Account
         }
 
         /// <summary>
-        /// Registers a new employee asynchronously.
+        /// Registers a new employee in the system.
         /// </summary>
-        /// <param name="model">The model containing employee registration data.</param>
-        /// <param name="modelState">The state of the model validation.</param>
-        /// <returns>
-        /// An <see cref="OperationResult{Employee}"/> indicating the success or failure of the registration process.
-        /// </returns>
-        public async Task<OperationResult<Employee>> RegisterEmployeeAsync(EmployeeRegistrationModel model, 
-                                                                            ModelStateDictionary modelState)
+        /// <param name="model">The employee registration model containing the employee's information.</param>
+        /// <param name="modelState">The model state used for validating the input data.</param>
+        /// <param name="baseUrl">The base URL for creating callback links (e.g., for email confirmation).</param>
+        /// <param name="scheme">The URL scheme (e.g., HTTP or HTTPS) used in creating links.</param>
+        /// <returns>An OperationResult containing either the newly registered employee or validation errors.</returns>
+        public async Task<OperationResult<ApplicationUser>> RegisterEmployeeAsync(EmployeeRegistrationModel model, 
+                                                                            ModelStateDictionary modelState,
+                                                                            string baseUrl,
+                                                                            string scheme)
         {
             if (!modelState.IsValid)
             {
@@ -119,12 +123,12 @@ namespace E_commerceOnlineStore.Services.Business.Account
                         errors.Add(error.ErrorMessage);
                     }
                 }
-                return OperationResult<Employee>.FailureResult(errors);
+                return OperationResult<ApplicationUser>.FailureResult(errors);
             }
 
             if (await _employeeDataService.EmailExistsAsync(model.Email))
             {
-                return OperationResult<Employee>.FailureResult(["Email already exists."]);
+                return OperationResult<ApplicationUser>.FailureResult(["Email already exists."]);
             }
 
             var result = await _employeeDataService.AddEmployeeAsync(model);
@@ -136,21 +140,21 @@ namespace E_commerceOnlineStore.Services.Business.Account
 
             if (result.Data == null || string.IsNullOrEmpty(result.Data.Email))
             {
-                return OperationResult<Employee>.FailureResult(["Failed employee creation and data transfer"]);
+                return OperationResult<ApplicationUser>.FailureResult(["Failed employee creation and data transfer"]);
             }
 
             var token = await _tokenService.GenerateEmailConfirmationTokenAsync(result.Data);
 
             if (string.IsNullOrEmpty(token))
             {
-                return OperationResult<Employee>.FailureResult(["Failed create email confirmation token"]);
+                return OperationResult<ApplicationUser>.FailureResult(["Failed create email confirmation token"]);
             }
 
-            var confirmationLinkCreationResult = _emailConfirmationService.GenerateConfirmationLink(result.Data.Id, token);
+            var confirmationLinkCreationResult = _emailConfirmationService.GenerateConfirmationLink(result.Data.Id, token, baseUrl, scheme);
 
             if (!confirmationLinkCreationResult.Succeeded || confirmationLinkCreationResult.Data == null)
             {
-                return OperationResult<Employee>.FailureResult(confirmationLinkCreationResult.Errors);
+                return OperationResult<ApplicationUser>.FailureResult(confirmationLinkCreationResult.Errors);
             }
 
             try

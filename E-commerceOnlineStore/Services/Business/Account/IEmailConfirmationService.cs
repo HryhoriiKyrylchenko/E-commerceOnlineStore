@@ -1,4 +1,5 @@
 ﻿using E_commerceOnlineStore.Utilities;
+using Microsoft.AspNetCore.Mvc;
 using System.ClientModel.Primitives;
 
 namespace E_commerceOnlineStore.Services.Business.Account
@@ -9,12 +10,14 @@ namespace E_commerceOnlineStore.Services.Business.Account
     public interface IEmailConfirmationService
     {
         /// <summary>
-        /// Generates an email confirmation link for the specified user based on the provided token.
+        /// Generates an email confirmation link for a specified user, including a token for verification.
         /// </summary>
-        /// <param name="userId">The unique identifier of the user for whom the confirmation link is generated.</param>
-        /// <param name="token">The token used to generate the confirmation link.</param>
-        /// <returns>An <see cref="OperationResult{string}"/> containing the confirmation link or failure information.</returns>
-        OperationResult<string> GenerateConfirmationLink(string userId, string token);
+        /// <param name="userId">The unique identifier of the user who needs to confirm their email address.</param>
+        /// <param name="token">The email confirmation token generated for the user, ensuring the verification process is secure.</param>
+        /// <param name="baseUrl">The base URL of the application, used to form the confirmation link.</param>
+        /// <param name="scheme">The URL scheme (e.g., HTTP or HTTPS) for constructing the complete confirmation link.</param>
+        /// <returns>An OperationResult containing either the generated confirmation link or details about the failure.</returns>
+        OperationResult<string> GenerateConfirmationLink(string userId, string token, string baseUrl, string scheme);
 
         /// <summary>
         /// Sends an email confirmation message to the specified email address containing the confirmation link.

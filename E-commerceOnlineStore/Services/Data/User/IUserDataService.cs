@@ -11,6 +11,20 @@ namespace E_commerceOnlineStore.Services.Data.User
     public interface IUserDataService
     {
         /// <summary>
+        /// Adds a new application user asynchronously using the provided registration model.
+        /// </summary>
+        /// <param name="model">An instance of <see cref="CustomerRegistrationModel"/> containing the user's registration information.</param>
+        /// <returns>An <see cref="OperationResult{ApplicationUser}"/> object containing the result of the operation.</returns>
+        Task<OperationResult<ApplicationUser>> CreateUserAsync(UserRegistrationModel model);
+
+        /// <summary>
+        /// Deletes a customer asynchronously using their unique identifier.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the customer to delete.</param>
+        /// <returns>An <see cref="OperationResult{User}"/> object containing the result of the operation.</returns>
+        Task<OperationResult<ApplicationUser>> DeleteUserAsync(string userId);
+
+        /// <summary>
         /// Retrieves a user by their unique identifier.
         /// </summary>
         /// <param name="userId">The unique identifier of the user.</param>

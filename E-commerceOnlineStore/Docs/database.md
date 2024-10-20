@@ -8,57 +8,62 @@ This document outlines the key classes in the e-commerce application, detailing 
 
 ### 1. **ApplicationUser**
 - **Fields**:
-  - `Id`: Unique identifier for the user (Primary Key, inherited from `IdentityUser`).
-  - `FirstName`: User's first name (Max length: 100, Required).
-  - `LastName`: User's last name (Max length: 100, Required).
-  - `DateOfBirth`: User's date of birth (Nullable).
-  - `Gender`: User's gender (Enum `GenderType`, Max length: 10, Nullable).
-  - `ProfilePictureUrl`: URL of the user's profile picture (Nullable).
-  - `CreatedAt`: Date and time when the user account was created (Required, default is current UTC time).
-  - `UpdatedAt`: Date and time when the user account was last updated (Nullable).
-  - `PreferredLanguage`: User's preferred language for localization (Nullable).
-  - `TimeZone`: User's time zone for adjusting date and time (Nullable).
+  - **FirstName** (`string`): Stores the user's first name with a maximum length of 100 characters.
+  - **LastName** (`string`): Stores the user's last name with a maximum length of 100 characters.
+  - **DateOfBirth** (`DateTime?`): Optional field that records the user's date of birth.
+  - **Gender** (`GenderType?`): Nullable field representing the user's gender. This field is limited to 10 characters and corresponds to an enum `GenderType`.
+  - **ProfilePictureUrl** (`string?`): Optional field storing the URL of the user's profile picture.
+  - **CreatedAt** (`DateTime`): A required field that stores the date and time when the user was created, defaulting to the current UTC time.
+  - **UpdatedAt** (`DateTime?`): Nullable field storing the date and time when the user's record was last updated.
+  - **PreferredLanguage** (`string?`): An optional field for storing the user's preferred language for localization purposes.
+  - **TimeZone** (`string?`): An optional field that stores the user's time zone to adjust dates and times according to their local time.
   
 - **Relationships**:
-  - **UserAddress**: One-to-Many (A `User` can have multiple `Address`es).
-  - **RefreshToken**: One-to-Many (A `User` can have multiple `RefreshToken`s).
-  - **Notification**: One-to-Many (A `User` can receive multiple `Notification`s).
+  - **Customer** (`virtual Customer?`): Optional relationship indicating that this user can be associated with a `Customer` entity.
+  - **Employee** (`virtual Employee?`): Optional relationship indicating that this user can be associated with an `Employee` entity.
+  - **UserAddresses** (`virtual ICollection<UserAddress>`): Collection of addresses linked to the user, allowing for multiple addresses.
+  - **RefreshTokens** (`virtual ICollection<RefreshToken>`): Collection of refresh tokens issued to the user for managing session security.
+  - **Notifications** (`virtual ICollection<Notification>`): Collection of notifications associated with the user, facilitating user-specific alerts and updates.
 
 - **Description**:  
-  The `ApplicationUser` class represents the fundamental user entity within the system, extending from `IdentityUser` to leverage built-in authentication and user management features. It incorporates various fields to capture essential user information, such as names, date of birth, gender, and profile picture. The inclusion of `CreatedAt` and `UpdatedAt` fields helps track the user's account lifecycle, while optional fields like `PreferredLanguage` and `TimeZone` enhance the user's experience through localization and time-sensitive functionalities. The relationships with `UserAddress`, `RefreshToken`, and `Notification` signify the user's interactions with the system, enabling robust account management and personalization capabilities.
+  The `ApplicationUser` class represents a user within the application, inheriting from `IdentityUser` to leverage built-in authentication and identity management features. This class includes various personal and application-related attributes such as user details, localization settings, and relationships with other entities like `Customer`, `Employee`, `UserAddress`, `RefreshToken`, and `Notification`.
 
 ### 2. **Customer**
 - **Fields**:
-  - `Id`: Unique identifier for the customer (Primary Key, inherited from `ApplicationUser`).
-  - `GoogleId`: Unique identifier provided by Google for authentication (Nullable).
-  - `IsBlocked`: Indicates whether the customer is blocked from accessing their account (Required).
-  - `BlockedDate`: The date when the customer was blocked (Nullable).
-  - `BlockedReason`: The reason for blocking the customer (Nullable).
+  - **UserId** (`string`): Primary key that uniquely identifies the customer, corresponding to the `ApplicationUser` entity.
+  - **User** (`virtual ApplicationUser`): The associated `ApplicationUser` entity linked via a foreign key.
+  - **GoogleId** (`string?`): Optional unique identifier provided by Google for users who authenticate via Google.
+  - **IsBlocked** (`bool`): Indicates whether the customer is blocked from accessing their account.
+  - **BlockedDate** (`DateTime?`): Optional field recording the date when the customer was blocked, if applicable.
+  - **BlockedReason** (`string?`): Optional field specifying the reason for blocking the customer.
+
   
 - **Relationships**:
-  - **Order**: One-to-Many (A `Customer` can place many `Order`s).
-  - **CustomerPaymentMethod**: One-to-Many (A `Customer` can have multiple `PaymentMethod`s).
-  - **CustomerShippingMethod**: One-to-Many (A `Customer` can have multiple `ShippingMethod`s).
-  - **CustomerCoupon**: One-to-Many (A `Customer` can have multiple `Coupon`s).
-  - **ProductReview**: One-to-Many (A `Customer` can leave multiple `ProductReview`s).
-  - **ShoppingCart**: One-to-Many (A `Customer` can have multiple `ShoppingCart`s).
-  - **ProductFavorite**: One-to-Many (A `Customer` can have multiple `ProductFavorite` entries).
-  - **CategoryFavorite**: One-to-Many (A `Customer` can have multiple `CategoryFavorite` entries).
-  - **SupportTicket**: One-to-Many (A `Customer` can submit multiple `SupportTicket`s).
-  - **CustomerSegmentation**: One-to-One (A `Customer` is associated with `CustomerSegmentation`).
-  - **NewsletterSubscription**: One-to-Many (A `Customer` can subscribe to multiple `NewsletterSubscription`s).
+  - **Orders** (`virtual ICollection<Order>`): Collection of orders placed by the customer, initialized to an empty list.
+  - **CustomerPaymentMethods** (`virtual ICollection<CustomerPaymentMethod>`): Collection of payment methods linked to the customer.
+  - **CustomerShippingMethods** (`virtual ICollection<CustomerShippingMethod>`): Collection of shipping methods associated with the customer.
+  - **CustomersCoupons** (`virtual ICollection<CustomerCoupon>`): Collection of coupons available to the customer.
+  - **ProductReviews** (`virtual ICollection<ProductReview>`): Collection of product reviews submitted by the customer.
+  - **ShoppingCarts** (`virtual ICollection<ShoppingCart>`): Collection of shopping carts created by the customer.
+  - **ProductFavorites** (`virtual ICollection<ProductFavorite>`): Collection of the customer's favorite products.
+  - **CategoryFavorites** (`virtual ICollection<CategoryFavorite>`): Collection of the customer's favorite categories.
+  - **SupportTickets** (`virtual ICollection<SupportTicket>`): Collection of support tickets submitted by the customer for assistance or issues.
+  - **CustomerSegmentation** (`virtual CustomerSegmentation?`): Optional field linking the customer to segmentation data for marketing or analytics purposes.
+  - **NewsletterSubscriptions** (`virtual ICollection<NewsletterSubscription>`): Collection of newsletter subscriptions opted into by the customer.
 
 - **Description**:  
   The `Customer` class represents users who interact with the e-commerce platform to browse products, place orders, and engage with support services. Inheriting from `ApplicationUser`, it includes fields specific to customers such as `GoogleId` for authentication through Google services, and flags indicating whether the customer is currently blocked from accessing their account along with details about the blocking reason and date. The various one-to-many relationships with classes like `Order`, `ProductReview`, and `SupportTicket` illustrate the customer's active role in the platform, enabling comprehensive tracking of their activities, preferences, and interactions.
 
 ### 3. **Employee**
 - **Fields**:
-  - `Id`: Unique identifier for the employee (Primary Key, inherited from `ApplicationUser`).
-  - `Position`: The position or job title of the employee (Nullable).
-  - `IsActive`: Indicates whether the employee is currently active (Required).
+  - **UserId** (`string`): Primary key that uniquely identifies the employee, corresponding to the `ApplicationUser` entity.
+  - **User** (`virtual ApplicationUser`): The associated `ApplicationUser` entity linked via a foreign key.
+  - **Position** (`string`): Represents the job title or position of the employee within the organization.
+  - **IsActive** (`bool`): Indicates whether the employee is currently active. This field is required and defaults to `true`.
+
 
 - **Relationships**:
-  - **TicketHistory**: One-to-Many (An `Employee` can have a history of actions taken on `SupportTicket`s).
+  - **TicketHistories** (`virtual ICollection<TicketHistory>`): A collection that tracks the history of actions taken by the employee on support tickets. This is initialized to an empty list to avoid null reference issues.
 
 - **Description**:  
   The `Employee` class represents users who are responsible for managing customer inquiries, support tickets, and related activities within the application. As a subclass of `ApplicationUser`, it inherits core user attributes while adding specific fields relevant to employees. The `Position` field allows for categorization of employees based on their roles, facilitating easier management and reporting. The `IsActive` flag indicates whether an employee is currently employed and available to handle support tasks. The relationship with `TicketHistory` enables tracking of actions taken by employees on support tickets, ensuring accountability and providing insights into employee performance.

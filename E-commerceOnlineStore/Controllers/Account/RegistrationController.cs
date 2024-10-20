@@ -31,7 +31,11 @@ namespace E_commerceOnlineStore.Controllers.Account
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _registrationService.RegisterCustomerAsync(model, ModelState);
+            var scheme = Request.Scheme; 
+
+            var baseUrl = Request.Host.Value;
+
+            var result = await _registrationService.RegisterCustomerAsync(model, ModelState, baseUrl, scheme);
             if (result.Succeeded)
                 return Ok(new { Message = "Customer registered successfully" });
 
@@ -51,7 +55,11 @@ namespace E_commerceOnlineStore.Controllers.Account
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await _registrationService.RegisterEmployeeAsync(model, ModelState);
+            var scheme = Request.Scheme; 
+
+            var baseUrl = Request.Host.Value;
+
+            var result = await _registrationService.RegisterEmployeeAsync(model, ModelState, baseUrl, scheme);
             if (result.Succeeded)
                 return Ok(new { Message = "Employee registered successfully" });
 
